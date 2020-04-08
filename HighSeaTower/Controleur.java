@@ -6,8 +6,8 @@ public class Controleur {
 
     Jeu jeu;
     
-    public Controleur() {
-        jeu = new Jeu();
+    public Controleur(int width, int height) {
+        jeu = new Jeu(width, height);
     }
 
     void draw(GraphicsContext context) {
@@ -20,5 +20,10 @@ public class Controleur {
 
     void jump() {
         jeu.jump();
+    }
+
+
+    void setDebug() {
+        //TO DO
     }
 }

@@ -1,7 +1,7 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Jumper extends Entity {
+public class Meduse extends Entity {
 
     private Image[] frames;
     private Image image;
@@ -10,7 +10,7 @@ public class Jumper extends Entity {
 
     private boolean parterre;
 
-    public Jumper(double x, double y) {
+    public Meduse(double x, double y) {
         this.x = x;
         this.y = y;
         this.largeur = 50;

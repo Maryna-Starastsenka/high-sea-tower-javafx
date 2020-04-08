@@ -1,17 +1,17 @@
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class SuperJumper extends Application {
+public class HighSeaTower extends Application {
 
-    public static final int WIDTH = 640, HEIGHT = 320;
+    public static final int WIDTH = 350, HEIGHT = 480;
 
     /**
      * @param args the command line arguments
@@ -31,11 +31,16 @@ public class SuperJumper extends Application {
 
         GraphicsContext context = canvas.getGraphicsContext2D();
 
-        Controleur controleur = new Controleur();
+        Controleur controleur = new Controleur(WIDTH, HEIGHT);
 
         scene.setOnKeyPressed((value) -> {
-            if (value.getCode() == KeyCode.SPACE) {
-                controleur.jump();
+            switch (value.getCode()) {
+                case SPACE:
+                    controleur.jump();
+                    break;
+                case ESCAPE:
+                    Platform.exit();
+                    break;
             }
         });
 
@@ -59,6 +64,9 @@ public class SuperJumper extends Application {
         };
         timer.start();
 
+        primaryStage.setResizable(false);
+        primaryStage.setTitle("High Sea Tower");
+        primaryStage.getIcons().add(new Image("images/jellyfish1.png"));
         primaryStage.setScene(scene);
         primaryStage.show();
     }
