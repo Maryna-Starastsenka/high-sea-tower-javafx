@@ -31,15 +31,32 @@ public class HighSeaTower extends Application {
 
         GraphicsContext context = canvas.getGraphicsContext2D();
 
-        Controleur controleur = new Controleur(WIDTH, HEIGHT);
+        Controller controller = new Controller(WIDTH, HEIGHT);
 
         scene.setOnKeyPressed((value) -> {
             switch (value.getCode()) {
                 case SPACE:
-                    controleur.jump();
+                    controller.jump();
                     break;
                 case ESCAPE:
                     Platform.exit();
+                    break;
+                case LEFT:
+                    controller.moveLeft();
+                    break;
+                case RIGHT:
+                    controller.moveRight();
+                    break;
+            }
+        });
+
+        scene.setOnKeyReleased((value) -> {
+            switch (value.getCode()) {
+                case LEFT:
+                    controller.resetAccelerator();
+                    break;
+                case RIGHT:
+                    controller.resetAccelerator();
                     break;
             }
         });
@@ -56,8 +73,8 @@ public class HighSeaTower extends Application {
 
                 double deltaTime = (now - lastTime) * 1e-9;
 
-                controleur.update(deltaTime);
-                controleur.draw(context);
+                controller.update(deltaTime);
+                controller.draw(context);
 
                 lastTime = now;
             }

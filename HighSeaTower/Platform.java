@@ -1,9 +1,9 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Plateforme extends Entity {
+public class Platform extends Entity {
 
-    public Plateforme(double x, double y) {
+    public Platform(double x, double y) {
         this.x = x;
         this.y = y;
         this.largeur = 100;
