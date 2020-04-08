@@ -3,7 +3,7 @@ import javafx.scene.image.Image;
 
 public class Jellyfish extends Entity {
 
-    private Image[] frames;
+    private Image[] framesRight, framesLeft;
     private Image image;
     private double frameRate = 8; // 8 frame par sec
     private double tempsTotal = 0;
@@ -19,15 +19,24 @@ public class Jellyfish extends Entity {
         this.vx = 0;
 
         // Chargement des images
-        frames = new Image[]{
-            new Image("images/jellyfish1.png"),
-            new Image("images/jellyfish2.png"),
-            new Image("images/jellyfish3.png"),
-            new Image("images/jellyfish4.png"),
-            new Image("images/jellyfish5.png"),
-            new Image("images/jellyfish6.png")
+        framesRight = new Image[]{
+                new Image("images/jellyfish1.png"),
+                new Image("images/jellyfish2.png"),
+                new Image("images/jellyfish3.png"),
+                new Image("images/jellyfish4.png"),
+                new Image("images/jellyfish5.png"),
+                new Image("images/jellyfish6.png")
         };
-        image = frames[0];
+
+        framesLeft = new Image[]{
+                new Image("images/jellyfish1g.png"),
+                new Image("images/jellyfish2g.png"),
+                new Image("images/jellyfish3g.png"),
+                new Image("images/jellyfish4g.png"),
+                new Image("images/jellyfish5g.png"),
+                new Image("images/jellyfish6g.png")
+        };
+        image = framesRight[0];
     }
 
         @Override
@@ -38,8 +47,11 @@ public class Jellyfish extends Entity {
             // Mise à jour de l'image affichée
             tempsTotal += dt;
             int frame = (int) (tempsTotal * frameRate);
-
-            image = frames[frame % frames.length];
+            if (this.vx >= 0) {
+                image = framesRight[frame % framesRight.length];
+            } else {
+                image = framesLeft[frame % framesLeft.length];
+            }
         }
 
         public void testCollision (Platform other){

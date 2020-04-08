@@ -1,4 +1,3 @@
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -88,6 +87,3 @@ public class HighSeaTower extends Application {
         primaryStage.show();
     }
 }
-//Test: j'insère un commentaire ici... push?
-//commentaire..
-//modification ? 
