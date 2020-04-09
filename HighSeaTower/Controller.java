@@ -29,6 +29,6 @@ public class Controller {
     void resetAccelerator() { game.resetAccelerator(); }
 
     void setDebug() {
-        //TO DO
+        game.setDebug();
     }
 }

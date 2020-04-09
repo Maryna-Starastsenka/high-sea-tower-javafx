@@ -52,6 +52,8 @@ public class HighSeaTower extends Application {
                 case RIGHT:
                     controller.moveRight();
                     break;
+                case T:
+                    controller.setDebug();
             }
         });
 
