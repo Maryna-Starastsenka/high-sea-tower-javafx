@@ -10,7 +10,11 @@ public class Game {
 
     private Platform[] platforms = new Platform[5];
     private Jellyfish jellyfish;
-    private boolean debugMode = true;
+    private boolean debugMode = false;
+    //Fenêtre:
+    private double fenetreAY;
+    private double fenetreVY = 3;
+    private double fenetreY = 0;
 
     public Game(int width, int height) {
         WIDTH = width;
@@ -36,9 +40,17 @@ public class Game {
 
     public void setDebug() {
         debugMode = !debugMode;
+        if (debugMode) {
+            fenetreVY = 0;
+        } else {
+            fenetreVY = 3;
+        }
     }
 
     public void update(double dt) {
+        //Updater la fenêtre:
+        fenetreY += fenetreVY*dt;
+
         /**
          * À chaque tour, on recalcule si le personnage se trouve parterre ou
          * non
@@ -57,9 +69,9 @@ public class Game {
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, WIDTH, HEIGHT);
 
-        jellyfish.draw(context);
+        jellyfish.draw(context, fenetreY);
         for (Platform p : platforms) {
-            p.draw(context);
+            p.draw(context, fenetreY);
         }
 
         if (debugMode) {
@@ -69,6 +81,7 @@ public class Game {
             context.fillText("v = (" + Math.round(jellyfish.vx) + ", " + Math.round(jellyfish.vy) + ")", 10, 23);
             context.fillText("a = (" + Math.round(jellyfish.ax) + ", " + Math.round(jellyfish.ay) + ")", 10, 36);
             context.fillText("Touche le sol:", 10, 49);
+            context.fillText("Position fenetre: "+fenetreY, 10, 62);
         }
 
     }

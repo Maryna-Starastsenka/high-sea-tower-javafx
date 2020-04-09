@@ -22,19 +22,9 @@ public abstract class Entity {
         x += dt * vx;
         y += dt * vy;
 
-        // Force à rester dans les bornes de l'écran
-        if (x + largeur > HighSeaTower.WIDTH || x < 0) {
-            vx *= -1;
-        }
-        if (y + hauteur > HighSeaTower.HEIGHT) {
-            vy *= -1;
-        }
-        x = Math.min(x, HighSeaTower.WIDTH - largeur);
-        x = Math.max(x, 0);
-        y = Math.min(y, HighSeaTower.HEIGHT - hauteur);
-        y = Math.max(y, 0);
+
     }
 
-    public abstract void draw(GraphicsContext context);
+    public abstract void draw(GraphicsContext context, double fenetreY);
 }
 

@@ -13,8 +13,8 @@ public class Platform extends Entity {
     }
 
     @Override
-    public void draw(GraphicsContext context) {
+    public void draw(GraphicsContext context, double fenetreY) {
         context.setFill(color);
-        context.fillRect(x, y, largeur, hauteur);
+        context.fillRect(x, Game.HEIGHT-(y-fenetreY)-hauteur, largeur, hauteur);
     }
 }

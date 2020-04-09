@@ -18,6 +18,8 @@ public class Jellyfish extends Entity {
         this.ay = -1200;
         this.vx = 0;
 
+
+
         // Chargement des images
         framesRight = new Image[]{
                 new Image("images/jellyfish1.png"),
@@ -44,9 +46,17 @@ public class Jellyfish extends Entity {
             // Physique du personnage
             super.update(dt);
 
-
-
-
+            // Force à rester dans les bornes de l'écran
+            if (this.x + largeur > HighSeaTower.WIDTH || this.x < 0) {
+                this.vx *= -1;
+            }
+            if (this.y + hauteur > HighSeaTower.HEIGHT) {
+                this.vy *= -1;
+            }
+            this.x = Math.min(this.x, HighSeaTower.WIDTH - largeur);
+            this.x = Math.max(this.x, 0);
+            this.y = Math.min(this.y, HighSeaTower.HEIGHT - hauteur);
+            this.y = Math.max(this.y, 0);
 
             // Mise à jour de l'image affichée
             tempsTotal += dt;
@@ -80,10 +90,10 @@ public class Jellyfish extends Entity {
 
         public boolean intersects (Platform other){
             return !( // Un des carrés est à gauche de l’autre
-                    x + largeur < other.x
+                    this.x + this.largeur < other.x
                             || other.x + other.largeur < this.x
                             // Un des carrés est en haut de l’autre
-                            || y + hauteur < other.y
+                            || this.y + this.hauteur < other.y
                             || other.y + other.hauteur < this.y);
         }
 
@@ -92,8 +102,8 @@ public class Jellyfish extends Entity {
          * plateforme)
          */
         public void pushOut (Platform other){
-            double deltaY = this.y + this.hauteur - other.y;
-            this.y -= deltaY;
+            double deltaY = other.y+other.hauteur-this.hauteur;
+            this.y += deltaY;
         }
 
         public void setOnGround(boolean onGround){
@@ -116,8 +126,8 @@ public class Jellyfish extends Entity {
         }
 
         @Override
-        public void draw (GraphicsContext context){
-            context.drawImage(image, x, Game.HEIGHT - y - hauteur, largeur, hauteur);
+        public void draw (GraphicsContext context, double fenetreY){
+            context.drawImage(image, x, Game.HEIGHT - (y-fenetreY) - hauteur, largeur, hauteur);
         }
     }
 
