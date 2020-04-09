@@ -52,6 +52,9 @@ public class HighSeaTower extends Application {
                 case RIGHT:
                     controller.moveRight();
                     break;
+                case T:
+                    controller.setDebug();
+                    break;
             }
         });
 
@@ -93,5 +96,3 @@ public class HighSeaTower extends Application {
         primaryStage.show();
     }
 }
-
-//Méduse par ci, méduse par là

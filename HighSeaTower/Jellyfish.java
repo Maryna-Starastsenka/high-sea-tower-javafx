@@ -44,6 +44,10 @@ public class Jellyfish extends Entity {
             // Physique du personnage
             super.update(dt);
 
+
+
+
+
             // Mise à jour de l'image affichée
             tempsTotal += dt;
             int frame = (int) (tempsTotal * frameRate);

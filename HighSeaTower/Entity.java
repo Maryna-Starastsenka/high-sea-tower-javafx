@@ -26,7 +26,7 @@ public abstract class Entity {
         if (x + largeur > HighSeaTower.WIDTH || x < 0) {
             vx *= -1;
         }
-        if (y + hauteur > HighSeaTower.HEIGHT || y < 0) {
+        if (y + hauteur > HighSeaTower.HEIGHT) {
             vy *= -1;
         }
         x = Math.min(x, HighSeaTower.WIDTH - largeur);
