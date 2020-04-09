@@ -5,7 +5,10 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class HighSeaTower extends Application {
@@ -29,6 +32,9 @@ public class HighSeaTower extends Application {
         root.getChildren().add(canvas);
 
         GraphicsContext context = canvas.getGraphicsContext2D();
+
+        //Texte?
+
 
         Controller controller = new Controller(WIDTH, HEIGHT);
 

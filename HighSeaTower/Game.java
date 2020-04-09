@@ -1,6 +1,8 @@
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 public class Game {
 
@@ -8,6 +10,7 @@ public class Game {
 
     private Platform[] platforms = new Platform[5];
     private Jellyfish jellyfish;
+    private boolean debugMode = true;
 
     public Game(int width, int height) {
         WIDTH = width;
@@ -30,6 +33,10 @@ public class Game {
     }
 
     public void resetAccelerator() { jellyfish.resetAccelerator(); }
+
+    public void setDebug() {
+        debugMode = !debugMode;
+    }
 
     public void update(double dt) {
         /**
@@ -54,5 +61,15 @@ public class Game {
         for (Platform p : platforms) {
             p.draw(context);
         }
+
+        if (debugMode) {
+            context.setFill(Color.WHITE);
+            context.setFont(Font.font("serif",13));
+            context.fillText("Position = (" + Math.round(jellyfish.x) + ", " + Math.round(jellyfish.y) + ")", 10, 10);
+            context.fillText("v = (" + Math.round(jellyfish.vx) + ", " + Math.round(jellyfish.vy) + ")", 10, 23);
+            context.fillText("a = (" + Math.round(jellyfish.ax) + ", " + Math.round(jellyfish.ay) + ")", 10, 36);
+            context.fillText("Touche le sol:", 10, 49);
+        }
+
     }
 }
