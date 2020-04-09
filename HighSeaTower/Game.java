@@ -13,7 +13,7 @@ public class Game {
     private boolean debugMode = false;
     //Fenêtre:
     private double fenetreAY;
-    private double fenetreVY = 3;
+    private double fenetreVY = 5;
     private double fenetreY = 0;
 
     public Game(int width, int height) {
@@ -80,7 +80,7 @@ public class Game {
             context.fillText("Position = (" + Math.round(jellyfish.x) + ", " + Math.round(jellyfish.y) + ")", 10, 10);
             context.fillText("v = (" + Math.round(jellyfish.vx) + ", " + Math.round(jellyfish.vy) + ")", 10, 23);
             context.fillText("a = (" + Math.round(jellyfish.ax) + ", " + Math.round(jellyfish.ay) + ")", 10, 36);
-            context.fillText("Touche le sol:", 10, 49);
+            context.fillText("Touche le sol:"+jellyfish.onGround, 10, 49);
             context.fillText("Position fenetre: "+fenetreY, 10, 62);
         }
 
