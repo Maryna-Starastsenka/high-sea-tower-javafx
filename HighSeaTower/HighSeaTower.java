@@ -54,7 +54,10 @@ public class HighSeaTower extends Application {
                     break;
                 case T:
                     controller.setDebug();
+<<<<<<< HEAD
                     break;
+=======
+>>>>>>> 1bbe4082cd5eec69ef0d2fc0ae19e6fca1280c29
             }
         });
 
