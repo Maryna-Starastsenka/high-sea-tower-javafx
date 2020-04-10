@@ -7,7 +7,7 @@ public class Jellyfish extends Entity {
     private Image image;
     private double frameRate = 8; // 8 frame par sec
     private double tempsTotal = 0;
-    protected boolean onGround = false;
+    private static boolean onGround = false;
     private boolean turnLeft = false;
 
     public Jellyfish(double x, double y) {
@@ -17,8 +17,6 @@ public class Jellyfish extends Entity {
         this.hauteur = 50;
         this.ay = -1200;
         this.vx = 0;
-
-
 
         // Chargement des images
         framesRight = new Image[]{
@@ -40,6 +38,10 @@ public class Jellyfish extends Entity {
         };
         image = framesRight[0];
     }
+
+        public static boolean getOnGround() {
+            return onGround;
+        }
 
         @Override
         public void update ( double dt){
@@ -94,10 +96,7 @@ public class Jellyfish extends Entity {
                 } else {
                     this.onGround = false;
                 }
-
             }
-
-
         }
 
         public boolean intersects (Platform other){
