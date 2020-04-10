@@ -3,10 +3,10 @@ import javafx.scene.paint.Color;
 
 public class Platform extends Entity {
 
-    public Platform(double x, double y) {
+    public Platform(double x, double y, double largeur) {
         this.x = x;
         this.y = y;
-        this.largeur = 100;
+        this.largeur = largeur;
         this.hauteur = 10;
 
         this.color = Color.DARKORCHID;

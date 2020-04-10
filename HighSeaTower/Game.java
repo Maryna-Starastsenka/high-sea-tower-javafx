@@ -4,26 +4,39 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Game {
 
     public static int WIDTH, HEIGHT;
 
-    private Platform[] platforms = new Platform[5];
+    protected ArrayList<Platform> platforms = new ArrayList<Platform>();
     private Jellyfish jellyfish;
     private boolean debugMode = false;
+
     //Fenêtre:
     private double fenetreAY;
-    private double fenetreVY = 5;
+    private double fenetreVY = 20;
     private double fenetreY = 0;
+    private int platformHeight = 100; //hauteur
 
     public Game(int width, int height) {
         WIDTH = width;
         HEIGHT = height;
-        for (int i = 0; i < platforms.length; i++) {
-            platforms[i] = new Platform((double) i / platforms.length * WIDTH, Math.random() * HEIGHT);
-        }
 
+        for (int i = 0; i < 5; i++) {
+            generatePlatform();
+        }
         jellyfish = new Jellyfish(WIDTH/2 - 50/2, 0);
+    }
+
+    public void generatePlatform() {
+        int randomLength = new Random().nextInt(96)+80; //entre 80 et 175 px
+        int randomX = new Random().nextInt(WIDTH-randomLength+1);
+        Platform platform = new Platform((double)randomX, (double)platformHeight, (double)randomLength);
+        platforms.add(platform);
+        platformHeight += 100;
     }
 
     public void jump() {
@@ -43,7 +56,7 @@ public class Game {
         if (debugMode) {
             fenetreVY = 0;
         } else {
-            fenetreVY = 3;
+            fenetreVY = 20;
         }
     }
 
@@ -70,6 +83,16 @@ public class Game {
         context.fillRect(0, 0, WIDTH, HEIGHT);
 
         jellyfish.draw(context, fenetreY);
+
+        //Enlève plateformes disparues et en rajoute une
+        for (int i=0; i<platforms.size();i++) {
+            if (platforms.get(i).y+platforms.get(i).hauteur < fenetreY) {
+                platforms.remove(i);
+                generatePlatform();
+            }
+        }
+
+        //Dessine les plateformes
         for (Platform p : platforms) {
             p.draw(context, fenetreY);
         }
