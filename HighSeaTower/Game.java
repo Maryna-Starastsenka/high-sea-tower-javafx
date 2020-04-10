@@ -12,6 +12,9 @@ public class Game {
     public static int WIDTH, HEIGHT;
 
     protected ArrayList<Platform> platforms = new ArrayList<Platform>();
+    private ArrayList<Bubble> bubbles = new ArrayList<>();
+    private double baseX;
+    private double counter = 0;
     private Jellyfish jellyfish;
     private boolean debugMode = false;
 
@@ -39,6 +42,15 @@ public class Game {
         platformHeight += 100;
     }
 
+    public void generateBubles() {
+        for (int i = 0; i < 3; i++) {
+            baseX = Math.random() * WIDTH;
+            for (int j = 0; j < 5; j++) {
+                bubbles.add(new Bubble((baseX-20) + Math.random() * 41, 0));
+            }
+        }
+    }
+
     public void jump() {
         jellyfish.jump();
     }
@@ -62,7 +74,7 @@ public class Game {
 
     public void update(double dt) {
         //Updater la fenêtre:
-        fenetreY += fenetreVY*dt;
+        fenetreY += fenetreVY * dt;
 
         /**
          * À chaque tour, on recalcule si le personnage se trouve parterre ou
@@ -76,13 +88,32 @@ public class Game {
             jellyfish.testCollision(p);
         }
         jellyfish.update(dt);
+
+        //création des bulles toutes les 3 secondes
+        counter += dt;
+        if (counter >= 3) {
+            generateBubles();
+            counter = 0;
+        }
+
+        //mise à jour des bulles
+        for (Bubble bubble : bubbles) {
+            bubble.update(dt);
+        }
     }
 
     public void draw(GraphicsContext context) {
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, WIDTH, HEIGHT);
 
+        for (Bubble bubble : bubbles) {
+            bubble.draw(context, fenetreY);
+        }
+
         jellyfish.draw(context, fenetreY);
+
+
+        //platforms.removeIf(p -> p.y + p.hauteur < fenetreY);
 
         //Enlève plateformes disparues et en rajoute une
         for (int i=0; i<platforms.size();i++) {
