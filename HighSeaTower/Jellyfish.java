@@ -77,22 +77,12 @@ public class Jellyfish extends Entity {
              * - La vitesse va vers le bas (le personnage est en train de tomber,
              * pas en train de sauter)
              */
-            if (intersects(other) && (other.y+other.hauteur-this.y) < 15
-                    && vy < 0) {
-                pushOut(other);
-                this.vy = 0;
-
-                if (Math.abs(other.y+other.hauteur-this.y) < 5) {
-                    this.onGround = true;
-                } else {
-                    this.onGround = false;
-                }
+            if (intersects(other)) {
+                other.jellyfishCollision(this);
             }
-
-
         }
 
-        public boolean intersects (Platform other){
+        public boolean intersects (Platform other) {
             return !( // Un des carrés est à gauche de l’autre
                     this.x + this.largeur <= other.x
                             || other.x + other.largeur <= this.x

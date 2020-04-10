@@ -22,7 +22,6 @@ public abstract class Entity {
         x += dt * vx;
         y += dt * vy;
 
-
     }
 
     public abstract void draw(GraphicsContext context, double fenetreY);

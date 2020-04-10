@@ -33,7 +33,7 @@ public class Game {
 
     public void generatePlatform() {
 
-        Platform platform = new Platform((double)WIDTH, "simple");
+        Platform platform = new PlateformeSimple((double)WIDTH);
         platforms.add(platform);
     }
 
@@ -62,6 +62,14 @@ public class Game {
         //Updater la fenêtre:
         fenetreY += fenetreVY*dt;
 
+        //Enlève plateformes disparues et en rajoute une
+        for (int i=0; i<platforms.size();i++) {
+            if (platforms.get(i).y+platforms.get(i).hauteur < fenetreY) {
+                platforms.remove(i);
+                generatePlatform();
+            }
+        }
+
         /**
          * À chaque tour, on recalcule si le personnage se trouve parterre ou
          * non
@@ -82,13 +90,7 @@ public class Game {
 
         jellyfish.draw(context, fenetreY);
 
-        //Enlève plateformes disparues et en rajoute une
-        for (int i=0; i<platforms.size();i++) {
-            if (platforms.get(i).y+platforms.get(i).hauteur < fenetreY) {
-                platforms.remove(i);
-                generatePlatform();
-            }
-        }
+
 
         //Dessine les plateformes
         for (Platform p : platforms) {
