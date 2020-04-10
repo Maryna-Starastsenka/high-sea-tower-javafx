@@ -7,8 +7,8 @@ public class Jellyfish extends Entity {
     private Image image;
     private double frameRate = 8; // 8 frame par sec
     private double tempsTotal = 0;
-
     protected boolean onGround = false;
+    private boolean turnLeft = false;
 
     public Jellyfish(double x, double y) {
         this.x = x;
@@ -58,12 +58,19 @@ public class Jellyfish extends Entity {
             // Mise à jour de l'image affichée
             tempsTotal += dt;
             int frame = (int) (tempsTotal * frameRate);
-            if (this.vx >= 0) {
+            if (this.vx > 0) {
                 image = framesRight[frame % framesRight.length];
-            } else {
+                turnLeft = false;
+            } else if (this.vx < 0) {
                 image = framesLeft[frame % framesLeft.length];
+                turnLeft = true;
+            } else {
+                image = turnLeft
+                        ? framesLeft[frame % framesLeft.length]
+                        : framesRight[frame % framesRight.length];
             }
         }
+
 
         public void testCollision (Platform other){
             /**

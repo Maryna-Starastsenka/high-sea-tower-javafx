@@ -15,16 +15,27 @@ public class Controller {
     }
 
     void update(double deltaTime) {
+        //commence une nouvelle partie si la méduse est tombée
+        if (game.gameIsOver()) {
+            game = new Game(Game.WIDTH, Game.HEIGHT);
+        }
         game.update(deltaTime);
     }
 
     void jump() {
+        game.setGameStarted(true);
         game.jump();
     }
 
-    void moveLeft() { game.moveLeft(); }
+    void moveLeft() {
+        game.setGameStarted(true);
+        game.moveLeft();
+    }
 
-    void moveRight() { game.moveRight(); }
+    void moveRight() {
+        game.setGameStarted(true);
+        game.moveRight();
+    }
 
     void resetAccelerator() { game.resetAccelerator(); }
 

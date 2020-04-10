@@ -42,6 +42,7 @@ public class HighSeaTower extends Application {
         scene.setOnKeyPressed((value) -> {
             switch (value.getCode()) {
                 case SPACE:
+                case UP:
                     controller.jump();
                     break;
                 case ESCAPE:

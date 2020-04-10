@@ -17,12 +17,18 @@ public class Game {
     private double counter = 0;
     private Jellyfish jellyfish;
     private boolean debugMode = false;
+    private boolean gameStarted = false;
+    private double differenceY;
 
     //Fenêtre:
     private double fenetreAY = 2;
     private double fenetreVY = 50;
     private double fenetreY = 0;
     private int platformHeight = 100; //hauteur
+
+    public void setGameStarted(boolean started) {
+        this.gameStarted = started;
+    }
 
     public Game(int width, int height) {
         WIDTH = width;
@@ -31,13 +37,13 @@ public class Game {
         for (int i = 0; i < 5; i++) {
             generatePlatform();
         }
-        jellyfish = new Jellyfish(WIDTH/2 - 50/2, 0);
+        jellyfish = new Jellyfish(WIDTH / 2 - 50 / 2, 0);
     }
 
     public void generatePlatform() {
-        int randomLength = new Random().nextInt(96)+80; //entre 80 et 175 px
-        int randomX = new Random().nextInt(WIDTH-randomLength+1);
-        Platform platform = new Platform((double)randomX, (double)platformHeight, (double)randomLength);
+        int randomLength = new Random().nextInt(96) + 80; //entre 80 et 175 px
+        int randomX = new Random().nextInt(WIDTH - randomLength + 1);
+        Platform platform = new Platform((double) randomX, (double) platformHeight, (double) randomLength);
         platforms.add(platform);
         platformHeight += 100;
     }
@@ -46,7 +52,7 @@ public class Game {
         for (int i = 0; i < 3; i++) {
             baseX = Math.random() * WIDTH;
             for (int j = 0; j < 5; j++) {
-                bubbles.add(new Bubble((baseX-20) + Math.random() * 41, 0));
+                bubbles.add(new Bubble((baseX - 20) + Math.random() * 41, 0));
             }
         }
     }
@@ -55,13 +61,17 @@ public class Game {
         jellyfish.jump();
     }
 
-    public void moveLeft() { jellyfish.moveLeft(); }
+    public void moveLeft() {
+        jellyfish.moveLeft();
+    }
 
     public void moveRight() {
         jellyfish.moveRight();
     }
 
-    public void resetAccelerator() { jellyfish.resetAccelerator(); }
+    public void resetAccelerator() {
+        jellyfish.resetAccelerator();
+    }
 
     public void setDebug() {
         debugMode = !debugMode;
@@ -72,7 +82,27 @@ public class Game {
         }
     }
 
+    //vérifie si la méduse tombe plus bas que l'écran
+    public boolean gameIsOver() {
+        return jellyfish.y + jellyfish.hauteur < fenetreY;
+    }
+
+    //vérifie si la meduse dépasse 75% de la hauteur de l'écran
+    public boolean goAbove() {
+        differenceY = jellyfish.y + jellyfish.hauteur - (HEIGHT * 0.75 + fenetreY);
+        return differenceY > 0;
+    }
+
     public void update(double dt) {
+        //vérifie si le jeu a commencé
+        if (!gameStarted) {
+            return;
+        }
+
+        //monte l'écrant si la méduse dépasse 75%
+        if (goAbove()) {
+            fenetreY += differenceY;
+        }
 
         if (!debugMode) {
             //Updater la fenêtre + accélération
@@ -110,6 +140,7 @@ public class Game {
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, WIDTH, HEIGHT);
 
+        //TO DO : supprimer les bulles d'ArrayList
         for (Bubble bubble : bubbles) {
             bubble.draw(context, fenetreY);
         }
