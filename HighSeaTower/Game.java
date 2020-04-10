@@ -1,9 +1,6 @@
-
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,9 +8,10 @@ public class Game {
 
     public static int WIDTH, HEIGHT;
 
-    protected ArrayList<Platform> platforms = new ArrayList<Platform>();
+    protected ArrayList<Platform> platforms = new ArrayList<>();
     private Jellyfish jellyfish;
     private boolean debugMode = false;
+    private Platform lastPlatform = null;
 
     //Fenêtre:
     private double fenetreAY;
@@ -32,9 +30,26 @@ public class Game {
     }
 
     public void generatePlatform() {
-        int randomLength = new Random().nextInt(96)+80; //entre 80 et 175 px
-        int randomX = new Random().nextInt(WIDTH-randomLength+1);
-        Platform platform = new Platform((double)randomX, (double)platformHeight, (double)randomLength);
+//        int randomLength = new Random().nextInt(96)+80; //entre 80 et 175 px
+//        int randomX = new Random().nextInt(WIDTH-randomLength+1);
+//        Platform platform = new Platform((double)randomX, (double)platformHeight, (double)randomLength);
+
+        double probabilite = Math.random();
+        Platform platform;
+        Platform lastPlatform = platforms.get(platforms.size() - 1);
+        if (probabilite < 0.1) {
+            platform = new PlateformeSimple(this);
+        } else if (probabilite < 0.2) {
+            platform = new PlateformeRebondissante(this);
+        } else if (probabilite < 0.3) {
+            platform = new PlateformeAccelerante(this);
+        } else if (lastPlatform != null && lastPlatform instanceof PlateformeSolide) {
+            //relance la generation de plateforme si la derniere etait rouge
+            generatePlatform();
+            return;
+        } else {
+            platform = new PlateformeSolide(this);
+        }
         platforms.add(platform);
         platformHeight += 100;
     }

@@ -11,3 +11,5 @@
 #     https://www.atlassian.com/git/tutorials/git-lfs
 out/
 *.class
+*.iml
+HighSeaTower/.idea/
