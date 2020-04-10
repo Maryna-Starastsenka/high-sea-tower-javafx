@@ -11,3 +11,5 @@
 #     https://www.atlassian.com/git/tutorials/git-lfs
 /out/
 *.class
+programmation2_ift1025.iml
+/.idea/
