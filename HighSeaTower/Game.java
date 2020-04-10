@@ -19,7 +19,7 @@ public class Game {
     private double fenetreAY;
     private double fenetreVY = 20;
     private double fenetreY = 0;
-    private int platformHeight = 100; //hauteur
+    //private int platformHeight = 100; //hauteur
 
     public Game(int width, int height) {
         WIDTH = width;
@@ -32,11 +32,9 @@ public class Game {
     }
 
     public void generatePlatform() {
-        int randomLength = new Random().nextInt(96)+80; //entre 80 et 175 px
-        int randomX = new Random().nextInt(WIDTH-randomLength+1);
-        Platform platform = new Platform((double)randomX, (double)platformHeight, (double)randomLength);
+
+        Platform platform = new Platform((double)WIDTH, "simple");
         platforms.add(platform);
-        platformHeight += 100;
     }
 
     public void jump() {

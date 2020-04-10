@@ -34,9 +34,6 @@ public class HighSeaTower extends Application {
 
         GraphicsContext context = canvas.getGraphicsContext2D();
 
-        //Texte?
-
-
         Controller controller = new Controller(WIDTH, HEIGHT);
 
         scene.setOnKeyPressed((value) -> {

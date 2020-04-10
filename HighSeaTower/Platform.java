@@ -1,15 +1,36 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.util.Random;
+
 public class Platform extends Entity {
 
-    public Platform(double x, double y, double largeur) {
-        this.x = x;
-        this.y = y;
-        this.largeur = largeur;
-        this.hauteur = 10;
+    private String type;
+    private static double platformHeight = 100;
+    private Color defaultColor;
 
-        this.color = Color.DARKORCHID;
+    public Platform(double gameWidth, String type) {
+
+        this.largeur = (double) new Random().nextInt(96)+80; //entre 80 et 175 px;
+        this.hauteur = 10;
+        this.x = (double) new Random().nextInt((int) (gameWidth-this.largeur+1));
+        this.y = platformHeight;
+        platformHeight += 100;
+        switch(type) {
+            case "simple":
+                this.defaultColor = Color.rgb(230,134,58);
+                break;
+            case "rebondissante":
+                this.defaultColor = Color.LIGHTGREEN;
+                break;
+            case "accelerante":
+                this.defaultColor = Color.rgb(230, 221, 58);
+                break;
+            case "solide":
+                this.defaultColor = Color.rgb(184, 15, 36);
+                break;
+        }
+        this.color = defaultColor;
     }
 
     @Override

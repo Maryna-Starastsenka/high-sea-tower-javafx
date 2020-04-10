@@ -87,7 +87,6 @@ public class Jellyfish extends Entity {
                 } else {
                     this.onGround = false;
                 }
-
             }
 
 
