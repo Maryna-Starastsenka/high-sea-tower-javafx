@@ -17,6 +17,7 @@ public class Game {
     private double counter = 0;
     private Jellyfish jellyfish;
     private boolean debugMode = false;
+    private Platform lastPlatform = null;
     private boolean gameStarted = false;
     private double differenceY;
 
@@ -41,12 +42,31 @@ public class Game {
     }
 
     public void generatePlatform() {
-        int randomLength = new Random().nextInt(96) + 80; //entre 80 et 175 px
-        int randomX = new Random().nextInt(WIDTH - randomLength + 1);
-        Platform platform = new Platform((double) randomX, (double) platformHeight, (double) randomLength);
+//        int randomLength = new Random().nextInt(96)+80; //entre 80 et 175 px
+//        int randomX = new Random().nextInt(WIDTH-randomLength+1);
+//        Platform platform = new PlateformeSimple(this);
+
+        double probabilite = Math.random();
+        Platform platform;
+        Platform lastPlatform = platforms.get(platforms.size() - 1);
+        if (probabilite < 0.1) {
+            platform = new PlateformeSimple(this);
+        } else if (probabilite < 0.2) {
+            platform = new PlateformeRebondissante(this);
+        } else if (probabilite < 0.3) {
+            platform = new PlateformeAccelerante(this);
+        } else if (lastPlatform != null && lastPlatform instanceof PlateformeSolide) {
+            //relance la generation de plateforme si la derniere etait rouge
+            generatePlatform();
+            return;
+        } else {
+            platform = new PlateformeSolide(this);
+        }
+
         platforms.add(platform);
         platformHeight += 100;
     }
+
 
     public void generateBubles() {
         for (int i = 0; i < 3; i++) {
@@ -182,3 +202,4 @@ public class Game {
 
     }
 }
+
