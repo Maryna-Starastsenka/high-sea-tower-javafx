@@ -19,8 +19,8 @@ public class Game {
     private boolean debugMode = false;
 
     //Fenêtre:
-    private double fenetreAY;
-    private double fenetreVY = 20;
+    private double fenetreAY = 2;
+    private double fenetreVY = 50;
     private double fenetreY = 0;
     private int platformHeight = 100; //hauteur
 
@@ -73,9 +73,13 @@ public class Game {
     }
 
     public void update(double dt) {
-        //Updater la fenêtre:
-        fenetreY += fenetreVY * dt;
 
+        if (!debugMode) {
+            //Updater la fenêtre + accélération
+            fenetreVY += fenetreAY * dt;
+            fenetreY += fenetreVY * dt;
+        }
+        
         /**
          * À chaque tour, on recalcule si le personnage se trouve parterre ou
          * non
@@ -128,15 +132,22 @@ public class Game {
             p.draw(context, fenetreY);
         }
 
+        context.setFill(Color.WHITE);
+
         if (debugMode) {
-            context.setFill(Color.WHITE);
-            context.setFont(Font.font("serif",13));
+            context.setTextAlign(TextAlignment.LEFT);
+            context.setFont(Font.font(13));
             context.fillText("Position = (" + Math.round(jellyfish.x) + ", " + Math.round(jellyfish.y) + ")", 10, 10);
             context.fillText("v = (" + Math.round(jellyfish.vx) + ", " + Math.round(jellyfish.vy) + ")", 10, 23);
             context.fillText("a = (" + Math.round(jellyfish.ax) + ", " + Math.round(jellyfish.ay) + ")", 10, 36);
-            context.fillText("Touche le sol:"+jellyfish.onGround, 10, 49);
-            context.fillText("Position fenetre: "+fenetreY, 10, 62);
+            context.fillText("Touche le sol : " + (jellyfish.onGround ? "Oui" : "Non") , 10, 49);
+            //context.fillText("Position fenetre: "+fenetreY, 10, 62);
         }
+
+        //affichage de score actuel
+        context.setTextAlign(TextAlignment.CENTER);
+        context.setFont(Font.font(20));
+        context.fillText((int)fenetreY + "m", WIDTH / 2, 0.08 * HEIGHT);
 
     }
 }
