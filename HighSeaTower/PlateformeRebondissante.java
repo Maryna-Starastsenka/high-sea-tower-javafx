@@ -8,4 +8,10 @@ public class PlateformeRebondissante extends Platform {
         this.defaultColor = Color.LIGHTGREEN;
         this.color = defaultColor;
     }
+
+    @Override
+    public void jellyfishPushUp(Jellyfish jellyfish, double deltaYAbove) {
+        jellyfish.vy *= -1.5;
+        jellyfish.y += deltaYAbove;
+    }
 }

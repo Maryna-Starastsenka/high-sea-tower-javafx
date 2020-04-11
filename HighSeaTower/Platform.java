@@ -5,10 +5,10 @@ import java.util.Random;
 public abstract class Platform extends Entity {
     private static double platformHeight = 100;
     protected Color defaultColor = Color.DARKORCHID;;
+    protected Game game;
 
     public Platform(Game game) {
-
-        ;
+        this.game = game;
         this.largeur = (double) new Random().nextInt(96)+80; //entre 80 et 175 px;
         this.hauteur = 10;
         this.x = (double) new Random().nextInt((int) (game.WIDTH-this.largeur+1));

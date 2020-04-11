@@ -21,9 +21,9 @@ public class Game {
     private double differenceY;
 
     //Fenêtre:
-    private double fenetreAY = 2;
-    private double fenetreVY = 50;
-    private double fenetreY = 0;
+    protected double fenetreAY = 2;
+    protected double fenetreVY = 50;
+    protected double fenetreY = 0;
 
     public void setGameStarted(boolean started) {
         this.gameStarted = started;
@@ -45,7 +45,7 @@ public class Game {
 
         Platform platform;
 
-        if (probabilite < 0.65) {
+        if (probabilite < 0.05) {
            platform = new PlateformeSimple(this);
         } else if (probabilite < 0.85) {
             platform = new PlateformeRebondissante(this);

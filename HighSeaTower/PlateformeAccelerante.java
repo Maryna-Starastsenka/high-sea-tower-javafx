@@ -7,5 +7,12 @@ public class PlateformeAccelerante extends Platform {
         this.defaultColor = Color.rgb(230, 221, 58);
         this.color = defaultColor;
     }
+
+    @Override
+    public void jellyfishPushUp(Jellyfish jellyfish, double deltaYAbove) {
+        jellyfish.vy=0;
+        jellyfish.y += deltaYAbove;
+        game.fenetreVY *= 3;
+    }
 }
 
