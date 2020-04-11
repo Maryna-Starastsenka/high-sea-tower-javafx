@@ -87,7 +87,7 @@ public class Jellyfish extends Entity {
              * pas en train de sauter)
              */
             if (intersects(other)) {
-               other.jellyfishCollision(this);
+               other.jellyfishCollision();
             } else {
                 other.color = other.defaultColor;
             }

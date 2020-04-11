@@ -16,26 +16,24 @@ public abstract class Platform extends Entity {
         platformHeight += 100;
     }
 
-    public void jellyfishCollision(Jellyfish jellyfish) {
+    public void jellyfishCollision() {
         //intersection déjà vérifiée dans Jellyfish
-
-        double deltaYAbove = this.y + this.hauteur - jellyfish.y;
-        double deltaYBelow = jellyfish.y + jellyfish.hauteur - this.y;
+        double deltaYAbove = this.y + this.hauteur - this.game.jellyfish.y;
+        double deltaYBelow = this.game.jellyfish.y + this.game.jellyfish.hauteur - this.y;
 
         //Si arrive d'en haut:
-        if (deltaYAbove < 15 && jellyfish.vy < 0) {
-            jellyfishPushUp(jellyfish, deltaYAbove);
+        if (deltaYAbove < 15 && this.game.jellyfish.vy < 0) {
+            jellyfishPushUp(this.game.jellyfish, deltaYAbove);
+
             //Sur une plateforme?
             if (Math.abs(deltaYAbove) < 5) {
-                jellyfish.setOnGround(true);
-            } else {
-                jellyfish.setOnGround(false);
+                this.game.jellyfish.setOnGround(true);
             }
         }
 
         //Si arrive d'en bas:
-        if (deltaYBelow < 15 && jellyfish.vy > 0) {
-            jellyfishPushDown(jellyfish, deltaYBelow);
+        if (deltaYBelow < 15 && this.game.jellyfish.vy > 0) {
+            jellyfishPushDown(this.game.jellyfish, deltaYBelow);
         }
     }
 
@@ -65,4 +63,12 @@ public abstract class Platform extends Entity {
     public static void setPlatformHeight (double platformHeight) {
         Platform.platformHeight = platformHeight;
     }
+
+    @Override
+    public void update (double dt) {
+        super.update(dt);
+    }
+
+
+
 }

@@ -14,7 +14,7 @@ public class Game {
     private ArrayList<Bubble> bubbles = new ArrayList<>();
     private double baseX;
     private double counter = 0;
-    private Jellyfish jellyfish;
+    protected Jellyfish jellyfish;
     protected static boolean debugMode = false;
     private Platform lastPlatform = null;
     private boolean gameStarted = false;
@@ -32,11 +32,12 @@ public class Game {
     public Game(int width, int height) {
         WIDTH = width;
         HEIGHT = height;
-
+        this.jellyfish = new Jellyfish(WIDTH / 2 - 50 / 2, 0);
         for (int i = 0; i < 5; i++) {
             generatePlatform();
         }
-        jellyfish = new Jellyfish(WIDTH / 2 - 50 / 2, 0);
+
+
     }
 
     public void generatePlatform() {
@@ -148,15 +149,15 @@ public class Game {
         for (Bubble bubble : bubbles) {
             bubble.update(dt);
         }
-
-        //retire les bulles de la liste de bulles
-        bubbles.removeIf(bubble -> bubble.y > fenetreY + HEIGHT);
     }
 
     public void draw(GraphicsContext context) {
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, WIDTH, HEIGHT);
 
+        //Supprimer les bulles d'ArrayList
+        bubbles.removeIf(bubble -> bubble.y - bubble.radius > fenetreY + HEIGHT);
+        
         for (Bubble bubble : bubbles) {
             bubble.draw(context, fenetreY);
         }
@@ -169,9 +170,6 @@ public class Game {
         }
 
         jellyfish.draw(context, fenetreY);
-
-
-        //platforms.removeIf(p -> p.y + p.hauteur < fenetreY);
 
         //Enlève plateformes disparues et en rajoute une
         for (int i=0; i<platforms.size();i++) {
