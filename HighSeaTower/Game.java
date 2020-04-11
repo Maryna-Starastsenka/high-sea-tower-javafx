@@ -148,13 +148,15 @@ public class Game {
         for (Bubble bubble : bubbles) {
             bubble.update(dt);
         }
+
+        //retire les bulles de la liste de bulles
+        bubbles.removeIf(bubble -> bubble.y > fenetreY + HEIGHT);
     }
 
     public void draw(GraphicsContext context) {
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, WIDTH, HEIGHT);
 
-        //TO DO : supprimer les bulles d'ArrayList
         for (Bubble bubble : bubbles) {
             bubble.draw(context, fenetreY);
         }
