@@ -15,7 +15,7 @@ public class HighSeaTower extends Application {
 
     public static final int WIDTH = 350, HEIGHT = 480;
 
-
+    //hello
     /**
      * @param args the command line arguments
      */

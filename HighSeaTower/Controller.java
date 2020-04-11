@@ -1,7 +1,6 @@
 
 import javafx.scene.canvas.GraphicsContext;
 
-
 public class Controller {
 
     Game game;
@@ -17,6 +16,7 @@ public class Controller {
     void update(double deltaTime) {
         //commence une nouvelle partie si la méduse est tombée
         if (game.gameIsOver()) {
+            Platform.setPlatformHeight(100);
             game = new Game(Game.WIDTH, Game.HEIGHT);
         }
         game.update(deltaTime);

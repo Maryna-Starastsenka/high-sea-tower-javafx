@@ -5,7 +5,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Game {
 
@@ -25,7 +24,6 @@ public class Game {
     private double fenetreAY = 2;
     private double fenetreVY = 50;
     private double fenetreY = 0;
-    private int platformHeight = 100; //hauteur
 
     public void setGameStarted(boolean started) {
         this.gameStarted = started;
@@ -42,32 +40,29 @@ public class Game {
     }
 
     public void generatePlatform() {
-        int randomLength = new Random().nextInt(96)+80; //entre 80 et 175 px
-        int randomX = new Random().nextInt(WIDTH-randomLength+1);
-        Platform platform = new PlateformeSimple(this);
 
-//        double probabilite = Math.random();
-//        Platform platform;
-//        Platform lastPlatform = platforms.get(platforms.size() - 1);
-//        if (probabilite < 0.1) {
-//            platform = new PlateformeSimple(this);
-//        } else if (probabilite < 0.2) {
-//            platform = new PlateformeRebondissante(this);
-//        } else if (probabilite < 0.3) {
-//            platform = new PlateformeAccelerante(this);
-//        } else if (lastPlatform != null && lastPlatform instanceof PlateformeSolide) {
-//            //relance la generation de plateforme si la derniere etait rouge
-//            generatePlatform();
-//            return;
-//        } else {
-//            platform = new PlateformeSolide(this);
-//        }
+        double probabilite = Math.random();
 
+        Platform platform;
+
+        if (probabilite < 0.65) {
+           platform = new PlateformeSimple(this);
+        } else if (probabilite < 0.85) {
+            platform = new PlateformeRebondissante(this);
+        } else if (probabilite < 0.95) {
+           platform = new PlateformeAccelerante(this);
+        } else if (lastPlatform != null && lastPlatform instanceof PlateformeSolide) {
+            //relance la generation de plateforme si la derniere etait rouge
+            generatePlatform();
+           return;
+       } else {
+           platform = new PlateformeSolide(this);
+       }
         platforms.add(platform);
-        platformHeight += 100;
+        lastPlatform = platform;
     }
 
-    public void generateBubles() {
+    public void generateBubbles() {
         for (int i = 0; i < 3; i++) {
             baseX = Math.random() * WIDTH;
             for (int j = 0; j < 5; j++) {
@@ -145,7 +140,7 @@ public class Game {
         //création des bulles toutes les 3 secondes
         counter += dt;
         if (counter >= 3) {
-            generateBubles();
+            generateBubbles();
             counter = 0;
         }
 

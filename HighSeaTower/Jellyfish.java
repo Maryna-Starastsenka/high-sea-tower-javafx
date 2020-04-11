@@ -86,16 +86,8 @@ public class Jellyfish extends Entity {
              * - La vitesse va vers le bas (le personnage est en train de tomber,
              * pas en train de sauter)
              */
-            if (intersects(other) && (other.y+other.hauteur-this.y) < 15
-                    && vy < 0) {
-                pushOut(other);
-                this.vy = 0;
-
-                if (Math.abs(other.y+other.hauteur-this.y) < 5) {
-                    this.onGround = true;
-                } else {
-                    this.onGround = false;
-                }
+            if (intersects(other)) {
+               other.jellyfishCollision(this);
             }
         }
 
@@ -106,15 +98,6 @@ public class Jellyfish extends Entity {
                             // Un des carrés est en haut de l’autre
                             || this.y + this.hauteur <= other.y
                             || other.y + other.hauteur <= this.y);
-        }
-
-        /**
-         * Repousse le personnage vers le haut (sans déplacer la
-         * plateforme)
-         */
-        public void pushOut (Platform other){
-            double deltaY = other.y+other.hauteur-this.y;
-            this.y += deltaY;
         }
 
         public void setOnGround(boolean onGround){
