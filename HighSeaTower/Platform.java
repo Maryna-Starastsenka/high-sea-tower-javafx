@@ -6,6 +6,9 @@ public abstract class Platform extends Entity {
     private static double platformHeight = 100;
     protected Color defaultColor = Color.DARKORCHID;;
     protected Game game;
+    protected double deltaYAbove;
+    protected double deltaYBelow;
+    protected Jellyfish jellyfish;
 
     public Platform(Game game) {
         this.game = game;
@@ -18,9 +21,9 @@ public abstract class Platform extends Entity {
 
     public void jellyfishCollision(Jellyfish jellyfish) {
         //intersection déjà vérifiée dans Jellyfish
-
-        double deltaYAbove = this.y + this.hauteur - jellyfish.y;
-        double deltaYBelow = jellyfish.y + jellyfish.hauteur - this.y;
+        this.jellyfish = jellyfish;
+        deltaYAbove = this.y + this.hauteur - jellyfish.y;
+        deltaYBelow = jellyfish.y + jellyfish.hauteur - this.y;
 
         //Si arrive d'en haut:
         if (deltaYAbove < 15 && jellyfish.vy < 0) {
@@ -28,8 +31,6 @@ public abstract class Platform extends Entity {
             //Sur une plateforme?
             if (Math.abs(deltaYAbove) < 5) {
                 jellyfish.setOnGround(true);
-            } else {
-                jellyfish.setOnGround(false);
             }
         }
 
@@ -65,4 +66,12 @@ public abstract class Platform extends Entity {
     public static void setPlatformHeight (double platformHeight) {
         Platform.platformHeight = platformHeight;
     }
+
+    @Override
+    public void update (double dt) {
+        super.update(dt);
+}
+
+
+
 }
