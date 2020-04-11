@@ -48,7 +48,7 @@ public class Game {
 
         if (probabilite < 0.05) {
            platform = new PlateformeSimple(this);
-        } else if (probabilite < 0.15) {
+        } else if (probabilite < 0.85) {
             platform = new PlateformeRebondissante(this);
         } else if (probabilite < 0.95) {
            platform = new PlateformeAccelerante(this);

@@ -11,7 +11,7 @@ public class PlateformeRebondissante extends Platform {
 
     @Override
     public void jellyfishPushUp(Jellyfish jellyfish, double deltaYAbove) {
-        jellyfish.vy *= -1.5;
+        jellyfish.vy = Math.max(jellyfish.vy*-1.5,600);
         jellyfish.y += deltaYAbove;
         debugYellow(deltaYAbove);
     }
