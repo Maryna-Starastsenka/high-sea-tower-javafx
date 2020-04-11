@@ -14,7 +14,7 @@ public class Game {
     private ArrayList<Bubble> bubbles = new ArrayList<>();
     private double baseX;
     private double counter = 0;
-    private Jellyfish jellyfish;
+    protected Jellyfish jellyfish;
     protected static boolean debugMode = false;
     private Platform lastPlatform = null;
     private boolean gameStarted = false;
@@ -32,11 +32,12 @@ public class Game {
     public Game(int width, int height) {
         WIDTH = width;
         HEIGHT = height;
-
+        this.jellyfish = new Jellyfish(WIDTH / 2 - 50 / 2, 0);
         for (int i = 0; i < 5; i++) {
             generatePlatform();
         }
-        jellyfish = new Jellyfish(WIDTH / 2 - 50 / 2, 0);
+
+
     }
 
     public void generatePlatform() {
@@ -45,9 +46,9 @@ public class Game {
 
         Platform platform;
 
-        if (probabilite < 0.65) {
+        if (probabilite < 0.05) {
            platform = new PlateformeSimple(this);
-        } else if (probabilite < 0.85) {
+        } else if (probabilite < 0.15) {
             platform = new PlateformeRebondissante(this);
         } else if (probabilite < 0.95) {
            platform = new PlateformeAccelerante(this);

@@ -25,7 +25,7 @@ public class PlateformeAccelerante<update> extends Platform {
     @Override
     public void update (double dt) {
         super.update(dt);
-        if (platformTouched == true && (jellyfish.y - this.y - this.hauteur) > 5) {
+        if (platformTouched == true && (this.game.jellyfish.y - this.y - this.hauteur) > 5) {
             game.fenetreVY /= 3;
             platformTouched = false;
         }

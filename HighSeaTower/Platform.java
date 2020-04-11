@@ -8,7 +8,6 @@ public abstract class Platform extends Entity {
     protected Game game;
     protected double deltaYAbove;
     protected double deltaYBelow;
-    protected Jellyfish jellyfish;
 
     public Platform(Game game) {
         this.game = game;
@@ -19,24 +18,24 @@ public abstract class Platform extends Entity {
         platformHeight += 100;
     }
 
-    public void jellyfishCollision(Jellyfish jellyfish) {
+    public void jellyfishCollision() {
         //intersection déjà vérifiée dans Jellyfish
-        this.jellyfish = jellyfish;
-        deltaYAbove = this.y + this.hauteur - jellyfish.y;
-        deltaYBelow = jellyfish.y + jellyfish.hauteur - this.y;
+        deltaYAbove = this.y + this.hauteur - this.game.jellyfish.y;
+        deltaYBelow = this.game.jellyfish.y + this.game.jellyfish.hauteur - this.y;
 
         //Si arrive d'en haut:
-        if (deltaYAbove < 15 && jellyfish.vy < 0) {
-            jellyfishPushUp(jellyfish, deltaYAbove);
+        if (deltaYAbove < 15 && this.game.jellyfish.vy < 0) {
+            jellyfishPushUp(this.game.jellyfish, deltaYAbove);
+
             //Sur une plateforme?
             if (Math.abs(deltaYAbove) < 5) {
-                jellyfish.setOnGround(true);
+                this.game.jellyfish.setOnGround(true);
             }
         }
 
         //Si arrive d'en bas:
-        if (deltaYBelow < 15 && jellyfish.vy > 0) {
-            jellyfishPushDown(jellyfish, deltaYBelow);
+        if (deltaYBelow < 15 && this.game.jellyfish.vy > 0) {
+            jellyfishPushDown(this.game.jellyfish, deltaYBelow);
         }
     }
 
