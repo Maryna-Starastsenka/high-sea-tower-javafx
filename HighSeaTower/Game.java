@@ -67,7 +67,7 @@ public class Game {
         for (int i = 0; i < 3; i++) {
             baseX = Math.random() * WIDTH;
             for (int j = 0; j < 5; j++) {
-                bubbles.add(new Bubble((baseX - 20) + Math.random() * 41, fenetreY));
+                bubbles.add(new Bubble((baseX - 20) + Math.random() * 41, 0));
             }
         }
     }
@@ -158,12 +158,8 @@ public class Game {
         context.fillRect(0, 0, WIDTH, HEIGHT);
 
         //Supprimer les bulles d'ArrayList
-        for (int i = 0; i < bubbles.size(); i++) {
-            if (bubbles.get(i).y - bubbles.get(i).radius > fenetreY + this.HEIGHT) {
-                bubbles.remove(i);
-            }
-        }
-
+        bubbles.removeIf(bubble -> bubble.y - bubble.radius > fenetreY + HEIGHT);
+        
         for (Bubble bubble : bubbles) {
             bubble.draw(context, fenetreY);
         }
