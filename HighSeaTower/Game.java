@@ -15,7 +15,7 @@ public class Game {
     private double baseX;
     private double counter = 0;
     private Jellyfish jellyfish;
-    private static boolean debugMode = false;
+    protected static boolean debugMode = false;
     private Platform lastPlatform = null;
     private boolean gameStarted = false;
     private double differenceY;
@@ -45,7 +45,7 @@ public class Game {
 
         Platform platform;
 
-        if (probabilite < 0.05) {
+        if (probabilite < 0.65) {
            platform = new PlateformeSimple(this);
         } else if (probabilite < 0.85) {
             platform = new PlateformeRebondissante(this);
@@ -132,8 +132,8 @@ public class Game {
 
         for (Platform p : platforms) {
             p.update(dt);
-            // Si le personnage se trouve sur une plateforme, ça sera défini ici
             jellyfish.testCollision(p);
+
         }
         jellyfish.update(dt);
 

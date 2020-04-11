@@ -13,5 +13,6 @@ public class PlateformeRebondissante extends Platform {
     public void jellyfishPushUp(Jellyfish jellyfish, double deltaYAbove) {
         jellyfish.vy *= -1.5;
         jellyfish.y += deltaYAbove;
+        debugYellow(deltaYAbove);
     }
 }

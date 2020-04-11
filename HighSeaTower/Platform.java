@@ -42,6 +42,14 @@ public abstract class Platform extends Entity {
     public void jellyfishPushUp(Jellyfish jellyfish, double deltaYAbove) {
         jellyfish.vy=0;
         jellyfish.y += deltaYAbove;
+        debugYellow(deltaYAbove);
+
+    }
+
+    public void debugYellow(double deltaYAbove) {
+        if (game.debugMode && Math.abs(deltaYAbove) < 5) {
+            this.color = Color.YELLOW;
+        }
     }
 
     //Sera overridée par PlateformeSolide:

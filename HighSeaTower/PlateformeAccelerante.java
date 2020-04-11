@@ -13,6 +13,7 @@ public class PlateformeAccelerante extends Platform {
         jellyfish.vy=0;
         jellyfish.y += deltaYAbove;
         game.fenetreVY *= 3;
+        debugYellow(deltaYAbove);
     }
 }
 

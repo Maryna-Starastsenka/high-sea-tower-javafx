@@ -88,6 +88,8 @@ public class Jellyfish extends Entity {
              */
             if (intersects(other)) {
                other.jellyfishCollision(this);
+            } else {
+                other.color = other.defaultColor;
             }
         }
 
