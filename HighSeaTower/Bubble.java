@@ -3,7 +3,7 @@ import javafx.scene.paint.Color;
 
 public class Bubble extends Entity {
 
-    private double radius;
+    protected double radius;
     private double minRadius = 10;
     private double maxRadius = 40;
     private double minVY = 350;
@@ -15,6 +15,7 @@ public class Bubble extends Entity {
         this.vy = minVY + Math.random()*(maxVY - minVY + 1);
         this.radius = minRadius + Math.random()*(maxRadius - minRadius + 1);
         this.color = Color.rgb(0, 0, 255, 0.4);
+
     }
 
     @Override

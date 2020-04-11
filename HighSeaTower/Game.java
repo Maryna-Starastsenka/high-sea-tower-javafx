@@ -46,7 +46,7 @@ public class Game {
 
         Platform platform;
 
-        if (probabilite < 0.05) {
+        if (probabilite < 0.65) {
            platform = new PlateformeSimple(this);
         } else if (probabilite < 0.85) {
             platform = new PlateformeRebondissante(this);
@@ -67,7 +67,7 @@ public class Game {
         for (int i = 0; i < 3; i++) {
             baseX = Math.random() * WIDTH;
             for (int j = 0; j < 5; j++) {
-                bubbles.add(new Bubble((baseX - 20) + Math.random() * 41, 0));
+                bubbles.add(new Bubble((baseX - 20) + Math.random() * 41, fenetreY));
             }
         }
     }
@@ -145,6 +145,8 @@ public class Game {
             counter = 0;
         }
 
+
+
         //mise à jour des bulles
         for (Bubble bubble : bubbles) {
             bubble.update(dt);
@@ -155,7 +157,13 @@ public class Game {
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, WIDTH, HEIGHT);
 
-        //TO DO : supprimer les bulles d'ArrayList
+        //Supprimer les bulles d'ArrayList
+        for (int i = 0; i < bubbles.size(); i++) {
+            if (bubbles.get(i).y - bubbles.get(i).radius > fenetreY + this.HEIGHT) {
+                bubbles.remove(i);
+            }
+        }
+
         for (Bubble bubble : bubbles) {
             bubble.draw(context, fenetreY);
         }
@@ -168,9 +176,6 @@ public class Game {
         }
 
         jellyfish.draw(context, fenetreY);
-
-
-        //platforms.removeIf(p -> p.y + p.hauteur < fenetreY);
 
         //Enlève plateformes disparues et en rajoute une
         for (int i=0; i<platforms.size();i++) {
