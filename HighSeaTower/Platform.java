@@ -25,10 +25,7 @@ public abstract class Platform extends Entity {
         if (deltaYAbove < 15 && this.game.jellyfish.vy < 0) {
             jellyfishPushUp(this.game.jellyfish, deltaYAbove);
 
-            //Sur une plateforme?
-            if (Math.abs(deltaYAbove) < 5) {
-                this.game.jellyfish.setOnGround(true);
-            }
+            this.game.jellyfish.setOnGround(true);
         }
 
         //Si arrive d'en bas:
