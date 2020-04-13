@@ -32,9 +32,8 @@ public class Controller {
      * @param deltaTime temps écoulé depuis le dernier appel en seconde
      */
     void update(double deltaTime) {
-        //commence une nouvelle partie si la méduse est tombée
+        // Commence une nouvelle partie si la méduse est tombée
         if (game.gameIsOver()) {
-            Platform.setPlatformHeight(100);
             game = new Game(Game.WIDTH, Game.HEIGHT);
         }
         game.update(deltaTime);

@@ -3,7 +3,7 @@ import javafx.scene.paint.Color;
 /**
  * Classe Plateforme Accélérante hérite de plateforme
  * Lorsque la méduse se pose sur une plateforme accélérante,
- * la vitesse de l’écran est multipliée par 3
+ * la vitesse de l’écran est multipliée par 3 tant que la méduse est dessus
  */
 public class PlateformeAccelerante extends Platform {
 
@@ -11,7 +11,8 @@ public class PlateformeAccelerante extends Platform {
 
     /**
      * Constructeur de la plateforme accélérante
-     * @param game
+     *
+     * @param game jeu
      */
     public PlateformeAccelerante(Game game) {
         super(game);
@@ -20,9 +21,10 @@ public class PlateformeAccelerante extends Platform {
     }
 
     /**
-     * Multiplie la vitesse de la fenêtre vers haut en 3 si la méduse est placée
+     * Multiplie la vitesse de la fenêtre vers le haut par 3 si la méduse est
      * sur la plateforme
-     * @param jellyfish
+     *
+     * @param jellyfish méduse
      * @param deltaYAbove distance en y entre le haut de la plateforme et le bas de la méduse
      */
     @Override
@@ -32,23 +34,23 @@ public class PlateformeAccelerante extends Platform {
         debugYellow(deltaYAbove);
 
         if (platformTouched == false) {
-            game.fenetreVY *= 3;
+            game.windowVY *= 3;
         }
         platformTouched = true;
     }
 
     /**
-     * Relantit la vitesse de la fenêtre en 3 fois lorse que la méduse n'est plus
+     * Ralantit la vitesse de la fenêtre par 3 fois lorsque la méduse n'est plus
      * placée dessus
-     * @param dt temps écoulé depuis le dernier update en secondes
+     *
+     * @param dt temps écoulé depuis le dernier update (en secondes)
      */
     @Override
     public void update (double dt) {
         super.update(dt);
-        if (platformTouched == true && (this.game.jellyfish.y - this.y - this.hauteur) > 5) {
-            game.fenetreVY /= 3;
+        if (platformTouched == true && (this.game.jellyfish.y - this.y - this.height) > 5) {
+            game.windowVY /= 3;
             platformTouched = false;
         }
     }
 }
-

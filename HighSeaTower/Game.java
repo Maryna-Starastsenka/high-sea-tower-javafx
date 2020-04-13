@@ -37,9 +37,9 @@ public class Game {
     /**
      * Paramètres verticaux de la fenêtre : postion depuis le fond de l'océan, vitesse, accélération
      */
-    protected double fenetreY = 0;
-    protected double fenetreVY = 50;
-    protected double fenetreAY = 2;
+    protected double windowY = 0;
+    protected double windowVY = 50;
+    protected double windowAY = 2;
 
     /**
      * Définit si le jeu est commencé ou non
@@ -60,6 +60,7 @@ public class Game {
         WIDTH = width;
         HEIGHT = height;
         this.jellyfish = new Jellyfish(WIDTH / 2 - Jellyfish.IMAGESIZE/2, 0);
+        Platform.setPlatformHeight(100);
         for (int i = 0; i < NB_PLATFORMS; i++) {
             generatePlatform();
         }
@@ -146,9 +147,9 @@ public class Game {
     public void switchDebug() {
         debugMode = !debugMode;
         if (debugMode) {
-            fenetreVY = 0;
+            windowVY = 0;
         } else {
-            fenetreVY = 50;
+            windowVY = 50;
         }
     }
 
@@ -159,7 +160,7 @@ public class Game {
      * @return vrai si le haut de la méduse est plus bas que le bas de l'écran, faux sinon
      */
     public boolean gameIsOver() {
-        return jellyfish.y + jellyfish.hauteur < fenetreY;
+        return jellyfish.y + jellyfish.height < windowY;
     }
 
     /**
@@ -168,7 +169,7 @@ public class Game {
      * @return vrai si le haut de la méduse dépasse 75% de la hauteur de l'écran, faux sinon
      */
     public boolean goAbove() {
-        differenceY = jellyfish.y + jellyfish.hauteur - (HEIGHT * 0.75 + fenetreY);
+        differenceY = jellyfish.y + jellyfish.height - (HEIGHT * 0.75 + windowY);
         return differenceY > 0;
     }
 
@@ -186,20 +187,20 @@ public class Game {
 
         // Monte l'écran si la méduse dépasse 75%
         if (goAbove()) {
-            fenetreY += differenceY;
+            windowY += differenceY;
         }
 
         // Fait monter la fenêtre automatiquement si le mode debug est désactivé
         if (!debugMode) {
-            fenetreVY += fenetreAY * dt;
-            fenetreY += fenetreVY * dt;
+            windowVY += windowAY * dt;
+            windowY += windowVY * dt;
         }
 
         // Recalcule si la méduse se trouve par terre ou non
         jellyfish.setOnGround(false);
 
         // Retire les plateformes de la mémoire lorsqu'elles ne sont plus affichables
-        platforms.removeIf(p -> p.y + p.hauteur < fenetreY);
+        platforms.removeIf(p -> p.y + p.height < windowY);
         for (int i = 0; i < NB_PLATFORMS - platforms.size(); i++) {
                 generatePlatform();
         }
@@ -222,7 +223,7 @@ public class Game {
         }
 
         // Supprime les bulles de la mémoire si elles dépassent le haut de l'écran
-        bubbles.removeIf(bubble -> bubble.y - bubble.radius > fenetreY + HEIGHT);
+        bubbles.removeIf(bubble -> bubble.y - bubble.radius > windowY + HEIGHT);
 
         // Demande aux bulles de mettre à jour leur modèle
         for (Bubble bubble : bubbles) {
@@ -242,23 +243,23 @@ public class Game {
 
         // Itère sur la liste de bulles pour leur demander de se dessiner
         for (Bubble bubble : bubbles) {
-            bubble.draw(context, fenetreY);
+            bubble.draw(context, windowY);
         }
 
         // Itère sur la liste de plateformes pour leur demander de se dessiner
         for (Platform p : platforms) {
-            p.draw(context, fenetreY);
+            p.draw(context, windowY);
         }
 
         // Demande à la méduse de se dessiner
-        jellyfish.draw(context, fenetreY);
+        jellyfish.draw(context, windowY);
 
         // Dessine un carré rouge derrière la meduse et affiche des informations contextuelles
         // lorsque le mode debug est activé
         if (debugMode) {
             context.setFill(Color.rgb(255, 0, 0, 0.4));
-            context.fillRect(jellyfish.x, HEIGHT - (jellyfish.y-fenetreY) - jellyfish.hauteur,
-                    jellyfish.largeur, jellyfish.hauteur);
+            context.fillRect(jellyfish.x, HEIGHT - (jellyfish.y- windowY) - jellyfish.height,
+                    jellyfish.width, jellyfish.height);
 
             context.setFill(Color.WHITE);
             context.setTextAlign(TextAlignment.LEFT);
@@ -277,6 +278,6 @@ public class Game {
         context.setFill(Color.WHITE);
         context.setTextAlign(TextAlignment.CENTER);
         context.setFont(Font.font(20));
-        context.fillText((int)fenetreY + "m", WIDTH / 2, 0.08 * HEIGHT);
+        context.fillText((int) windowY + "m", WIDTH / 2, 0.08 * HEIGHT);
     }
 }

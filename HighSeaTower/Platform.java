@@ -3,7 +3,7 @@ import javafx.scene.paint.Color;
 import java.util.Random;
 
 /**
- * Classe abstraite Plateforme (modèle) qui représente un objet plateforme
+ * Classe abstraite Plateforme du modèle
  */
 public abstract class Platform extends Entity {
 
@@ -13,16 +13,18 @@ public abstract class Platform extends Entity {
 
     /**
      * Constructeur de la plateforme
+     *
      * @param game
      */
     public Platform(Game game) {
         this.game = game;
         // Largeur aléatoire entre 80 et 175px
-        this.largeur = (double) new Random().nextInt(96) + 80;
-        this.hauteur = 10;
-        // Position en x choisie aléatoirement
-        this.x = new Random().nextInt((int)(game.WIDTH - this.largeur + 1));
+        this.width = (double) new Random().nextInt(96) + 80;
+        this.height = 10;
+        // Position en x choisie aléatoirement dans les bornes de l'écran
+        this.x = new Random().nextInt((int)(game.WIDTH - this.width + 1));
         this.y = PLATFORM_HEIGHT;
+        // Écart entre chaque plateforme
         PLATFORM_HEIGHT += 100;
     }
 
@@ -31,15 +33,15 @@ public abstract class Platform extends Entity {
     }
 
     /**
-     * Résout la collision s'il y a une intersection entre la mésude et la plateforme
+     * Résout la collision s'il y a une intersection entre la méduse et la plateforme
      */
     public void jellyfishCollision() {
         // Distance en y entre le haut de la plateforme et le bas de la méduse
-        double deltaYAbove = this.y + this.hauteur - this.game.jellyfish.y;
+        double deltaYAbove = this.y + this.height - this.game.jellyfish.y;
         // Distance en y entre le haut de la meduse et le bas de la plateforme
-        double deltaYBelow = this.game.jellyfish.y + this.game.jellyfish.hauteur - this.y;
+        double deltaYBelow = this.game.jellyfish.y + this.game.jellyfish.height - this.y;
 
-        // Si la méduse arrive d'en haut et la vitesse et negative,
+        // Si la méduse arrive d'en haut et la vitesse est negative,
         // la méduse est en train de tomber sur la plateforme
         if (deltaYAbove < 15 && this.game.jellyfish.vy < 0) {
             jellyfishPushUp(this.game.jellyfish, deltaYAbove);
@@ -47,7 +49,7 @@ public abstract class Platform extends Entity {
             this.game.jellyfish.setOnGround(true);
         }
 
-        // Si la méduse arrive d'en bas et la vitesse et positive,
+        // Si la méduse arrive d'en bas et la vitesse est positive,
         // la méduse est en train de sauter sur la plateforme
         if (deltaYBelow < 15 && this.game.jellyfish.vy > 0) {
             jellyfishPushDown(this.game.jellyfish, deltaYBelow);
@@ -55,8 +57,9 @@ public abstract class Platform extends Entity {
     }
 
     /**
-     * Place la méduse sur la plateforme et remet sa vitesse à 0
-     * @param jellyfish
+     * Place la méduse sur la plateforme et remet sa vitesse verticale à 0
+     *
+     * @param jellyfish méduse
      * @param deltaYAbove distance en y entre le haut de la plateforme et le bas de la méduse
      */
     public void jellyfishPushUp(Jellyfish jellyfish, double deltaYAbove) {
@@ -66,8 +69,9 @@ public abstract class Platform extends Entity {
     }
 
     /**
-     * Change la couleur de la plateforme en jaune si le mode debug est activé et
-     * la distance entre la palteforme et la méduse en haut est moins de 5px
+     * Change la couleur de la plateforme à jaune si le mode debug est activé et
+     * la distance entre la plateforme et la méduse en haut est moins de 5px
+     *
      * @param deltaYAbove distance en y entre le haut de la plateforme et le bas de la méduse
      */
     public void debugYellow(double deltaYAbove) {
@@ -77,8 +81,9 @@ public abstract class Platform extends Entity {
     }
 
     /**
-     * Met la vitesse de la méduse à 0 et ne permet pas à la méduse de sauter sur la plateforme solide
-     * @param jellyfish
+     * Action de rejet de la méduse vers le bas
+     *
+     * @param jellyfish méduse
      * @param deltaYBelow distance en y entre le haut de la meduse et le bas de la plateforme
      */
     public void jellyfishPushDown(Jellyfish jellyfish, double deltaYBelow) {
@@ -86,19 +91,21 @@ public abstract class Platform extends Entity {
 
     /**
      * Met à jour la position de la plateforme
-     * @param dt temps écoulé depuis le dernier update en secondes
+     *
+     * @param dt temps écoulé depuis le dernier update (en secondes)
      */
     @Override
     public void update (double dt) { super.update(dt); }
 
     /**
      * Dessine la plateforme sur l'écran
-     * @param context  contexte sur lequel dessiner
-     * @param fenetreY coordonnée y depuis le fond d'océan
+     *
+     * @param context contexte sur lequel dessiner
+     * @param windowY coordonnée y depuis le fond de l'océan
      */
     @Override
-    public void draw(GraphicsContext context, double fenetreY) {
+    public void draw(GraphicsContext context, double windowY) {
         context.setFill(color);
-        context.fillRect(x, Game.HEIGHT - (y - fenetreY) - hauteur, largeur, hauteur);
+        context.fillRect(x, Game.HEIGHT - (y - windowY) - height, width, height);
     }
 }

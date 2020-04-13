@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
  */
 public abstract class Entity {
 
-    protected double largeur, hauteur;
+    protected double width, height;
 
     /**
      * attributs horizontaux et verticaus de position, vitesse et accélération
@@ -34,7 +34,7 @@ public abstract class Entity {
      * Dessine l'entité en tenant compte des coordonnées de la fenêtre
      *
      * @param context contexte sur lequel dessiner
-     * @param fenetreY ordonnée depuis le fond de l'océan
+     * @param windowY ordonnée depuis le fond de l'océan
      */
-    public abstract void draw(GraphicsContext context, double fenetreY);
+    public abstract void draw(GraphicsContext context, double windowY);
 }

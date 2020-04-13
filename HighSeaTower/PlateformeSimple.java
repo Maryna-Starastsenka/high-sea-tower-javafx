@@ -2,13 +2,14 @@ import javafx.scene.paint.Color;
 
 /**
  * Classe Plateforme Simple hérite de Plateforme
- * Peut être traverser depuis le bas mais qui sert de plancher lorsqu’on tombe dessus
+ * Peut être traversée depuis le bas mais sert de plancher lorsqu’on tombe dessus
  */
 public class PlateformeSimple extends Platform {
 
     /**
      * Constructeur de la plateforme simple
-     * @param game
+     *
+     * @param game jeu
      */
     public PlateformeSimple(Game game) {
         super(game);

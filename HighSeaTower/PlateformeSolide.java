@@ -7,8 +7,9 @@ import javafx.scene.paint.Color;
 public class PlateformeSolide extends Platform {
 
     /**
-     * Conxtructeur de la plateforme solide
-     * @param game
+     * Constructeur de la plateforme solide
+     *
+     * @param game jeu
      */
     public PlateformeSolide(Game game) {
         super(game);
@@ -18,7 +19,8 @@ public class PlateformeSolide extends Platform {
 
     /**
      * Met la vitesse de la méduse à 0 et ne permet pas à la méduse de sauter sur la plateforme
-     * @param jellyfish
+     *
+     * @param jellyfish méduse
      * @param deltaYBelow distance en y entre le haut de la meduse et le bas de la plateforme
      */
     @Override
