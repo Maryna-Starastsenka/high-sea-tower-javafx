@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public abstract class Platform extends Entity {
 
-    private static double platformHeight = 100;
+    private static double PLATFORM_HEIGHT = 100;
     protected Color defaultColor = Color.DARKORCHID;;
     protected Game game;
 
@@ -22,12 +22,12 @@ public abstract class Platform extends Entity {
         this.hauteur = 10;
         // Position en x choisie aléatoirement
         this.x = new Random().nextInt((int)(game.WIDTH - this.largeur + 1));
-        this.y = platformHeight;
-        platformHeight += 100;
+        this.y = PLATFORM_HEIGHT;
+        PLATFORM_HEIGHT += 100;
     }
 
     public static void setPlatformHeight (double platformHeight) {
-        Platform.platformHeight = platformHeight;
+        Platform.PLATFORM_HEIGHT = platformHeight;
     }
 
     /**

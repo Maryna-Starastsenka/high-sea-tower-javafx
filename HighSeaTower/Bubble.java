@@ -2,14 +2,15 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 /**
- * Classe Bille (modèle) qui représente un objet bulle
+ * Classe du modèle qui représente un objet bulle
+ * qui décore l'arrière-plan
  */
 public class Bubble extends Entity {
 
     protected double radius;
 
     /**
-     * Les limites du rayon de la vatesse vers haut des bulles
+     * Plages de rayon et vitesse verticale des bulles
      */
     private double minRadius = 10;
     private double maxRadius = 40;
@@ -17,24 +18,28 @@ public class Bubble extends Entity {
     private double maxVY = 450;
 
     /**
-     * Constructeur de la bulle
-     * @param x position de la bulle
-     * @param y position de la bulle
+     * Constructeur de la bulle qui prend en paramètres les coordonnées
+     * depuis le coin inférieur gauche du niveau (au fond de l'océan)
+     *
+     * @param x abscisse
+     * @param y ordonnée
      */
     public Bubble(double x, double y) {
         this.x = x;
         this.y = y;
-        // Vitesse aléatoire entre 350 et 450px/s vers le haut
+        // Vitesse aléatoire dans la plage définie
         this.vy = minVY + Math.random()*(maxVY - minVY + 1);
-        // Rayon aléatoire entre 10 et 40px
+        // Rayon aléatoire dans la plage définie
         this.radius = minRadius + Math.random()*(maxRadius - minRadius + 1);
         this.color = Color.rgb(0, 0, 255, 0.4);
     }
 
     /**
-     * Dessine la bulle sur l'écran
+     * Dessine la bulle sur le contexte du jeu en fonction de la position
+     * de la fenêtre
+     *
      * @param context  contexte sur lequel dessiner
-     * @param fenetreY coordonnée y depuis le fond d'océan
+     * @param fenetreY ordonnée de la fenêtre depuis le fond de l'océan
      */
     @Override
     public void draw(GraphicsContext context, double fenetreY) {

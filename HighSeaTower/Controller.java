@@ -1,15 +1,16 @@
 import javafx.scene.canvas.GraphicsContext;
 
 /**
- * Classe Contrôleur contrôle le flux de données dans l'objet modèle et
- * met à jour la vue lorsque les données changent.
+ * Classe Contrôleur qui gère le flux de données du modèle et
+ * met à jour la vue lorsque les données changent
  */
 public class Controller {
 
     Game game;
 
     /**
-     * Contructeur de Contrôleur
+     * Contructeur du Contrôleur
+     *
      * @param width largeur de la fenêtre
      * @param height hauteur de la fenêtre
      */
@@ -19,6 +20,7 @@ public class Controller {
 
     /**
      * Dessine tous les éléments graphiques du jeu
+     *
      * @param context contexte sur lequel dessiner
      */
     void draw(GraphicsContext context) {
@@ -47,7 +49,7 @@ public class Controller {
     }
 
     /**
-     * Demande au modèle d'aller à gauche
+     * Demande au modèle d'aller à gauche et lui indique que le jeu peut commencer
      */
     void moveLeft() {
         game.setGameStarted(true);
@@ -55,7 +57,7 @@ public class Controller {
     }
 
     /**
-     * Demande au modèle d'aller à droite
+     * Demande au modèle d'aller à droite et lui indique que le jeu peut commencer
      */
     void moveRight() {
         game.setGameStarted(true);
@@ -63,14 +65,15 @@ public class Controller {
     }
 
     /**
-     * Demande au modèle de remettre la vitesse et l'accélération de la méduse à 0
+     * Demande au modèle de remettre la vitesse et l'accélération horizontale de la méduse à 0
+     *
      */
     void stopMoving() { game.stopMoving(); }
 
     /**
-     * Active le mode debug
+     * Demande au modèle de gérer l'activation/désactivation du mode debug
      */
-    void setDebug() {
-        game.setDebug();
+    void switchDebug() {
+        game.switchDebug();
     }
 }

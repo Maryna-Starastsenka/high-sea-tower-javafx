@@ -2,15 +2,15 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 /**
- * Classe abstraite Entité (modèle) qui représente un élément du jeu
- * et a une certaine position, vitesse et accélération
+ * Classe abstraite du modèle qui représente un élément du jeu
+ * disposant d'une certaine position, vitesse et accélération
  */
 public abstract class Entity {
 
     protected double largeur, hauteur;
 
     /**
-     * attributs de position, vitesse et accélération
+     * attributs horizontaux et verticaus de position, vitesse et accélération
      */
     protected double x, y;
     protected double vx, vy;
@@ -20,7 +20,8 @@ public abstract class Entity {
 
     /**
      * Met à jour la position et la vitesse de l'entité
-     * @param dt temps écoulé depuis le dernier update en secondes
+     *
+     * @param dt temps écoulé depuis le dernier update (en secondes)
      */
     public void update(double dt) {
         vx += dt * ax;
@@ -30,9 +31,10 @@ public abstract class Entity {
     }
 
     /**
-     * Dessine l'entité en tenant compte de la fenêtre
+     * Dessine l'entité en tenant compte des coordonnées de la fenêtre
+     *
      * @param context contexte sur lequel dessiner
-     * @param fenetreY coordonnée y depuis le fond d'océan
+     * @param fenetreY ordonnée depuis le fond de l'océan
      */
     public abstract void draw(GraphicsContext context, double fenetreY);
 }

@@ -53,8 +53,26 @@ public class HighSeaTower extends Application {
 
         Controller controller = new Controller(WIDTH, HEIGHT);
 
-        // Traitement des caractères tapés
-        // Mapping de la vue avec le contrôleur
+        setupKeyEvents(scene, controller);
+
+        startTimer(context, controller);
+
+        primaryStage.setResizable(false);
+        primaryStage.setTitle("High Sea Tower");
+        primaryStage.getIcons().add(new Image("images/jellyfish1.png"));
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    /**
+     * Traitement des touches entrées
+     * Mapping de la vue avec le contrôleur
+     *
+     * @param scene scène du jeu
+     * @param controller contrôleur du jeu
+     */
+    private void setupKeyEvents(Scene scene, Controller controller) {
+
         scene.setOnKeyPressed((value) -> {
             switch (value.getCode()) {
                 case SPACE:
@@ -71,7 +89,7 @@ public class HighSeaTower extends Application {
                     controller.moveRight();
                     break;
                 case T:
-                    controller.setDebug();
+                    controller.switchDebug();
                     break;
             }
         });
@@ -88,13 +106,22 @@ public class HighSeaTower extends Application {
                     break;
             }
         });
+    }
 
+    /**
+     * Création et démarrage du timer de jeu
+     *
+     * @param context contexte du jeu
+     * @param controller contrôleur du jeu
+     */
+    private void startTimer(GraphicsContext context, Controller controller) {
         AnimationTimer timer = new AnimationTimer() {
             private long lastTime = 0;
 
             /**
-             * Est appelée automatiquement à chaque frame quand AnimationTimer est actif
-             * @param now temps actuel en nanosecondes
+             * Est appelé automatiquement à chaque frame quand AnimationTimer est actif
+             *
+             * @param now temps actuel (en nanosecondes)
              */
             @Override
             public void handle(long now) {
@@ -112,11 +139,5 @@ public class HighSeaTower extends Application {
             }
         };
         timer.start();
-
-        primaryStage.setResizable(false);
-        primaryStage.setTitle("High Sea Tower");
-        primaryStage.getIcons().add(new Image("images/jellyfish1.png"));
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 }
