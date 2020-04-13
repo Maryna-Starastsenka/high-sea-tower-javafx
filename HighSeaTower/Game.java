@@ -44,14 +44,15 @@ public class Game {
     }
 
     /**
-     * Constructeur de jeu
+     * Constructeur de jeu qui instancie la méduse
+     * et fait un appel du générateur de la plateforme
      * @param width langeur de la fenêtre
      * @param height hauteur de la fenêtre
      */
     public Game(int width, int height) {
         WIDTH = width;
         HEIGHT = height;
-        this.jellyfish = new Jellyfish(WIDTH / 2 - 50 / 2, 0);
+        this.jellyfish = new Jellyfish(WIDTH / 2 - Jellyfish.IMAGESIZE/2, 0);
         for (int i = 0; i < 5; i++) {
             generatePlatform();
         }
@@ -170,9 +171,10 @@ public class Game {
         }
 
         // Met à jour la position y et la vitesse Y de la fenêtre si le mode debug est désactivé
-        if (!debugMode)
+        if (!debugMode) {
             fenetreVY += fenetreAY * dt;
             fenetreY += fenetreVY * dt;
+        }
 
         // Recalcule si la méduse se trouve par terre ou non
         jellyfish.setOnGround(false);
@@ -186,17 +188,17 @@ public class Game {
             }
         }
 
-        // Parcourt la liste des plateformes en mémoire, demande de la misa à jour de leurs coord (x,y)
-        // Demande à la meduse de faire le test collision avec chaque paleteforme
+        // Demande à la plateforme de mettre à jour son modèle
+        // et demande à la meduse de faire le test collision avec chaque plateforme
         for (Platform p : platforms) {
             p.update(dt);
             jellyfish.testCollision(p);
         }
 
-        // Demande à la méduse de mettre à jours les coord (x,y) et l'image affichée
+        // Demande à la méduse de mettre à jour son modèle
         jellyfish.update(dt);
 
-        // Fait le démande au constructeur de bulle toutes les 3 secondes
+        // Fait la démande au constructeur de bulle toutes les 3 secondes
         counter += dt;
         if (counter >= 3) {
             generateBubbles();
@@ -206,7 +208,7 @@ public class Game {
         // Supprime des bulles de la liste si sa position y de bas est plus grande que le haut de l'écran
         bubbles.removeIf(bubble -> bubble.y - bubble.radius > fenetreY + HEIGHT);
 
-        // Demande la mise à jour des coord (x,y) et de VY de bulles en mémoire
+        // Demande à la bulle de mettre à jour son modèle
         for (Bubble bubble : bubbles) {
             bubble.update(dt);
         }
@@ -220,16 +222,17 @@ public class Game {
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, WIDTH, HEIGHT);
 
-        // Demande à Bulle de dessiner des bulles de la liste
+        // Itère sur la liste de bulles pour leur demander de se dessiner
         for (Bubble bubble : bubbles) {
             bubble.draw(context, fenetreY);
         }
 
-        // Demande à Plateform de dessiner des plateformes de la liste
+        // Itère sur la liste de plateformes pour leur demander de se dessiner
         for (Platform p : platforms) {
             p.draw(context, fenetreY);
         }
 
+        // Demande à la méduse de se dessiner
         jellyfish.draw(context, fenetreY);
 
         // Dessine un carré rouge derrière la meduse et affiche des informations
@@ -254,7 +257,6 @@ public class Game {
         context.setTextAlign(TextAlignment.CENTER);
         context.setFont(Font.font(20));
         context.fillText((int)fenetreY + "m", WIDTH / 2, 0.08 * HEIGHT);
-
     }
 }
 

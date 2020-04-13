@@ -16,6 +16,19 @@ public abstract class Platform extends Entity {
         platformHeight += 100;
     }
 
+
+    /**
+     * La collision avec une plateforme a lieu seulement si :
+     *
+     * - Il y a une intersection entre la plateforme et le personnage
+     *
+     * - La collision a lieu entre la plateforme et le *bas du personnage*
+     * seulement
+     *
+     * - La vitesse va vers le bas (le personnage est en train de tomber,
+     * pas en train de sauter)
+     */
+
     public void jellyfishCollision() {
         //intersection déjà vérifiée dans Jellyfish
         double deltaYAbove = this.y + this.hauteur - this.game.jellyfish.y;
