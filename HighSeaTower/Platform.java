@@ -65,7 +65,4 @@ public abstract class Platform extends Entity {
     public void update (double dt) {
         super.update(dt);
     }
-
-
-
 }
