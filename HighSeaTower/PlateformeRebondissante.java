@@ -25,7 +25,7 @@ public class PlateformeRebondissante extends Platform {
     @Override
     public void jellyfishPushUp(Jellyfish jellyfish, double deltaYAbove) {
         // La vitesse après rebond est au moins de 100px/s vers le haut
-        jellyfish.vy = Math.max(jellyfish.vy * -1.5, 100);
+        jellyfish.vy = Math.max(Math.abs(jellyfish.vy * -1.5), 100);
         jellyfish.y += deltaYAbove;
         debugYellow(deltaYAbove);
     }
