@@ -1,45 +1,82 @@
-
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-
 import java.util.ArrayList;
 
+/**
+ * Classe du modèle qui contient la logique de jeu
+ * et gère les entités dans l'espace en fonction du temps écoulé
+ */
 public class Game {
 
+    public static final int NB_PLATFORMS = 5;
+    protected static boolean debugMode = false;
     public static int WIDTH, HEIGHT;
 
-    protected ArrayList<Platform> platforms = new ArrayList<Platform>();
+    /**
+     * Liste des plateformes en mémoire
+     */
+    protected ArrayList<Platform> platforms = new ArrayList<>();
+
+    /**
+     * Liste des bulles en mémoire
+     */
     private ArrayList<Bubble> bubbles = new ArrayList<>();
-    private double baseX;
-    private double counter = 0;
+
     protected Jellyfish jellyfish;
-    protected static boolean debugMode = false;
-    private Platform lastPlatform = null;
+
+    private double bubbleTimer = 0;
     private boolean gameStarted = false;
+
+    /**
+     * Différence verticale entre la méduse et la hauteur de l'écran
+     */
     private double differenceY;
 
-    //Fenêtre:
-    protected double fenetreAY = 2;
-    protected double fenetreVY = 50;
-    protected double fenetreY = 0;
+    /**
+     * Paramètres verticaux de la fenêtre : postion depuis le fond de l'océan, vitesse, accélération
+     */
+    protected double windowY = 0;
+    protected double windowVY = 50;
+    protected double windowAY = 2;
 
+    /**
+     * Définit si le jeu est commencé ou non
+     *
+     * @param started indicateur du début de jeu
+     */
     public void setGameStarted(boolean started) {
         this.gameStarted = started;
     }
 
+    /**
+     * Constructeur de jeu qui instancie la méduse au fond de l'océan et génère les plateformes
+     *
+     * @param width largeur de la fenêtre
+     * @param height hauteur de la fenêtre
+     */
     public Game(int width, int height) {
         WIDTH = width;
         HEIGHT = height;
-        this.jellyfish = new Jellyfish(WIDTH / 2 - 50 / 2, 0);
-        for (int i = 0; i < 5; i++) {
+        this.jellyfish = new Jellyfish(WIDTH / 2 - Jellyfish.IMAGESIZE/2, 0);
+        Platform.setPlatformHeight(100);
+        for (int i = 0; i < NB_PLATFORMS; i++) {
             generatePlatform();
         }
-
-
     }
 
+    /**
+     * Choisit aléatoirement un type de plateforme selon une probabilité et l'instancie
+     *
+     * Probabilités à condition de ne pas avoir 2 plateformes solides de suite :
+     * -Plateforme simple : 65%
+     * -Plateforme rebondissante : 20%
+     * -Plateforme accélérante : 10%
+     * -Plateforme solide : 5%
+     *
+     * Si 2 plateformes solides de suite, appel récursif de la méthode
+     * */
     public void generatePlatform() {
 
         double probabilite = Math.random();
@@ -52,155 +89,195 @@ public class Game {
             platform = new PlateformeRebondissante(this);
         } else if (probabilite < 0.95) {
            platform = new PlateformeAccelerante(this);
-        } else if (lastPlatform != null && lastPlatform instanceof PlateformeSolide) {
-            //relance la generation de plateforme si la derniere etait rouge
+        } else if (platforms.size() != 0 && platforms.get(platforms.size() - 1) instanceof PlateformeSolide) {
+            // Relance la génération de plateforme si la dernière plateforme était Solide
             generatePlatform();
            return;
        } else {
            platform = new PlateformeSolide(this);
        }
         platforms.add(platform);
-        lastPlatform = platform;
     }
 
+    /**
+     * Instancie 3 groupes de 5 bulles 
+     */
     public void generateBubbles() {
         for (int i = 0; i < 3; i++) {
-            baseX = Math.random() * WIDTH;
+            double baseX = Math.random() * WIDTH;
             for (int j = 0; j < 5; j++) {
+                // La zone en x de chaque bulle est dans la plage [-20;+20] px autour de la base du groupe
                 bubbles.add(new Bubble((baseX - 20) + Math.random() * 41, 0));
             }
         }
     }
 
+    /**
+     * Demande à la méduse de sauter
+     */
     public void jump() {
         jellyfish.jump();
     }
 
+    /**
+     * Demande à la méduse d'aller à gauche
+     */
     public void moveLeft() {
         jellyfish.moveLeft();
     }
 
+    /**
+     * Demande au modèle d'aller à droite
+     */
     public void moveRight() {
         jellyfish.moveRight();
     }
 
-    public void resetAccelerator() {
-        jellyfish.resetAccelerator();
+    /**
+     * Demande à la méduse d'arrêter de bouger horizontalement
+     */
+    public void stopMoving() {
+        jellyfish.stopMoving();
     }
 
-    public void setDebug() {
+    /**
+     * Active/désactive le mode debug comme un interrupteur
+     * Si le mode debug est activé, la fenêtre ne bouge plus automatiquement
+     */
+    public void switchDebug() {
         debugMode = !debugMode;
         if (debugMode) {
-            fenetreVY = 0;
+            windowVY = 0;
         } else {
-            fenetreVY = 50;
+            windowVY = 50;
         }
     }
 
-    //vérifie si la méduse tombe plus bas que l'écran
+    /**
+     * Vérifie la position de la méduse par rapport au bas de l'écran afin de déterminer si
+     * la partie est perdue ou non
+     *
+     * @return vrai si le haut de la méduse est plus bas que le bas de l'écran, faux sinon
+     */
     public boolean gameIsOver() {
-        return jellyfish.y + jellyfish.hauteur < fenetreY;
+        return jellyfish.y + jellyfish.height < windowY;
     }
 
-    //vérifie si la meduse dépasse 75% de la hauteur de l'écran
+    /**
+     * Vérifie si la méduse dépasse 75% de la hauteur de l'écran
+     *
+     * @return vrai si le haut de la méduse dépasse 75% de la hauteur de l'écran, faux sinon
+     */
     public boolean goAbove() {
-        differenceY = jellyfish.y + jellyfish.hauteur - (HEIGHT * 0.75 + fenetreY);
+        differenceY = jellyfish.y + jellyfish.height - (HEIGHT * 0.75 + windowY);
         return differenceY > 0;
     }
 
+    /**
+     * Met à jour la position de la fenêtre et des entités
+     * Retire de la mémoire les plateformes et les bulles qui sont sorties de l'écran
+     *
+     * @param dt temps écoulé depuis le dernier update (en secondes)
+     */
     public void update(double dt) {
-        //vérifie si le jeu a commencé
+        // Pas d'update si le jeu n'est pas commencé
         if (!gameStarted) {
             return;
         }
 
-        //monte l'écrant si la méduse dépasse 75%
+        // Monte l'écran si la méduse dépasse 75%
         if (goAbove()) {
-            fenetreY += differenceY;
+            windowY += differenceY;
         }
 
+        // Fait monter la fenêtre automatiquement si le mode debug est désactivé
         if (!debugMode) {
-            //Updater la fenêtre + accélération
-            fenetreVY += fenetreAY * dt;
-            fenetreY += fenetreVY * dt;
+            windowVY += windowAY * dt;
+            windowY += windowVY * dt;
         }
-        
-        /**
-         * À chaque tour, on recalcule si le personnage se trouve parterre ou
-         * non
-         */
+
+        // Recalcule si la méduse se trouve par terre ou non
         jellyfish.setOnGround(false);
 
+        // Retire les plateformes de la mémoire lorsqu'elles ne sont plus affichables
+        platforms.removeIf(p -> p.y + p.height < windowY);
+        for (int i = 0; i < NB_PLATFORMS - platforms.size(); i++) {
+                generatePlatform();
+        }
+
+        // Demande à la plateforme de mettre à jour son modèle
+        // et demande à la meduse de faire un test de collision avec chaque plateforme
         for (Platform p : platforms) {
             p.update(dt);
             jellyfish.testCollision(p);
-
         }
+
+        // Demande à la méduse de mettre à jour son modèle
         jellyfish.update(dt);
 
-        //création des bulles toutes les 3 secondes
-        counter += dt;
-        if (counter >= 3) {
+        // Génère de nouveaux groupes de bulles toutes les 3 secondes
+        bubbleTimer += dt;
+        if (bubbleTimer >= 3) {
             generateBubbles();
-            counter = 0;
+            bubbleTimer = 0;
         }
 
-        //mise à jour des bulles
+        // Supprime les bulles de la mémoire si elles dépassent le haut de l'écran
+        bubbles.removeIf(bubble -> bubble.y - bubble.radius > windowY + HEIGHT);
+
+        // Demande aux bulles de mettre à jour leur modèle
         for (Bubble bubble : bubbles) {
             bubble.update(dt);
         }
     }
 
+    /**
+     * Dessine les éléments graphiques du jeu
+     *
+     * @param context contexte sur lequel dessiner
+     */
     public void draw(GraphicsContext context) {
+        // Arrière-plan
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, WIDTH, HEIGHT);
 
-        //Supprimer les bulles d'ArrayList
-        bubbles.removeIf(bubble -> bubble.y - bubble.radius > fenetreY + HEIGHT);
-        
+        // Itère sur la liste de bulles pour leur demander de se dessiner
         for (Bubble bubble : bubbles) {
-            bubble.draw(context, fenetreY);
+            bubble.draw(context, windowY);
         }
 
-        //dessine un carré rouge derrière la meduse si le mode Debug est actif
+        // Itère sur la liste de plateformes pour leur demander de se dessiner
+        for (Platform p : platforms) {
+            p.draw(context, windowY);
+        }
+
+        // Demande à la méduse de se dessiner
+        jellyfish.draw(context, windowY);
+
+        // Dessine un carré rouge derrière la meduse et affiche des informations contextuelles
+        // lorsque le mode debug est activé
         if (debugMode) {
             context.setFill(Color.rgb(255, 0, 0, 0.4));
-            context.fillRect(jellyfish.x, HEIGHT - (jellyfish.y-fenetreY) - jellyfish.hauteur,
-                    jellyfish.largeur, jellyfish.hauteur);
-        }
+            context.fillRect(jellyfish.x, HEIGHT - (jellyfish.y- windowY) - jellyfish.height,
+                    jellyfish.width, jellyfish.height);
 
-        jellyfish.draw(context, fenetreY);
-
-        //Enlève plateformes disparues et en rajoute une
-        for (int i=0; i<platforms.size();i++) {
-            if (platforms.get(i).y+platforms.get(i).hauteur < fenetreY) {
-                platforms.remove(i);
-                generatePlatform();
-            }
-        }
-
-        //Dessine les plateformes
-        for (Platform p : platforms) {
-            p.draw(context, fenetreY);
-        }
-
-        context.setFill(Color.WHITE);
-
-        if (debugMode) {
+            context.setFill(Color.WHITE);
             context.setTextAlign(TextAlignment.LEFT);
             context.setFont(Font.font(13));
-            context.fillText("Position = (" + Math.round(jellyfish.x) + ", " + Math.round(jellyfish.y) + ")", 10, 10);
-            context.fillText("v = (" + Math.round(jellyfish.vx) + ", " + Math.round(jellyfish.vy) + ")", 10, 23);
-            context.fillText("a = (" + Math.round(jellyfish.ax) + ", " + Math.round(jellyfish.ay) + ")", 10, 36);
-            context.fillText("Touche le sol : " + (Jellyfish.getOnGround() ? "Oui" : "Non") , 10, 49);
-            //context.fillText("Position fenetre: "+fenetreY, 10, 62);
+            context.fillText("Position = (" + Math.round(jellyfish.x) + ", "
+                    + Math.round(jellyfish.y) + ")", 0.03 * WIDTH, 0.03 * HEIGHT);
+            context.fillText("v = (" + Math.round(jellyfish.vx) + ", "
+                    + Math.round(jellyfish.vy) + ")", 0.03 * WIDTH, 0.06 * HEIGHT);
+            context.fillText("a = (" + Math.round(jellyfish.ax) + ", "
+                    + Math.round(jellyfish.ay) + ")", 0.03 * WIDTH, 0.09 * HEIGHT);
+            context.fillText("Touche le sol : "
+                    + (Jellyfish.getOnGround() ? "oui" : "non") , 0.03 * WIDTH, 0.12 * HEIGHT);
         }
 
-        //affichage de score actuel
+        // Affiche le score actuel
+        context.setFill(Color.WHITE);
         context.setTextAlign(TextAlignment.CENTER);
         context.setFont(Font.font(20));
-        context.fillText((int)fenetreY + "m", WIDTH / 2, 0.08 * HEIGHT);
-
+        context.fillText((int) windowY + "m", WIDTH / 2, 0.08 * HEIGHT);
     }
 }
-
