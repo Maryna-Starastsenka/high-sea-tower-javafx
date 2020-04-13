@@ -44,7 +44,7 @@ public class Jellyfish extends Entity {
         }
 
         @Override
-        public void update ( double dt){
+        public void update ( double dt) {
             // Physique du personnage
             super.update(dt);
 
@@ -122,7 +122,7 @@ public class Jellyfish extends Entity {
 
         public void moveRight() { this.ax = 1200; }
 
-        public void resetAccelerator() {
+        public void stopMoving() {
             this.ax = 0;
             this.vx = 0;
         }

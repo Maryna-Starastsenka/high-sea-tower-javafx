@@ -4,8 +4,11 @@ import javafx.scene.paint.Color;
 public abstract class Entity {
 
     protected double largeur, hauteur;
-    protected double x, y;
 
+    /**
+     * attributs de position, vitesse et accélération
+     */
+    protected double x, y;
     protected double vx, vy;
     protected double ax, ay;
 

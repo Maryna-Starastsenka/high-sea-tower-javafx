@@ -1,4 +1,3 @@
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class PlateformeRebondissante extends Platform {
@@ -11,7 +10,7 @@ public class PlateformeRebondissante extends Platform {
 
     @Override
     public void jellyfishPushUp(Jellyfish jellyfish, double deltaYAbove) {
-        jellyfish.vy = Math.max(jellyfish.vy*-1.5,600);
+        jellyfish.vy = Math.max(jellyfish.vy*-1.5, 100);
         jellyfish.y += deltaYAbove;
         debugYellow(deltaYAbove);
     }
