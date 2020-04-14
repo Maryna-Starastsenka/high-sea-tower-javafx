@@ -83,11 +83,11 @@ public class Game {
 
         Platform platform;
 
-        if (probabilite < 0.65) {
+        if (probabilite < 0.05) {
            platform = new PlateformeSimple(this);
-        } else if (probabilite < 0.85) {
+        } else if (probabilite < 0.15) {
             platform = new PlateformeRebondissante(this);
-        } else if (probabilite < 0.95) {
+        } else if (probabilite < 0.55) {
            platform = new PlateformeAccelerante(this);
         } else if (platforms.size() != 0 && platforms.get(platforms.size() - 1) instanceof PlateformeSolide) {
             // Relance la génération de plateforme si la dernière plateforme était Solide

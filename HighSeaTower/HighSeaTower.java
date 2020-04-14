@@ -117,6 +117,7 @@ public class HighSeaTower extends Application {
     private void startTimer(GraphicsContext context, Controller controller) {
         AnimationTimer timer = new AnimationTimer() {
             private long lastTime = 0;
+            private final double maxDt = 0.01;
 
             /**
              * Est appelé automatiquement à chaque frame quand AnimationTimer est actif
@@ -131,6 +132,12 @@ public class HighSeaTower extends Application {
                 }
                 // Temps écoulé depuis le dernier appel en seconde
                 double deltaTime = (now - lastTime) * 1e-9;
+
+                //Force les updates à se faire avec un max de maxDt secondes
+                while (deltaTime > maxDt) {
+                    controller.update(maxDt);
+                    deltaTime -= maxDt;
+                }
 
                 controller.update(deltaTime);
                 controller.draw(context);

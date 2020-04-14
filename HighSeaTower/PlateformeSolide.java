@@ -25,7 +25,7 @@ public class PlateformeSolide extends Platform {
      */
     @Override
     public void jellyfishPushDown(Jellyfish jellyfish, double deltaYBelow) {
-        jellyfish.vy *= -1;
+        jellyfish.vy = 0;
         jellyfish.y -= deltaYBelow;
     }
 }
