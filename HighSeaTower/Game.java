@@ -60,7 +60,7 @@ public class Game {
         WIDTH = width;
         HEIGHT = height;
         this.jellyfish = new Jellyfish(WIDTH / 2 - Jellyfish.IMAGESIZE/2, 0);
-        Platform.setPlatformHeight(100);
+        Platform.setPlatformSpacing(100);
         for (int i = 0; i < NB_PLATFORMS; i++) {
             generatePlatform();
         }

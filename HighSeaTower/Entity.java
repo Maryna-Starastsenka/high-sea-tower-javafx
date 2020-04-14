@@ -27,7 +27,17 @@ public abstract class Entity {
         vx += dt * ax;
         vy += dt * ay;
         x += dt * vx;
-        y += dt * vy;
+        // On ne veut pas qu'une entité puisse se déplacer trop loin entre 2 updates
+        // sans quoi les tests de collision ne sont plus fiables
+        // On met la vitesse à jour pour qu'elle reste cohérente
+        double maxMove;
+        if (vy >= 0) {
+            maxMove = Math.min(dt * vy, 10);
+        } else {
+            maxMove = Math.max(dt * vy, -10);
+        }
+        vy = maxMove / dt;
+        y += maxMove;
     }
 
     /**

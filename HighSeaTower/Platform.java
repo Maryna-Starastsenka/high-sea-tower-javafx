@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public abstract class Platform extends Entity {
 
-    private static double PLATFORM_HEIGHT = 100;
+    private static double PLATFORM_SPACING = 100;
     protected Color defaultColor = Color.DARKORCHID;;
     protected Game game;
 
@@ -23,13 +23,13 @@ public abstract class Platform extends Entity {
         this.height = 10;
         // Position en x choisie aléatoirement dans les bornes de l'écran
         this.x = new Random().nextInt((int)(game.WIDTH - this.width + 1));
-        this.y = PLATFORM_HEIGHT;
+        this.y = PLATFORM_SPACING;
         // Écart entre chaque plateforme
-        PLATFORM_HEIGHT += 100;
+        PLATFORM_SPACING += 100;
     }
 
-    public static void setPlatformHeight (double platformHeight) {
-        Platform.PLATFORM_HEIGHT = platformHeight;
+    public static void setPlatformSpacing(double platformSpacing) {
+        Platform.PLATFORM_SPACING = platformSpacing;
     }
 
     /**
@@ -43,7 +43,7 @@ public abstract class Platform extends Entity {
 
         // Si la méduse arrive d'en haut et la vitesse est negative,
         // la méduse est en train de tomber sur la plateforme
-        if (deltaYAbove < 15 && this.game.jellyfish.vy < 0) {
+        if (deltaYAbove < 10 && this.game.jellyfish.vy < 0) {
             jellyfishPushUp(this.game.jellyfish, deltaYAbove);
 
             this.game.jellyfish.setOnGround(true);
@@ -51,7 +51,7 @@ public abstract class Platform extends Entity {
 
         // Si la méduse arrive d'en bas et la vitesse est positive,
         // la méduse est en train de sauter sur la plateforme
-        if (deltaYBelow < 15 && this.game.jellyfish.vy > 0) {
+        if (deltaYBelow < 10 && this.game.jellyfish.vy > 0) {
             jellyfishPushDown(this.game.jellyfish, deltaYBelow);
         }
     }

@@ -18,14 +18,14 @@ public class PlateformeSolide extends Platform {
     }
 
     /**
-     * Met la vitesse de la méduse à 0 et ne permet pas à la méduse de sauter sur la plateforme
+     * Fait rebondir la méduse et ne permet pas à la méduse de sauter sur la plateforme
      *
      * @param jellyfish méduse
      * @param deltaYBelow distance en y entre le haut de la meduse et le bas de la plateforme
      */
     @Override
     public void jellyfishPushDown(Jellyfish jellyfish, double deltaYBelow) {
-        jellyfish.vy = 0;
+        jellyfish.vy *= -1;
         jellyfish.y -= deltaYBelow;
     }
 }
