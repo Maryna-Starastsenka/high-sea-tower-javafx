@@ -34,7 +34,7 @@ public class PlateformeAccelerante extends Platform {
         debugYellow(deltaYAbove);
 
         if (platformTouched == false) {
-            game.windowVY *= 3;
+            game.setWindowVY(game.getWindowVY()*3);
         }
         platformTouched = true;
     }
@@ -48,8 +48,8 @@ public class PlateformeAccelerante extends Platform {
     @Override
     public void update (double dt) {
         super.update(dt);
-        if (platformTouched == true && (this.game.jellyfish.y - this.y - this.height) > 5) {
-            game.windowVY /= 3;
+        if (platformTouched == true && (this.game.getJellyfish().y - this.y - this.height) > 5) {
+            game.setWindowVY(game.getWindowVY()/3);;
             platformTouched = false;
         }
     }

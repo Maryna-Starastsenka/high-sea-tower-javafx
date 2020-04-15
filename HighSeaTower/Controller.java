@@ -6,7 +6,8 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class Controller {
 
-    Game game;
+    private Game game;
+    private int width, height;
 
     /**
      * Contructeur du Contrôleur
@@ -15,6 +16,8 @@ public class Controller {
      * @param height hauteur de la fenêtre
      */
     public Controller(int width, int height) {
+        this.width = width;
+        this.height = height;
         game = new Game(width, height);
     }
 
@@ -34,7 +37,7 @@ public class Controller {
     void update(double deltaTime) {
         // Commence une nouvelle partie si la méduse est tombée
         if (game.gameIsOver()) {
-            game = new Game(Game.WIDTH, Game.HEIGHT);
+            game = new Game(this.width, this.height);
         }
         game.update(deltaTime);
     }

@@ -37,22 +37,22 @@ public abstract class Platform extends Entity {
      */
     public void jellyfishCollision() {
         // Distance en y entre le haut de la plateforme et le bas de la méduse
-        double deltaYAbove = this.y + this.height - this.game.jellyfish.y;
+        double deltaYAbove = this.y + this.height - this.game.getJellyfish().y;
         // Distance en y entre le haut de la meduse et le bas de la plateforme
-        double deltaYBelow = this.game.jellyfish.y + this.game.jellyfish.height - this.y;
+        double deltaYBelow = this.game.getJellyfish().y + this.game.getJellyfish().height - this.y;
 
         // Si la méduse arrive d'en haut et la vitesse est negative,
         // la méduse est en train de tomber sur la plateforme
-        if (deltaYAbove < 10 && this.game.jellyfish.vy < 0) {
-            jellyfishPushUp(this.game.jellyfish, deltaYAbove);
+        if (deltaYAbove < 10 && this.game.getJellyfish().vy < 0) {
+            jellyfishPushUp(this.game.getJellyfish(), deltaYAbove);
 
-            this.game.jellyfish.setOnGround(true);
+            this.game.getJellyfish().setOnGround(true);
         }
 
         // Si la méduse arrive d'en bas et la vitesse est positive,
         // la méduse est en train de sauter sur la plateforme
-        if (deltaYBelow < 10 && this.game.jellyfish.vy > 0) {
-            jellyfishPushDown(this.game.jellyfish, deltaYBelow);
+        if (deltaYBelow < 10 && this.game.getJellyfish().vy > 0) {
+            jellyfishPushDown(this.game.getJellyfish(), deltaYBelow);
         }
     }
 
@@ -75,7 +75,7 @@ public abstract class Platform extends Entity {
      * @param deltaYAbove distance en y entre le haut de la plateforme et le bas de la méduse
      */
     public void debugYellow(double deltaYAbove) {
-        if (game.debugMode && Math.abs(deltaYAbove) < 5) {
+        if (game.getDebugMode() && Math.abs(deltaYAbove) < 5) {
             this.color = Color.YELLOW;
         }
     }

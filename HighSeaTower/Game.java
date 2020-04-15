@@ -10,21 +10,21 @@ import java.util.ArrayList;
  */
 public class Game {
 
-    public static final int NB_PLATFORMS = 5;
-    protected static boolean debugMode = false;
+    private static final int NB_PLATFORMS = 5;
+    private static boolean debugMode = false;
     public static int WIDTH, HEIGHT;
 
     /**
      * Liste des plateformes en mémoire
      */
-    protected ArrayList<Platform> platforms = new ArrayList<>();
+    private ArrayList<Platform> platforms = new ArrayList<>();
 
     /**
      * Liste des bulles en mémoire
      */
     private ArrayList<Bubble> bubbles = new ArrayList<>();
 
-    protected Jellyfish jellyfish;
+    private Jellyfish jellyfish;
 
     private double bubbleTimer = 0;
     private boolean gameStarted = false;
@@ -37,9 +37,9 @@ public class Game {
     /**
      * Paramètres verticaux de la fenêtre : postion depuis le fond de l'océan, vitesse, accélération
      */
-    protected double windowY = 0;
-    protected double windowVY = 50;
-    protected double windowAY = 2;
+    private double windowY = 0;
+    private double windowVY = 50;
+    private double windowAY = 2;
 
     /**
      * Définit si le jeu est commencé ou non
@@ -59,6 +59,7 @@ public class Game {
     public Game(int width, int height) {
         WIDTH = width;
         HEIGHT = height;
+        this.windowVY = windowVY;
         this.jellyfish = new Jellyfish(WIDTH / 2 - Jellyfish.IMAGESIZE/2, 0);
         Platform.setPlatformSpacing(100);
         for (int i = 0; i < NB_PLATFORMS; i++) {
@@ -83,11 +84,11 @@ public class Game {
 
         Platform platform;
 
-        if (probabilite < 0.05) {
+        if (probabilite < 0.65) {
            platform = new PlateformeSimple(this);
-        } else if (probabilite < 0.15) {
+        } else if (probabilite < 0.85) {
             platform = new PlateformeRebondissante(this);
-        } else if (probabilite < 0.55) {
+        } else if (probabilite < 0.95) {
            platform = new PlateformeAccelerante(this);
         } else if (platforms.size() != 0 && platforms.get(platforms.size() - 1) instanceof PlateformeSolide) {
             // Relance la génération de plateforme si la dernière plateforme était Solide
@@ -223,7 +224,7 @@ public class Game {
         }
 
         // Supprime les bulles de la mémoire si elles dépassent le haut de l'écran
-        bubbles.removeIf(bubble -> bubble.y - bubble.radius > windowY + HEIGHT);
+        bubbles.removeIf(bubble -> bubble.y - bubble.getRadius() > windowY + HEIGHT);
 
         // Demande aux bulles de mettre à jour leur modèle
         for (Bubble bubble : bubbles) {
@@ -280,4 +281,21 @@ public class Game {
         context.setFont(Font.font(20));
         context.fillText((int) windowY + "m", WIDTH / 2, 0.08 * HEIGHT);
     }
+
+    public boolean getDebugMode() {
+        return debugMode;
+    }
+
+    public Jellyfish getJellyfish() {
+        return this.jellyfish;
+    }
+
+    public double getWindowVY() {
+        return windowVY;
+    }
+
+    public void setWindowVY(double newSpeed) {
+        windowVY = newSpeed;
+    }
+
 }

@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
  */
 public class Bubble extends Entity {
 
-    protected double radius;
+    private double radius;
 
     /**
      * Plages de rayon et vitesse verticale des bulles
@@ -45,5 +45,9 @@ public class Bubble extends Entity {
     public void draw(GraphicsContext context, double windowY) {
         context.setFill(color);
         context.fillOval(x, Game.HEIGHT-(y-windowY)- height, radius * 2, radius * 2);
+    }
+
+    public double getRadius() {
+        return this.radius;
     }
 }
