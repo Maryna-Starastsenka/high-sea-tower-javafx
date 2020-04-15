@@ -22,7 +22,7 @@ public abstract class Platform extends Entity {
         this.width = (double) new Random().nextInt(96) + 80;
         this.height = 10;
         // Position en x choisie aléatoirement dans les bornes de l'écran
-        this.x = new Random().nextInt((int)(game.WIDTH - this.width + 1));
+        this.x = new Random().nextInt((int)(game.getWidth() - this.width + 1));
         this.y = PLATFORM_SPACING;
         // Écart entre chaque plateforme
         PLATFORM_SPACING += 100;
@@ -104,8 +104,8 @@ public abstract class Platform extends Entity {
      * @param windowY coordonnée y depuis le fond de l'océan
      */
     @Override
-    public void draw(GraphicsContext context, double windowY) {
+    public void draw(GraphicsContext context, double windowY, int gameHeight) {
         context.setFill(color);
-        context.fillRect(x, Game.HEIGHT - (y - windowY) - height, width, height);
+        context.fillRect(x, gameHeight - (y - windowY) - height, width, height);
     }
 }

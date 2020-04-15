@@ -42,9 +42,9 @@ public class Bubble extends Entity {
      * @param windowY ordonnée de la fenêtre depuis le fond de l'océan
      */
     @Override
-    public void draw(GraphicsContext context, double windowY) {
+    public void draw(GraphicsContext context, double windowY, int gameHeight) {
         context.setFill(color);
-        context.fillOval(x, Game.HEIGHT-(y-windowY)- height, radius * 2, radius * 2);
+        context.fillOval(x, gameHeight -(y-windowY)- height, radius * 2, radius * 2);
     }
 
     public double getRadius() {

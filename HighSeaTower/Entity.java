@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
  */
 public abstract class Entity {
 
+    //Tous les attributs sont censés pouvoir être modifiés de l'extérieur, donc pas besoin d'accesseurs ni mutateurs
     protected double width, height;
 
     /**
@@ -36,5 +37,6 @@ public abstract class Entity {
      * @param context contexte sur lequel dessiner
      * @param windowY ordonnée depuis le fond de l'océan
      */
-    public abstract void draw(GraphicsContext context, double windowY);
+    public abstract void draw(GraphicsContext context, double windowY, int gameHeight);
+
 }

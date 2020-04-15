@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
  */
 public class Jellyfish extends Entity {
 
-    public static int IMAGESIZE = 50;
+    private int imageSize = 50;
 
     private final Image[] framesRight;
     private final Image[] framesLeft;
@@ -27,10 +27,10 @@ public class Jellyfish extends Entity {
      * @param y ordonnée
      */
     public Jellyfish(double x, double y) {
-        this.x = x;
+        this.x = x - imageSize /2;
         this.y = y;
-        this.width = IMAGESIZE;
-        this.height = IMAGESIZE;
+        this.width = imageSize;
+        this.height = imageSize;
         // Gravité
         this.ay = -1200;
         // Vitesse horizontale
@@ -165,7 +165,7 @@ public class Jellyfish extends Entity {
      * @param windowY coordonnée y depuis le fond de l'océan
      */
     @Override
-    public void draw(GraphicsContext context, double windowY) {
-        context.drawImage(currentImage, x, Game.HEIGHT - (y- windowY) - height, width, height);
+    public void draw(GraphicsContext context, double windowY, int gameHeight) {
+        context.drawImage(currentImage, x, gameHeight - (y- windowY) - height, width, height);
     }
 }
