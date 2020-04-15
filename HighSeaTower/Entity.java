@@ -7,11 +7,11 @@ import javafx.scene.paint.Color;
  */
 public abstract class Entity {
 
-    //Tous les attributs sont censés pouvoir être modifiés de l'extérieur, donc pas besoin d'accesseurs ni mutateurs
+    //Tous les attributs sont censés pouvoir être modifiés de l'extérieur (pas d'accesseurs / mutateurs)
     protected double width, height;
 
     /**
-     * attributs horizontaux et verticaus de position, vitesse et accélération
+     * attributs horizontaux et verticaux de position, vitesse et accélération
      */
     protected double x, y;
     protected double vx, vy;

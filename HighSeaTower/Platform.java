@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public abstract class Platform extends Entity {
 
-    private static double PLATFORM_SPACING = 100;
+    private static double platformSpacing = 100;
     protected Color defaultColor = Color.DARKORCHID;;
     protected Game game;
 
@@ -23,13 +23,13 @@ public abstract class Platform extends Entity {
         this.height = 10;
         // Position en x choisie aléatoirement dans les bornes de l'écran
         this.x = new Random().nextInt((int)(game.getWidth() - this.width + 1));
-        this.y = PLATFORM_SPACING;
+        this.y = platformSpacing;
         // Écart entre chaque plateforme
-        PLATFORM_SPACING += 100;
+        platformSpacing += 100;
     }
 
     public static void setPlatformSpacing(double platformSpacing) {
-        Platform.PLATFORM_SPACING = platformSpacing;
+        Platform.platformSpacing = platformSpacing;
     }
 
     /**
@@ -50,7 +50,7 @@ public abstract class Platform extends Entity {
         }
 
         // Si la méduse arrive d'en bas et la vitesse est positive,
-        // la méduse est en train de sauter sur la plateforme
+        // la tête de la méduse cogne sous la plateforme
         if (deltaYBelow < 10 && this.game.getJellyfish().vy > 0) {
             jellyfishPushDown(this.game.getJellyfish(), deltaYBelow);
         }

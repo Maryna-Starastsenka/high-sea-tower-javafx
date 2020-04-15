@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class Game {
 
-    private static final int NB_PLATFORMS = 5;
+    private static final int nbPlatforms = 5;
     private static boolean debugMode = false;
     private static int width, height;
 
@@ -27,6 +27,7 @@ public class Game {
     private Jellyfish jellyfish;
 
     private double bubbleTimer = 0;
+
     private boolean gameStarted = false;
 
     /**
@@ -61,9 +62,11 @@ public class Game {
         this.height = height;
         this.jellyfish = new Jellyfish(width / 2, 0);
         Platform.setPlatformSpacing(100);
-        for (int i = 0; i < NB_PLATFORMS; i++) {
+
+        for (int i = 0; i < nbPlatforms; i++) {
             generatePlatform();
         }
+
     }
 
     /**
@@ -201,7 +204,7 @@ public class Game {
 
         // Retire les plateformes de la mémoire lorsqu'elles ne sont plus affichables
         platforms.removeIf(p -> p.y + p.height < windowY);
-        for (int i = 0; i < NB_PLATFORMS - platforms.size(); i++) {
+        for (int i = 0; i < nbPlatforms - platforms.size(); i++) {
                 generatePlatform();
         }
 

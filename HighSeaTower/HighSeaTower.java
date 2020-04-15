@@ -130,7 +130,7 @@ public class HighSeaTower extends Application {
                     lastTime = now;
                     return;
                 }
-                // Temps écoulé depuis le dernier appel en seconde
+                // Temps écoulé depuis le dernier appel en secondes
                 double deltaTime = (now - lastTime) * 1e-9;
 
                 //Force les updates à se faire avec un max de maxDt secondes

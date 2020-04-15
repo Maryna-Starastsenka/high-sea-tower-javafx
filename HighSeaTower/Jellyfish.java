@@ -151,7 +151,7 @@ public class Jellyfish extends Entity {
     }
 
     /**
-     * Met la vitesse et l'accéleération de la méduse à 0
+     * Met la vitesse et l'accélération de la méduse à 0
      */
     public void stopMoving() {
         this.ax = 0;
