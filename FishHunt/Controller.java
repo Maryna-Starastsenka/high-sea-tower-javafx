@@ -1,4 +1,5 @@
 import javafx.scene.canvas.GraphicsContext;
+import javafx.stage.Stage;
 
 /**
  * Classe Contrôleur qui gère le flux de données du modèle et
@@ -7,19 +8,49 @@ import javafx.scene.canvas.GraphicsContext;
 public class Controller {
 
     private Game game;
-    private int width, height;
+
+    Stage primaryStage;
+    private HomePage homePage;
+    private GamePage gamePage;
+    private ScorePage scorePage;
 
     /**
      * Contructeur du Contrôleur
-     *
-     * @param width largeur de la fenêtre
-     * @param height hauteur de la fenêtre
      */
-    public Controller(int width, int height) {
-        this.width = width;
-        this.height = height;
-        game = new Game(width, height);
+    public Controller() {
     }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
+    void homePage() {
+        homePage = new HomePage(this, FishHunt.WIDTH, FishHunt.HEIGHT);
+        updateView(homePage);
+    }
+
+    void gamePage() {
+        game = new Game(FishHunt.WIDTH, FishHunt.HEIGHT);
+
+        gamePage = new GamePage(this, FishHunt.WIDTH, FishHunt.HEIGHT);
+        updateView(gamePage);
+    }
+
+    void scorePage() {
+        scorePage = new ScorePage(this, FishHunt.WIDTH, FishHunt.HEIGHT);
+        updateView(scorePage);
+    }
+
+    void updateView(Page page) {
+        primaryStage.setScene(page.getScene());
+        primaryStage.show();
+
+    }
+
+
+
+
+
 
     //deplacer la cible
     void move(double x, double y) {
@@ -42,7 +73,7 @@ public class Controller {
     void update(double deltaTime) {
         // Commence une nouvelle partie si la méduse est tombée
         if (game.gameIsOver()) {
-            game = new Game(this.width, this.height);
+            game = new Game(FishHunt.WIDTH, FishHunt.HEIGHT);
         }
         game.update(deltaTime);
     }
@@ -83,4 +114,6 @@ public class Controller {
     void switchDebug() {
         game.switchDebug();
     }
+
+
 }
