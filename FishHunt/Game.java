@@ -10,17 +10,11 @@ import java.util.ArrayList;
  */
 public class Game {
 
-    private static final int nbPlatforms = 5;
     private static boolean debugMode = false;
     private static int width, height;
 
     private Target target;
     private ArrayList<Fish> fishes = new ArrayList<>();
-
-    /**
-     * Liste des plateformes en mémoire
-     */
-    private ArrayList<Platform> platforms = new ArrayList<>();
 
     /**
      * Liste des bulles en mémoire
@@ -66,48 +60,8 @@ public class Game {
         this.width = width;
         this.height = height;
         this.jellyfish = new Jellyfish(width / 2, 0);
-        Platform.setPlatformSpacing(100);
-
-        for (int i = 0; i < nbPlatforms; i++) {
-            generatePlatform();
-        }
-
-        this.target = new Target(width / 2, height / 2);
-
     }
 
-    /**
-     * Choisit aléatoirement un type de plateforme selon une probabilité et l'instancie
-     *
-     * Probabilités à condition de ne pas avoir 2 plateformes solides de suite :
-     * -Plateforme simple : 65%
-     * -Plateforme rebondissante : 20%
-     * -Plateforme accélérante : 10%
-     * -Plateforme solide : 5%
-     *
-     * Si 2 plateformes solides de suite, appel récursif de la méthode
-     * */
-    public void generatePlatform() {
-
-        double probabilite = Math.random();
-
-        Platform platform;
-
-        if (probabilite < 0.65) {
-            platform = new PlateformeSimple(this);
-        } else if (probabilite < 0.85) {
-            platform = new PlateformeRebondissante(this);
-        } else if (probabilite < 0.95) {
-            platform = new PlateformeAccelerante(this);
-        } else if (platforms.size() != 0 && platforms.get(platforms.size() - 1) instanceof PlateformeSolide) {
-            // Relance la génération de plateforme si la dernière plateforme était Solide
-            generatePlatform();
-            return;
-        } else {
-            platform = new PlateformeSolide(this);
-        }
-        platforms.add(platform);
-    }
 
     /**
      * Instancie 3 groupes de 5 bulles
@@ -213,19 +167,6 @@ public class Game {
         // Recalcule si la méduse se trouve par terre ou non
         jellyfish.setOnGround(false);
 
-        // Retire les plateformes de la mémoire lorsqu'elles ne sont plus affichables
-        platforms.removeIf(p -> p.y + p.height < windowY);
-        for (int i = 0; i < nbPlatforms - platforms.size(); i++) {
-            generatePlatform();
-        }
-
-        // Demande à la plateforme de mettre à jour son modèle
-        // et demande à la meduse de faire un test de collision avec chaque plateforme
-        for (Platform p : platforms) {
-            p.update(dt);
-            jellyfish.testCollision(p);
-        }
-
         // Demande à la méduse de mettre à jour son modèle
         jellyfish.update(dt);
 
@@ -260,10 +201,6 @@ public class Game {
             bubble.draw(context, windowY, this.height);
         }
 
-        // Itère sur la liste de plateformes pour leur demander de se dessiner
-        for (Platform p : platforms) {
-            p.draw(context, windowY, this.height);
-        }
 
         // Demande à la méduse de se dessiner
         jellyfish.draw(context, windowY, this.height);

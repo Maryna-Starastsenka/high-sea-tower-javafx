@@ -109,37 +109,6 @@ public class Jellyfish extends Entity {
      */
     public void moveRight() { this.ax = 1200; }
 
-    /**
-     * Teste la collision entre la méduse et une plateforme et
-     * demande à la plateforme de résoudre la collision
-     *
-     * @param platform plateforme dont on veut évaluer la collision avec la méduse
-     */
-    public void testCollision(Platform platform) {
-        if (intersects(platform)) {
-            platform.jellyfishCollision();
-        } else {
-            platform.color = platform.defaultColor;
-        }
-    }
-
-    /**
-     * Indique s’il y a intersection entre la méduse et la plateforme
-     *
-     * @param platform plateforme dont on veut vérifier l'intersection avec la méduse
-     * @return vrai s’il y a intersection
-     */
-    public boolean intersects(Platform platform) {
-        return !(
-                // La méduse est à gauche de la plateforme
-                this.x + this.width < platform.x
-                        // La méduse est à droite de la plateforme
-                        || platform.x + platform.width < this.x
-                        // La méduse est en bas de la plateforme
-                        || this.y + this.height < platform.y
-                        // La méduse est en haut de la plateforme
-                        || platform.y + platform.height < this.y);
-    }
 
     /**
      * Change la vitesse verticale de la méduse dans le cas d'un saut
