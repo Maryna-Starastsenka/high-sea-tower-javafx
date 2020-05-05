@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
 
 public class GamePage extends Page {
 
-    public GamePage(Controller controller, int width, int height) {
+    public GamePage(Controller controller) {
 
         Pane root = new Pane();
 
@@ -29,7 +29,7 @@ public class GamePage extends Page {
     }
 
     private void setupMouseEvents(Scene scene, Controller controller) {
-        scene.setOnMouseMoved((event) -> controller.move(event.getX(), event.getY()));
+//        scene.setOnMouseMoved((event) -> controller.move(event.getX(), event.getY()));
     }
 
     /**
@@ -45,7 +45,6 @@ public class GamePage extends Page {
             switch (value.getCode()) {
                 case SPACE:
                 case UP:
-                    controller.jump();
                     break;
                 case ESCAPE:
                     Platform.exit();
@@ -67,10 +66,10 @@ public class GamePage extends Page {
         scene.setOnKeyReleased((value) -> {
             switch (value.getCode()) {
                 case LEFT:
-                    controller.stopMoving();
+//                    controller.stopMoving();
                     break;
                 case RIGHT:
-                    controller.stopMoving();
+//                    controller.stopMoving();
                     break;
             }
         });

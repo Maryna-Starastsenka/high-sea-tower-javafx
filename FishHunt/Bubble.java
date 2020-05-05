@@ -39,12 +39,12 @@ public class Bubble extends Entity {
      * de la fenêtre
      *
      * @param context  contexte sur lequel dessiner
-     * @param windowY ordonnée de la fenêtre depuis le fond de l'océan
+     * //@param windowY ordonnée de la fenêtre depuis le fond de l'océan
      */
     @Override
-    public void draw(GraphicsContext context, double windowY, int gameHeight) {
+    public void draw(GraphicsContext context) {
         context.setFill(color);
-        context.fillOval(x, gameHeight -(y-windowY)- height, radius * 2, radius * 2);
+        context.fillOval(x, FishHunt.HEIGHT - y, radius * 2, radius * 2);
     }
 
     public double getRadius() {

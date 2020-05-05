@@ -25,7 +25,7 @@ public class Target extends Entity {
     }
 
     @Override
-    public void draw(GraphicsContext context, double windowY, int gameHeight) {
+    public void draw(GraphicsContext context) {
 
     }
 }

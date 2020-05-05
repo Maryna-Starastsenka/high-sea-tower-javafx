@@ -24,22 +24,11 @@ public class Game {
     private Jellyfish jellyfish;
 
     private double normalFishTimer = 0;
-    private double SpecialFishTimer = 0;
+    private double specialFishTimer = 0;
     private double bubbleTimer = 0;
 
     private boolean gameStarted = false;
 
-    /**
-     * Différence verticale entre la méduse et la hauteur de l'écran
-     */
-    private double differenceY;
-
-    /**
-     * Paramètres verticaux de la fenêtre : postion depuis le fond de l'océan, vitesse, accélération
-     */
-    private double windowY = 0;
-    private double windowVY = 50;
-    private double windowAY = 2;
 
     /**
      * Définit si le jeu est commencé ou non
@@ -59,9 +48,17 @@ public class Game {
     public Game(int width, int height) {
         this.width = width;
         this.height = height;
-        this.jellyfish = new Jellyfish(width / 2, 0);
+//        this.jellyfish = new Jellyfish(width / 2, 0);
     }
 
+    public void generateNormalFishes() {
+        double probability = Math.random();
+        if (probability < 0.5) {
+            fishes.add(new NormalFish(0));
+        } else {
+            fishes.add(new NormalFish(width));
+        }
+    }
 
     /**
      * Instancie 3 groupes de 5 bulles
@@ -76,34 +73,29 @@ public class Game {
         }
     }
 
-    public void move(double x, double y) { target.move(x, y); }
-
-    /**
-     * Demande à la méduse de sauter
-     */
-    public void jump() {
-        jellyfish.jump();
+    public void move(double x, double y) {
+        target.move(x, y);
     }
 
     /**
      * Demande à la méduse d'aller à gauche
      */
     public void moveLeft() {
-        jellyfish.moveLeft();
+//        jellyfish.moveLeft();
     }
 
     /**
      * Demande au modèle d'aller à droite
      */
     public void moveRight() {
-        jellyfish.moveRight();
+//        jellyfish.moveRight();
     }
 
     /**
      * Demande à la méduse d'arrêter de bouger horizontalement
      */
     public void stopMoving() {
-        jellyfish.stopMoving();
+//        jellyfish.stopMoving();
     }
 
     /**
@@ -113,9 +105,7 @@ public class Game {
     public void switchDebug() {
         debugMode = !debugMode;
         if (debugMode) {
-            windowVY = 0;
         } else {
-            windowVY = 50;
         }
     }
 
@@ -126,17 +116,8 @@ public class Game {
      * @return vrai si le haut de la méduse est plus bas que le bas de l'écran, faux sinon
      */
     public boolean gameIsOver() {
-        return jellyfish.y + jellyfish.height < windowY;
-    }
-
-    /**
-     * Vérifie si la méduse dépasse 75% de la hauteur de l'écran
-     *
-     * @return vrai si le haut de la méduse dépasse 75% de la hauteur de l'écran, faux sinon
-     */
-    public boolean goAbove() {
-        differenceY = jellyfish.y + jellyfish.height - (height * 0.75 + windowY);
-        return differenceY > 0;
+        return false;
+//        return jellyfish.y + jellyfish.height < height;
     }
 
     /**
@@ -147,28 +128,14 @@ public class Game {
      */
     public void update(double dt) {
 
-
         // Pas d'update si le jeu n'est pas commencé
         if (!gameStarted) {
             return;
         }
 
-        // Monte l'écran si la méduse dépasse 75%
-        if (goAbove()) {
-            windowY += differenceY;
-        }
-
-        // Fait monter la fenêtre automatiquement si le mode debug est désactivé
         if (!debugMode) {
-            windowVY += windowAY * dt;
-            windowY += windowVY * dt;
+
         }
-
-        // Recalcule si la méduse se trouve par terre ou non
-        jellyfish.setOnGround(false);
-
-        // Demande à la méduse de mettre à jour son modèle
-        jellyfish.update(dt);
 
         // Génère de nouveaux groupes de bulles toutes les 3 secondes
         bubbleTimer += dt;
@@ -177,12 +144,22 @@ public class Game {
             bubbleTimer = 0;
         }
 
+        normalFishTimer += dt;
+        if (normalFishTimer >= 3) {
+            generateNormalFishes();
+            normalFishTimer = 0;
+        }
+
         // Supprime les bulles de la mémoire si elles dépassent le haut de l'écran
-        bubbles.removeIf(bubble -> bubble.y - bubble.getRadius() > windowY + height);
+        bubbles.removeIf(bubble -> bubble.y - bubble.getRadius() > height);
 
         // Demande aux bulles de mettre à jour leur modèle
         for (Bubble bubble : bubbles) {
             bubble.update(dt);
+        }
+
+        for (Fish f : fishes) {
+            f.update(dt);
         }
     }
 
@@ -196,59 +173,34 @@ public class Game {
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, width, height);
 
+        for (Fish f : fishes) {
+            f.draw(context);
+        }
         // Itère sur la liste de bulles pour leur demander de se dessiner
         for (Bubble bubble : bubbles) {
-            bubble.draw(context, windowY, this.height);
+            bubble.draw(context);
         }
-
-
-        // Demande à la méduse de se dessiner
-        jellyfish.draw(context, windowY, this.height);
 
         // Dessine un carré rouge derrière la meduse et affiche des informations contextuelles
         // lorsque le mode debug est activé
         if (debugMode) {
             context.setFill(Color.rgb(255, 0, 0, 0.4));
-            context.fillRect(jellyfish.x, height - (jellyfish.y- windowY) - jellyfish.height,
-                    jellyfish.width, jellyfish.height);
 
             context.setFill(Color.WHITE);
             context.setTextAlign(TextAlignment.LEFT);
             context.setFont(Font.font(13));
-            context.fillText("Position = (" + Math.round(jellyfish.x) + ", "
-                    + Math.round(jellyfish.y) + ")", 0.03 * width, 0.03 * height);
-            context.fillText("v = (" + Math.round(jellyfish.vx) + ", "
-                    + Math.round(jellyfish.vy) + ")", 0.03 * width, 0.06 * height);
-            context.fillText("a = (" + Math.round(jellyfish.ax) + ", "
-                    + Math.round(jellyfish.ay) + ")", 0.03 * width, 0.09 * height);
-            context.fillText("Touche le sol : "
-                    + (Jellyfish.getOnGround() ? "oui" : "non") , 0.03 * width, 0.12 * height);
+//            context.fillText("Position = (" + Math.round(jellyfish.x) + ", "
+//                    + Math.round(jellyfish.y) + ")", 0.03 * width, 0.03 * height);
         }
 
         // Affiche le score actuel
         context.setFill(Color.WHITE);
         context.setTextAlign(TextAlignment.CENTER);
         context.setFont(Font.font(20));
-        context.fillText((int) windowY + "m", width / 2, 0.08 * height);
+        context.fillText((int) height + "m", width / 2, 0.08 * height);
     }
 
     public boolean getDebugMode() {
         return debugMode;
-    }
-
-    public Jellyfish getJellyfish() {
-        return this.jellyfish;
-    }
-
-    public double getWindowVY() {
-        return windowVY;
-    }
-
-    public void setWindowVY(double newSpeed) {
-        windowVY = newSpeed;
-    }
-
-    public int getWidth() {
-        return this.width;
     }
 }

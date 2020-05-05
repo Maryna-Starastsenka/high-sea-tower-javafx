@@ -37,6 +37,6 @@ public abstract class Entity {
      * @param context contexte sur lequel dessiner
      * @param windowY ordonnée depuis le fond de l'océan
      */
-    public abstract void draw(GraphicsContext context, double windowY, int gameHeight);
+    public abstract void draw(GraphicsContext context);
 
 }

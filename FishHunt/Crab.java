@@ -7,7 +7,7 @@ public class Crab extends Fish {
     }
 
     @Override
-    public void draw(GraphicsContext context, double windowY, int gameHeight) {
+    public void draw(GraphicsContext context) {
 
     }
 }

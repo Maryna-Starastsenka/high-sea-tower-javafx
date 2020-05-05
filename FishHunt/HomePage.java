@@ -14,10 +14,10 @@ public class HomePage extends Page {
     private Button buttonNewGame;
     private Button buttonBestScore;
 
-    public HomePage(Controller controller, int width, int height) {
+    public HomePage(Controller controller) {
 
         VBox homepageRoot = new VBox();
-        this.scene = new Scene(homepageRoot, width, height);
+        this.scene = new Scene(homepageRoot, FishHunt.WIDTH, FishHunt.HEIGHT);
 
         homepageRoot.setBackground(
             new Background(
@@ -36,8 +36,8 @@ public class HomePage extends Page {
         Image logoImg = new Image("images/logo.png");
         ImageView logoView = new ImageView(logoImg);
 
-        logoView.setFitWidth(width/2);
-        logoView.setFitHeight(height/2);
+        logoView.setFitWidth(FishHunt.WIDTH/2);
+        logoView.setFitHeight(FishHunt.HEIGHT/2);
 
         homepageRoot.getChildren().add(logoView);
         homepageRoot.getChildren().add(buttonNewGame);

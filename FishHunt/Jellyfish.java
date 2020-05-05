@@ -59,8 +59,6 @@ public class Jellyfish extends Entity {
         currentImage = framesRight[0];
     }
 
-    public void setOnGround(boolean onGround) { Jellyfish.onGround = onGround; }
-
     public static boolean getOnGround() { return onGround; }
 
     /**
@@ -131,10 +129,9 @@ public class Jellyfish extends Entity {
      * Dessine la méduse sur l'écran
      *
      * @param context  contexte sur lequel dessiner
-     * @param windowY coordonnée y depuis le fond de l'océan
      */
     @Override
-    public void draw(GraphicsContext context, double windowY, int gameHeight) {
-        context.drawImage(currentImage, x, gameHeight - (y- windowY) - height, width, height);
+    public void draw(GraphicsContext context) {
+        context.drawImage(currentImage, this.x, FishHunt.HEIGHT - this.y);
     }
 }

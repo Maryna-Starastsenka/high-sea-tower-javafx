@@ -25,19 +25,19 @@ public class Controller {
     }
 
     void homePage() {
-        homePage = new HomePage(this, FishHunt.WIDTH, FishHunt.HEIGHT);
+        homePage = new HomePage(this);
         updateView(homePage);
     }
 
     void gamePage() {
         game = new Game(FishHunt.WIDTH, FishHunt.HEIGHT);
 
-        gamePage = new GamePage(this, FishHunt.WIDTH, FishHunt.HEIGHT);
+        gamePage = new GamePage(this);
         updateView(gamePage);
     }
 
     void scorePage() {
-        scorePage = new ScorePage(this, FishHunt.WIDTH, FishHunt.HEIGHT);
+        scorePage = new ScorePage(this);
         updateView(scorePage);
     }
 
@@ -46,11 +46,6 @@ public class Controller {
         primaryStage.show();
 
     }
-
-
-
-
-
 
     //deplacer la cible
     void move(double x, double y) {
@@ -79,19 +74,10 @@ public class Controller {
     }
 
     /**
-     * Demande au modèle de sauter
-     */
-    void jump() {
-        game.setGameStarted(true);
-        game.jump();
-    }
-
-    /**
      * Demande au modèle d'aller à gauche et lui indique que le jeu peut commencer
      */
     void moveLeft() {
         game.setGameStarted(true);
-        game.moveLeft();
     }
 
     /**
@@ -99,14 +85,7 @@ public class Controller {
      */
     void moveRight() {
         game.setGameStarted(true);
-        game.moveRight();
     }
-
-    /**
-     * Demande au modèle de remettre la vitesse et l'accélération horizontale de la méduse à 0
-     *
-     */
-    void stopMoving() { game.stopMoving(); }
 
     /**
      * Demande au modèle de gérer l'activation/désactivation du mode debug
