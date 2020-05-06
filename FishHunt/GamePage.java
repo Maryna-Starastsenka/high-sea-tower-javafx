@@ -31,6 +31,7 @@ public class GamePage extends Page {
     private void setupMouseEvents(Scene scene, Controller controller) {
       scene.setOnMouseMoved((event) -> {
           controller.move(event.getX(), event.getY());
+          //System.out.println("X: "+event.getX()+" Y: "+event.getY());
         });
 
 
