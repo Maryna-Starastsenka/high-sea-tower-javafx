@@ -13,7 +13,7 @@ public class Game {
     private static boolean debugMode = false;
     private static int width, height;
 
-    private Target target = new Target(0,0);
+    private Target target;
     private ArrayList<Fish> fishes = new ArrayList<>();
 
     /**
@@ -49,7 +49,9 @@ public class Game {
         this.width = width;
         this.height = height;
 //        this.jellyfish = new Jellyfish(width / 2, 0);
+        this.target = new Target(this.width/2, this.height/2);
     }
+
 
     public void generateNormalFishes() {
         double probability = Math.random();
