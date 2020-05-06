@@ -13,7 +13,7 @@ public class Game {
     private static boolean debugMode = false;
     private static int width, height;
 
-    private Target target;
+    private Target target = new Target(0,0);
     private ArrayList<Fish> fishes = new ArrayList<>();
 
     /**
@@ -173,14 +173,19 @@ public class Game {
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, width, height);
 
+
+
         for (Fish f : fishes) {
             f.draw(context);
         }
+
+
         // Itère sur la liste de bulles pour leur demander de se dessiner
         for (Bubble bubble : bubbles) {
             bubble.draw(context);
         }
 
+        target.draw(context);
         // Dessine un carré rouge derrière la meduse et affiche des informations contextuelles
         // lorsque le mode debug est activé
         if (debugMode) {
