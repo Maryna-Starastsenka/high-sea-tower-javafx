@@ -173,7 +173,7 @@ public class Game {
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, width, height);
 
-        target.draw(context);
+
 
         for (Fish f : fishes) {
             f.draw(context);
@@ -185,6 +185,7 @@ public class Game {
             bubble.draw(context);
         }
 
+        target.draw(context);
         // Dessine un carré rouge derrière la meduse et affiche des informations contextuelles
         // lorsque le mode debug est activé
         if (debugMode) {
