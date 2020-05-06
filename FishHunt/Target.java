@@ -13,20 +13,23 @@ public class Target extends Entity {
      * @param y ordonnée
      */
     public Target(double x, double y) {
-        this.x = x - imageSize / 2;
-        this.y = y - imageSize / 2;
         this.width = imageSize;
         this.height = imageSize;
-        imageTarget = new Image("/images/cible.png");
+        this.x = x -this.imageSize/2;
+        this.y = y -this.imageSize/2;
+
+        imageTarget = new Image("images/cible.png");
     }
 
     public void move(double x, double y) {
+        this.x = x-this.imageSize/2;
+        this.y = y-this.imageSize/2;
 
     }
 
     @Override
     public void draw(GraphicsContext context) {
-
+        context.drawImage(imageTarget, this.x, this.y, this.width, this.height);
     }
 }
 
