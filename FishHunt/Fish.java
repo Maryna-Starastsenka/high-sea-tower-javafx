@@ -16,6 +16,7 @@ public abstract class Fish extends Entity {
         this.height = imageSize;
         vx = 100.0 * Math.pow(level, 1.0/3) + 200;
         if (x != 0) {
+            //Si vient de la droite:
             this.vx = -vx;
         }
     }
