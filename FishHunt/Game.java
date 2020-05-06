@@ -153,7 +153,7 @@ public class Game {
 
         specialFishTimer += dt;
         if (specialFishTimer >= 2) {
-            generateSpecialFish();
+           // generateSpecialFish();
             specialFishTimer = 0;
         }
 
@@ -167,7 +167,8 @@ public class Game {
                 Fish fish = iterator2.next();
                 if (bullet.testCollision(fish)) {
                     iterator1.remove();
-                    iterator2.remove();
+                    //iterator2.remove();
+                    fish.vx=0; fish.vy=0; fish.ay=0;
                 };
             }
         }

@@ -34,6 +34,6 @@ public class NormalFish extends Fish {
     public void update (double dt) { super.update(dt); }
 
     public void draw(GraphicsContext context) {
-        context.drawImage(currentNormalFish, x, FishHunt.HEIGHT - y, width, height);
+        context.drawImage(currentNormalFish, x, FishHunt.HEIGHT - y - height, width, height);
     }
 }
