@@ -153,29 +153,28 @@ public class Game {
 
         specialFishTimer += dt;
         if (specialFishTimer >= 2) {
-           // generateSpecialFish();
+           generateSpecialFish();
             specialFishTimer = 0;
         }
 
         // Supprime les bulles de la mémoire si elles dépassent le haut de l'écran
         bubbles.removeIf(bubble -> bubble.y - bubble.getRadius() > height);
 
-        //Façon safe d'enlever des éléments d'une liste qu'on itère
+        //Façon safe d'enlever des éléments d'une liste qu'on itère, apparemment
         for (Iterator<Bullet> iterator1 = bullets.iterator(); iterator1.hasNext();) {
             Bullet bullet = iterator1.next();
             for (Iterator<Fish> iterator2 = fishes.iterator(); iterator2.hasNext();) {
                 Fish fish = iterator2.next();
                 if (bullet.testCollision(fish)) {
                     iterator1.remove();
-                    //iterator2.remove();
-                    fish.vx=0; fish.vy=0; fish.ay=0;
+                    iterator2.remove();
+
                 };
             }
         }
 
         // Supprime les balles de la mémoire si elles ont explosé
         bullets.removeIf(bullet -> bullet.getExploded() );
-
 
 
 
