@@ -3,6 +3,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Classe du modèle qui contient la logique de jeu
@@ -12,6 +13,7 @@ public class Game {
 
     private static boolean debugMode = false;
     private static int width, height;
+    private int score = 0;
 
     private Target target;
     private ArrayList<Fish> fishes = new ArrayList<>();
@@ -158,6 +160,25 @@ public class Game {
         // Supprime les bulles de la mémoire si elles dépassent le haut de l'écran
         bubbles.removeIf(bubble -> bubble.y - bubble.getRadius() > height);
 
+        //Façon safe d'enlever des éléments d'une liste qu'on itère
+        for (Iterator<Bullet> iterator1 = bullets.iterator(); iterator1.hasNext();) {
+            Bullet bullet = iterator1.next();
+            for (Iterator<Fish> iterator2 = fishes.iterator(); iterator2.hasNext();) {
+                Fish fish = iterator2.next();
+                if (bullet.testCollision(fish)) {
+                    iterator1.remove();
+                    iterator2.remove();
+                };
+            }
+        }
+
+        // Supprime les balles de la mémoire si elles ont explosé
+        bullets.removeIf(bullet -> bullet.getExploded() );
+
+
+
+
+        //System.out.println(bullets);
         // Demande aux bulles de mettre à jour leur modèle
         for (Bubble bubble : bubbles) {
             bubble.update(dt);

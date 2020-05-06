@@ -23,13 +23,13 @@ public class Target extends Entity {
 
     public void move(double x, double y) {
         this.x = x-this.imageSize/2;
-        this.y = y-this.imageSize/2;
+        this.y = y+this.imageSize/2;
 
     }
 
     @Override
     public void draw(GraphicsContext context) {
-        context.drawImage(imageTarget, this.x, this.y, this.width, this.height);
+        context.drawImage(imageTarget, this.x, FishHunt.HEIGHT - this.y, this.width, this.height);
     }
 }
 

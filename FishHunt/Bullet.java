@@ -18,22 +18,29 @@ public class Bullet extends Entity {
         if (!this.exploded) {
             this.radius -= vx*dt;
             if (radius <= 0) {
-                checkCollisions();
                 this.exploded = true;
             }
         }
     }
 
-    private void checkCollisions () {
-
-            System.out.println("La balle a explosé!");
-
+    public boolean testCollision (Fish fish) {
+        if (this.x >= fish.x && this.x <= fish.x+fish.width) {
+            if (this.y >= fish.y && this.y <= fish.y+fish.width) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public void draw(GraphicsContext context) {
         context.setFill(color);
-        context.fillOval(this.x- this.radius, this.y-this.radius, this.radius*2, this.radius*2);
+        context.fillOval(this.x- this.radius, FishHunt.HEIGHT - (this.y+this.radius), this.radius*2, this.radius*2);
     }
+
+    public boolean getExploded() {
+        return this.exploded;
+    }
+
 
 }

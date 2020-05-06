@@ -19,7 +19,7 @@ public class NormalFish extends Fish {
 
     public NormalFish(double x) {
         super(x);
-        this.ay = 100;
+        this.ay = -100;
         this.vy = minVerticalSpeed + Math.random()*(maxVerticalSpeed - minVerticalSpeed + 1);
 
         currentNormalFish = new Image("/images/fish/0"+randomInt+".png");
