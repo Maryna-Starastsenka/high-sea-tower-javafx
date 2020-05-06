@@ -15,6 +15,7 @@ public class Game {
 
     private Target target;
     private ArrayList<Fish> fishes = new ArrayList<>();
+    private ArrayList<Bullet> bullets = new ArrayList<>();
 
     /**
      * Liste des bulles en mémoire
@@ -23,9 +24,9 @@ public class Game {
 
     private Jellyfish jellyfish;
 
-    private double normalFishTimer = 0;
     private double specialFishTimer = 0;
-    private double bubbleTimer = 0;
+    private double normalFishTimer = 0;
+    private double bubbleTimer = 1.5;
 
     private boolean gameStarted = false;
 
@@ -54,11 +55,24 @@ public class Game {
 
 
     public void generateNormalFishes() {
+        fishes.add(new NormalFish(fishPosX()));
+    }
+
+    public void generateSpecialFish() {
         double probability = Math.random();
         if (probability < 0.5) {
-            fishes.add(new NormalFish(0));
+            fishes.add(new Crab(fishPosX()));
         } else {
-            fishes.add(new NormalFish(width));
+            fishes.add(new Starfish(fishPosX()));
+        }
+    }
+
+    public double fishPosX() {
+        double probability = Math.random();
+        if (probability < 0.5) {
+            return 0;
+        } else {
+            return width;
         }
     }
 
@@ -78,26 +92,8 @@ public class Game {
     public void move(double x, double y) {
         target.move(x, y);
     }
-
-    /**
-     * Demande à la méduse d'aller à gauche
-     */
-    public void moveLeft() {
-//        jellyfish.moveLeft();
-    }
-
-    /**
-     * Demande au modèle d'aller à droite
-     */
-    public void moveRight() {
-//        jellyfish.moveRight();
-    }
-
-    /**
-     * Demande à la méduse d'arrêter de bouger horizontalement
-     */
-    public void stopMoving() {
-//        jellyfish.stopMoving();
+    public void shoot(double x, double y) {
+        bullets.add(new Bullet(x, y));
     }
 
     /**
@@ -148,8 +144,15 @@ public class Game {
 
         normalFishTimer += dt;
         if (normalFishTimer >= 3) {
+            generateBubbles();
             generateNormalFishes();
             normalFishTimer = 0;
+        }
+
+        specialFishTimer += dt;
+        if (specialFishTimer >= 2) {
+            generateSpecialFish();
+            specialFishTimer = 0;
         }
 
         // Supprime les bulles de la mémoire si elles dépassent le haut de l'écran
@@ -163,6 +166,10 @@ public class Game {
         for (Fish f : fishes) {
             f.update(dt);
         }
+
+        for (Bullet bullet : bullets) {
+            bullet.update(dt);
+        }
     }
 
     /**
@@ -175,16 +182,17 @@ public class Game {
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, width, height);
 
-
-
-        for (Fish f : fishes) {
-            f.draw(context);
-        }
-
-
         // Itère sur la liste de bulles pour leur demander de se dessiner
         for (Bubble bubble : bubbles) {
             bubble.draw(context);
+        }
+
+        for (Fish fish : fishes) {
+            fish.draw(context);
+        }
+
+        for (Bullet bullet : bullets) {
+            bullet.draw(context);
         }
 
         target.draw(context);

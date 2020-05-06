@@ -34,6 +34,9 @@ public class GamePage extends Page {
           //System.out.println("X: "+event.getX()+" Y: "+event.getY());
         });
 
+        scene.setOnMouseClicked((event) -> {
+            controller.shoot(event.getX(), event.getY());
+        });
 
     }
 
