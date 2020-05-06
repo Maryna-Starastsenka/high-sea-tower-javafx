@@ -52,6 +52,11 @@ public class Controller {
         game.setGameStarted(true);
         game.move(x, y);
     }
+
+    void shoot(double x, double y) {
+        game.setGameStarted(true);
+        game.shoot(x, y);
+    }
     /**
      * Dessine tous les éléments graphiques du jeu
      *

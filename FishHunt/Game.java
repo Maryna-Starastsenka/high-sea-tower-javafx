@@ -15,6 +15,7 @@ public class Game {
 
     private Target target;
     private ArrayList<Fish> fishes = new ArrayList<>();
+    private ArrayList<Bullet> bullets = new ArrayList<>();
 
     /**
      * Liste des bulles en mémoire
@@ -91,7 +92,9 @@ public class Game {
     public void move(double x, double y) {
         target.move(x, y);
     }
-
+    public void shoot(double x, double y) {
+        bullets.add(new Bullet(x, y));
+    }
 
     /**
      * Active/désactive le mode debug comme un interrupteur
@@ -163,6 +166,10 @@ public class Game {
         for (Fish f : fishes) {
             f.update(dt);
         }
+
+        for (Bullet bullet : bullets) {
+            bullet.update(dt);
+        }
     }
 
     /**
@@ -175,13 +182,17 @@ public class Game {
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, width, height);
 
+        // Itère sur la liste de bulles pour leur demander de se dessiner
+        for (Bubble bubble : bubbles) {
+            bubble.draw(context);
+        }
+
         for (Fish fish : fishes) {
             fish.draw(context);
         }
 
-        // Itère sur la liste de bulles pour leur demander de se dessiner
-        for (Bubble bubble : bubbles) {
-            bubble.draw(context);
+        for (Bullet bullet : bullets) {
+            bullet.draw(context);
         }
 
         target.draw(context);
