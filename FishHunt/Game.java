@@ -163,18 +163,21 @@ public class Game {
         //Façon safe d'enlever des éléments d'une liste qu'on itère, apparemment
         for (Iterator<Bullet> iterator1 = bullets.iterator(); iterator1.hasNext();) {
             Bullet bullet = iterator1.next();
-            for (Iterator<Fish> iterator2 = fishes.iterator(); iterator2.hasNext();) {
-                Fish fish = iterator2.next();
-                if (bullet.testCollision(fish)) {
-                    iterator1.remove();
-                    iterator2.remove();
-
-                };
+            if (bullet.getExploded()) {
+                for (Iterator<Fish> iterator2 = fishes.iterator(); iterator2.hasNext(); ) {
+                    Fish fish = iterator2.next();
+                    if (bullet.testCollision(fish)) {
+                        //Tue tous les poissons qui entrent en contact avec la balle
+                        iterator2.remove();
+                    }
+                }
+                //Enlève la balle une fois qu'elle a tué tous les poissons
+                iterator1.remove();
             }
         }
 
         // Supprime les balles de la mémoire si elles ont explosé
-        bullets.removeIf(bullet -> bullet.getExploded() );
+        //bullets.removeIf(bullet -> bullet.getExploded() );
 
 
 
