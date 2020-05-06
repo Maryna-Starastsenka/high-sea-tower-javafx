@@ -41,7 +41,7 @@ public class FishHunt extends Application {
 
         primaryStage.setResizable(false);
         primaryStage.setTitle("Fish Hunt");
-        primaryStage.getIcons().add(new Image("images/jellyfish1.png"));
+
 
         Controller controller = new Controller();
         controller.setPrimaryStage(primaryStage);
