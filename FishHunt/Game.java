@@ -15,16 +15,14 @@ public class Game {
     private boolean gameOver = false;
     private double levelTimer = 0;
     private boolean nextLevel = true;
-    private static boolean debugMode = false;
     private static int width, height;
-    private static int level = 1;
+    private static int level;
     private int score = 0;
     private int lives = 3;
     private double lifeFishWidth = 30;
     private double lifeFishSpacing = 10;
     private double posXLives;
-
-//    private int missedFishes = 0;
+    private int numberOfKilledFishesInLevel = 0;
 
     private Target target;
     private ArrayList<Fish> fishes = new ArrayList<>();
@@ -40,20 +38,9 @@ public class Game {
     private double normalFishTimer = 0;
     private double bubbleTimer = 1.5;
 
-//    private boolean gameStarted = false;
-
     public static int getLevel() {
         return level;
     }
-
-//    /**
-//     * Définit si le jeu est commencé ou non
-//     *
-//     * @param started indicateur du début de jeu
-//     */
-//    public void setGameStarted(boolean started) {
-//        this.gameStarted = started;
-//    }
 
     /**
      * Constructeur de jeu qui instancie la méduse au fond de l'océan et génère les plateformes
@@ -62,6 +49,7 @@ public class Game {
      * @param height hauteur de la fenêtre
      */
     public Game(int width, int height) {
+        level = 1;
         this.width = width;
         this.height = height;
         this.target = new Target(this.width/2, this.height/2);
@@ -106,14 +94,11 @@ public class Game {
         target.move(x, y);
     }
     public void shoot(double x, double y) {
+        if (gameOver || nextLevel) return;
         bullets.add(new Bullet(x, y));
     }
 
     public double gameOverTimer = 0;
-    public void gameIsOver() {
-        gameOver = true;
-
-    }
 
     /**
      * Met à jour la position de la fenêtre et des entités
@@ -122,17 +107,6 @@ public class Game {
      * @param dt temps écoulé depuis le dernier update (en secondes)
      */
     public void update(double dt) {
-
-//        // Pas d'update si le jeu n'est pas commencé
-//        if (!gameStarted) {
-//            return;
-//        }
-
-
-        if (!debugMode) {
-
-        }
-
         if (lives <= 0) {
             gameOver = true;
         }
@@ -141,16 +115,16 @@ public class Game {
             gameOverTimer += dt;
         }
 
-
         // Affiche le niveau suivant pendant 3 sec
         levelTimer += dt;
         if (levelTimer >= 3) {
             nextLevel = false;
 
-            if (score >= level * 5) {
+            if (numberOfKilledFishesInLevel >= 5 || (score >= level * 5)) {
                 level++;
                 levelTimer = 0;
                 nextLevel = true;
+                numberOfKilledFishesInLevel = 0;
             }
         }
 
@@ -179,7 +153,10 @@ public class Game {
                     (fish.vx < 0 && (fish.x + fish.width) < 0) ||
                     (fish.y < 0) || (fish.y > height)) {
                 fish.setHasEscaped(true);
-                lives --;
+
+                if (!gameOver && !nextLevel) {
+                    lives--;
+                }
             }
         }
 
@@ -198,6 +175,7 @@ public class Game {
                     if (bullet.testCollision(fish)) {
                         //Tue tous les poissons qui entrent en contact avec la balle
                         score++;
+                        numberOfKilledFishesInLevel++;
                         iterator2.remove();
                     }
                 }
@@ -215,7 +193,6 @@ public class Game {
 //                iterator.remove();
 //            }
 //        }
-
 
         // Demande aux bulles de mettre à jour leur modèle
         for (Bubble bubble : bubbles) {
@@ -256,18 +233,6 @@ public class Game {
 
         target.draw(context);
 
-        // Dessine un carré rouge derrière la meduse et affiche des informations contextuelles
-        // lorsque le mode debug est activé
-//        if (debugMode) {
-//            context.setFill(Color.rgb(255, 0, 0, 0.4));
-//
-//            context.setFill(Color.WHITE);
-//            context.setTextAlign(TextAlignment.LEFT);
-//            context.setFont(Font.font(13));
-////            context.fillText("Position = (" + Math.round(jellyfish.x) + ", "
-////                    + Math.round(jellyfish.y) + ")", 0.03 * width, 0.03 * height);
-//        }
-
         if (nextLevel) {
             context.setFill(Color.WHITE);
             context.setTextAlign(TextAlignment.CENTER);
@@ -295,11 +260,12 @@ public class Game {
     }
 
     public void nextLevel() {
-        // todo timer à 0, level++
+        level++;
     }
 
     public void increaseScore() {
         score++;
+        numberOfKilledFishesInLevel++;
     }
 
     public void increaseLife() {
@@ -309,7 +275,7 @@ public class Game {
     }
 
     public void gameOver() {
-        // todo game over
+        gameOver = true;
     }
 
     public int getScore() {

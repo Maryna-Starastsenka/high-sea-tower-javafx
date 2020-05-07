@@ -32,7 +32,10 @@ public class Controller {
     void gamePage() {
         game = new Game(FishHunt.WIDTH, FishHunt.HEIGHT);
 
-        gamePage = new GamePage(this);
+        // ce if est important car sinon le timer d'update sera crée plusieurs fois
+        if (gamePage == null) {
+            gamePage = new GamePage(this);
+        }
         updateView(gamePage);
     }
 
