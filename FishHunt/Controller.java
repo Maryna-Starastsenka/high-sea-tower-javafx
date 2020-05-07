@@ -63,6 +63,7 @@ public class Controller {
      * @param context contexte sur lequel dessiner
      */
     void draw(GraphicsContext context) {
+        if (game == null) return;
         game.draw(context);
     }
 
@@ -71,11 +72,15 @@ public class Controller {
      * @param deltaTime temps écoulé depuis le dernier appel en seconde
      */
     void update(double deltaTime) {
-        // Commence une nouvelle partie si la méduse est tombée
-        if (game.gameIsOver()) {
-            game = new Game(FishHunt.WIDTH, FishHunt.HEIGHT);
+        if (game == null) return;
+        if (game.gameOverTimer >= 3) {
+            int score = game.getScore();
+            // todo faire une classe score model
+            game = null;
+            scorePage();
+        } else {
+            game.update(deltaTime);
         }
-        game.update(deltaTime);
     }
 
     /**
