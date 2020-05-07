@@ -146,16 +146,26 @@ public class Game {
 
         normalFishTimer += dt;
         if (normalFishTimer >= 3) {
-            generateBubbles();
             generateNormalFishes();
             normalFishTimer = 0;
         }
 
         specialFishTimer += dt;
-        if (specialFishTimer >= 2) {
+        if (specialFishTimer >= 5) {
            generateSpecialFish();
             specialFishTimer = 0;
         }
+
+        // Vérifie les poissions qui sont sortis de l'écran
+        for (Fish fish : fishes) {
+            if ((fish.vx > 0 && fish.x > width) ||
+                    (fish.vx < 0 && (fish.x + fish.width) < 0)) {
+                fish.setHasEscaped(true);
+            }
+        }
+
+        // Supprime les poissins qui sont sortie de l'écran
+        fishes.removeIf(fish -> fish.getHasEscaped());
 
         // Supprime les bulles de la mémoire si elles dépassent le haut de l'écran
         bubbles.removeIf(bubble -> bubble.y - bubble.getRadius() > height);
