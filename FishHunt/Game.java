@@ -260,7 +260,7 @@ public class Game {
     }
 
     public void nextLevel() {
-        level++;
+        numberOfKilledFishesInLevel = 5;
     }
 
     public void increaseScore() {
