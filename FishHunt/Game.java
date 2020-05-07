@@ -12,7 +12,6 @@ import java.util.Iterator;
  */
 public class Game {
 
-    private static boolean debugMode = false;
     private static int width, height;
     private int level = 1;
     private int score = 0;
@@ -20,7 +19,8 @@ public class Game {
     private double lifeFishWidth = 30;
     private double lifeFishSpacing = 10;
     private double posXLives;
-    private int missedFishes = 0;
+
+//    private int missedFishes = 0;
 
     private Target target;
     private ArrayList<Fish> fishes = new ArrayList<>();
@@ -31,23 +31,21 @@ public class Game {
      */
     private ArrayList<Bubble> bubbles = new ArrayList<>();
 
-    private Jellyfish jellyfish;
-
     private double specialFishTimer = 0;
     private double normalFishTimer = 0;
     private double bubbleTimer = 1.5;
 
-    private boolean gameStarted = false;
+//    private boolean gameStarted = false;
 
 
-    /**
-     * Définit si le jeu est commencé ou non
-     *
-     * @param started indicateur du début de jeu
-     */
-    public void setGameStarted(boolean started) {
-        this.gameStarted = started;
-    }
+//    /**
+//     * Définit si le jeu est commencé ou non
+//     *
+//     * @param started indicateur du début de jeu
+//     */
+//    public void setGameStarted(boolean started) {
+//        this.gameStarted = started;
+//    }
 
     /**
      * Constructeur de jeu qui instancie la méduse au fond de l'océan et génère les plateformes
@@ -128,18 +126,18 @@ public class Game {
      */
     public void update(double dt) {
 
-        // Pas d'update si le jeu n'est pas commencé
-        if (!gameStarted) {
-            return;
-        }
+//        // Pas d'update si le jeu n'est pas commencé
+//        if (!gameStarted) {
+//            return;
+//        }
 
         if (lives <= 0) {
-            gameIsOver();
+            gameOver();
         }
 
-        if (!debugMode) {
-
-        }
+//        if (!debugMode) {
+//
+//        }
 
         // Génère de nouveaux groupes de bulles toutes les 3 secondes
         bubbleTimer += dt;
@@ -242,17 +240,18 @@ public class Game {
         }
 
         target.draw(context);
+
         // Dessine un carré rouge derrière la meduse et affiche des informations contextuelles
         // lorsque le mode debug est activé
-        if (debugMode) {
-            context.setFill(Color.rgb(255, 0, 0, 0.4));
-
-            context.setFill(Color.WHITE);
-            context.setTextAlign(TextAlignment.LEFT);
-            context.setFont(Font.font(13));
-//            context.fillText("Position = (" + Math.round(jellyfish.x) + ", "
-//                    + Math.round(jellyfish.y) + ")", 0.03 * width, 0.03 * height);
-        }
+//        if (debugMode) {
+//            context.setFill(Color.rgb(255, 0, 0, 0.4));
+//
+//            context.setFill(Color.WHITE);
+//            context.setTextAlign(TextAlignment.LEFT);
+//            context.setFont(Font.font(13));
+////            context.fillText("Position = (" + Math.round(jellyfish.x) + ", "
+////                    + Math.round(jellyfish.y) + ")", 0.03 * width, 0.03 * height);
+//        }
 
         // Affiche le score actuel
         context.setFill(Color.WHITE);
@@ -267,7 +266,21 @@ public class Game {
         }
     }
 
-    public boolean getDebugMode() {
-        return debugMode;
+    public void nextLevel() {
+        // todo timer à 0, level++
+    }
+
+    public void increaseScore() {
+        score++;
+    }
+
+    public void increaseLife() {
+        if (lives < 3) {
+            lives++;
+        }
+    }
+
+    public void gameOver() {
+        // todo game over
     }
 }

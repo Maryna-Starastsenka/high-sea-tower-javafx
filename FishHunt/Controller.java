@@ -78,12 +78,19 @@ public class Controller {
         game.update(deltaTime);
     }
 
-    /**
-     * Demande au modèle de gérer l'activation/désactivation du mode debug
-     */
-    void switchDebug() {
-        game.switchDebug();
+    public void nextLevel() {
+        game.nextLevel();
     }
 
+    public void increaseScore() {
+        game.increaseScore();
+    }
 
+    public void increaseLife() {
+        game.increaseLife();
+    }
+
+    public void gameOver() {
+        game.gameOver();
+    }
 }
