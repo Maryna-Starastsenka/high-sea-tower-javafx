@@ -14,6 +14,7 @@ public class Game {
     private static boolean debugMode = false;
     private static int width, height;
     private int score = 0;
+    private int missedFishes = 0;
 
     private Target target;
     private ArrayList<Fish> fishes = new ArrayList<>();
@@ -161,6 +162,7 @@ public class Game {
             if ((fish.vx > 0 && fish.x > width) ||
                     (fish.vx < 0 && (fish.x + fish.width) < 0)) {
                 fish.setHasEscaped(true);
+
             }
         }
 
@@ -181,17 +183,21 @@ public class Game {
                         iterator2.remove();
                     }
                 }
-                //Enlève la balle une fois qu'elle a tué tous les poissons
+                //Enlève la balle une fois qu'elle a tué les poissons ou pas
                 iterator1.remove();
             }
         }
 
-        // Supprime les balles de la mémoire si elles ont explosé
-        //bullets.removeIf(bullet -> bullet.getExploded() );
+        //Efface les poissons qui sortent de l'écran
+        for (Iterator<Fish> iterator = fishes.iterator(); iterator.hasNext(); ) {
+            Fish fish = iterator.next();
+            if (fish.y > FishHunt.HEIGHT || fish.y+fish.height < 0 || fish.x+fish.width < 0 || fish.x > FishHunt.WIDTH) {
+                missedFishes++;
+                iterator.remove();
+            }
+        }
 
 
-
-        //System.out.println(bullets);
         // Demande aux bulles de mettre à jour leur modèle
         for (Bubble bubble : bubbles) {
             bubble.update(dt);
