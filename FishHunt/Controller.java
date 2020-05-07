@@ -32,7 +32,10 @@ public class Controller {
     void gamePage() {
         game = new Game(FishHunt.WIDTH, FishHunt.HEIGHT);
 
-        gamePage = new GamePage(this);
+        // ce if est important car sinon le timer d'update sera crée plusieurs fois
+        if (gamePage == null) {
+            gamePage = new GamePage(this);
+        }
         updateView(gamePage);
     }
 
@@ -49,12 +52,10 @@ public class Controller {
 
     //deplacer la cible
     void move(double x, double y) {
-        game.setGameStarted(true);
         game.move(x, y);
     }
 
     void shoot(double x, double y) {
-        game.setGameStarted(true);
         game.shoot(x, y);
     }
     /**
@@ -63,6 +64,7 @@ public class Controller {
      * @param context contexte sur lequel dessiner
      */
     void draw(GraphicsContext context) {
+        if (game == null) return;
         game.draw(context);
     }
 
@@ -71,33 +73,30 @@ public class Controller {
      * @param deltaTime temps écoulé depuis le dernier appel en seconde
      */
     void update(double deltaTime) {
-        // Commence une nouvelle partie si la méduse est tombée
-        if (game.gameIsOver()) {
-            game = new Game(FishHunt.WIDTH, FishHunt.HEIGHT);
+        if (game == null) return;
+        if (game.gameOverTimer >= 3) {
+            int score = game.getScore();
+            // todo faire une classe score model
+            game = null;
+            scorePage();
+        } else {
+            game.update(deltaTime);
         }
-        game.update(deltaTime);
     }
 
-    /**
-     * Demande au modèle d'aller à gauche et lui indique que le jeu peut commencer
-     */
-    void moveLeft() {
-        game.setGameStarted(true);
+    public void nextLevel() {
+        game.nextLevel();
     }
 
-    /**
-     * Demande au modèle d'aller à droite et lui indique que le jeu peut commencer
-     */
-    void moveRight() {
-        game.setGameStarted(true);
+    public void increaseScore() {
+        game.increaseScore();
     }
 
-    /**
-     * Demande au modèle de gérer l'activation/désactivation du mode debug
-     */
-    void switchDebug() {
-        game.switchDebug();
+    public void increaseLife() {
+        game.increaseLife();
     }
 
-
+    public void gameOver() {
+        game.gameOver();
+    }
 }

@@ -51,20 +51,20 @@ public class GamePage extends Page {
 
         scene.setOnKeyPressed((value) -> {
             switch (value.getCode()) {
-                case SPACE:
-                case UP:
+                case H:
+                    controller.nextLevel();
+                    break;
+                case J:
+                    controller.increaseScore();
+                    break;
+                case K:
+                    controller.increaseLife();
+                    break;
+                case L:
+                    controller.gameOver();
                     break;
                 case ESCAPE:
                     Platform.exit();
-                    break;
-                case LEFT:
-                    controller.moveLeft();
-                    break;
-                case RIGHT:
-                    controller.moveRight();
-                    break;
-                case T:
-                    controller.switchDebug();
                     break;
             }
         });
