@@ -49,12 +49,10 @@ public class Controller {
 
     //deplacer la cible
     void move(double x, double y) {
-        game.setGameStarted(true);
         game.move(x, y);
     }
 
     void shoot(double x, double y) {
-        game.setGameStarted(true);
         game.shoot(x, y);
     }
     /**

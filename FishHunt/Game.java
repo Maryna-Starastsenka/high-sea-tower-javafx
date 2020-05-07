@@ -59,7 +59,6 @@ public class Game {
         this.target = new Target(this.width/2, this.height/2);
     }
 
-
     public void generateNormalFishes() {
         fishes.add(new NormalFish(fishPosX()));
     }
@@ -100,17 +99,6 @@ public class Game {
     }
     public void shoot(double x, double y) {
         bullets.add(new Bullet(x, y));
-    }
-
-    /**
-     * Active/désactive le mode debug comme un interrupteur
-     * Si le mode debug est activé, la fenêtre ne bouge plus automatiquement
-     */
-    public void switchDebug() {
-        debugMode = !debugMode;
-        if (debugMode) {
-        } else {
-        }
     }
 
     public boolean gameIsOver() {
