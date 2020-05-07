@@ -13,6 +13,9 @@ import javafx.scene.paint.Color;
 
 public class GamePage extends Page {
 
+    //Poissons restants à manquer:
+    private GridPane gridPane = new GridPane();
+
     public GamePage(Controller controller) {
 
         StackPane root = new StackPane();
@@ -26,7 +29,7 @@ public class GamePage extends Page {
         GraphicsContext context = canvas.getGraphicsContext2D();
 
         //Tableau avec poissons restants
-        GridPane gridPane = new GridPane();
+
         Image fishImage = new Image("/images/fish/00.png");
         ImageView fishContainer1 = new ImageView(fishImage);
         ImageView fishContainer2 = new ImageView(fishImage);
@@ -50,7 +53,14 @@ public class GamePage extends Page {
         root.getChildren().add(gridPane);
         startTimer(context, controller);
 
+    }
 
+    //Si un poisson est manqué:
+     void removeFish() {
+        int length = gridPane.getChildren().size();
+        if (length > 0) {
+            gridPane.getChildren().remove(length-1);
+        }
     }
 
     private void setupMouseEvents(Scene scene, Controller controller) {

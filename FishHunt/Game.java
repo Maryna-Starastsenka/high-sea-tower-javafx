@@ -11,6 +11,7 @@ import java.util.Iterator;
  */
 public class Game {
 
+    private Controller controller;
     private static boolean debugMode = false;
     private static int width, height;
     private int score = 0;
@@ -44,16 +45,13 @@ public class Game {
     }
 
     /**
-     * Constructeur de jeu qui instancie la méduse au fond de l'océan et génère les plateformes
-     *
-     * @param width largeur de la fenêtre
-     * @param height hauteur de la fenêtre
+        Constructeur
      */
-    public Game(int width, int height) {
+    public Game(int width, int height, Controller controller) {
         this.width = width;
         this.height = height;
-//        this.jellyfish = new Jellyfish(width / 2, 0);
         this.target = new Target(this.width/2, this.height/2);
+        this.controller = controller;
     }
 
 
@@ -183,6 +181,7 @@ public class Game {
             Fish fish = iterator.next();
             if (fish.y > FishHunt.HEIGHT || fish.y+fish.height < 0 || fish.x+fish.width < 0 || fish.x > FishHunt.WIDTH) {
                 missedFishes++;
+                controller.removeFish();
                 iterator.remove();
             }
         }
