@@ -169,6 +169,7 @@ public class Game {
                     Fish fish = iterator2.next();
                     if (bullet.testCollision(fish)) {
                         //Tue tous les poissons qui entrent en contact avec la balle
+                        score++;
                         iterator2.remove();
                     }
                 }
@@ -241,7 +242,7 @@ public class Game {
         context.setFill(Color.WHITE);
         context.setTextAlign(TextAlignment.CENTER);
         context.setFont(Font.font(20));
-        context.fillText((int) height + "m", width / 2, 0.08 * height);
+        context.fillText(score +"", width / 2, 0.08 * height);
     }
 
     public boolean getDebugMode() {
