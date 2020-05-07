@@ -13,12 +13,9 @@ import javafx.scene.paint.Color;
 
 public class GamePage extends Page {
 
-    //Poissons restants à manquer:
-    private GridPane gridPane = new GridPane();
-
     public GamePage(Controller controller) {
 
-        StackPane root = new StackPane();
+        Pane root = new Pane();
 
         this.scene = new Scene(root, FishHunt.WIDTH, FishHunt.HEIGHT);
         setupKeyEvents(this.scene, controller);
@@ -28,39 +25,7 @@ public class GamePage extends Page {
         root.getChildren().add(canvas);
         GraphicsContext context = canvas.getGraphicsContext2D();
 
-        //Tableau avec poissons restants
-
-        Image fishImage = new Image("/images/fish/00.png");
-        ImageView fishContainer1 = new ImageView(fishImage);
-        ImageView fishContainer2 = new ImageView(fishImage);
-        ImageView fishContainer3 = new ImageView(fishImage);
-        fishContainer1.setFitHeight(30);
-        fishContainer1.setFitWidth(30);
-        fishContainer2.setFitHeight(30);
-        fishContainer2.setFitWidth(30);
-        fishContainer3.setFitHeight(30);
-        fishContainer3.setFitWidth(30);
-
-
-        gridPane.setRowIndex(fishContainer1, 0);
-        gridPane.setColumnIndex(fishContainer1, 0);
-        gridPane.add(fishContainer1, 0, 0);
-        gridPane.add(fishContainer2, 1, 0);
-        gridPane.add(fishContainer3, 2, 0);
-        gridPane.setHgap(15);
-        gridPane.setTranslateX(260);
-        gridPane.setTranslateY(70);
-        root.getChildren().add(gridPane);
         startTimer(context, controller);
-
-    }
-
-    //Si un poisson est manqué:
-     void removeFish() {
-        int length = gridPane.getChildren().size();
-        if (length > 0) {
-            gridPane.getChildren().remove(length-1);
-        }
     }
 
     private void setupMouseEvents(Scene scene, Controller controller) {

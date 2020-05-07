@@ -30,10 +30,8 @@ public class Controller {
     }
 
     void gamePage() {
-        //Modèle
-        game = new Game(FishHunt.WIDTH, FishHunt.HEIGHT, this);
+        game = new Game(FishHunt.WIDTH, FishHunt.HEIGHT);
 
-        //Vue de la scène de jeu
         gamePage = new GamePage(this);
         updateView(gamePage);
     }
@@ -59,10 +57,6 @@ public class Controller {
         game.setGameStarted(true);
         game.shoot(x, y);
     }
-
-    void removeFish() {
-        gamePage.removeFish();
-    }
     /**
      * Dessine tous les éléments graphiques du jeu
      *
@@ -79,7 +73,7 @@ public class Controller {
     void update(double deltaTime) {
         // Commence une nouvelle partie si la méduse est tombée
         if (game.gameIsOver()) {
-            game = new Game(FishHunt.WIDTH, FishHunt.HEIGHT, this);
+            game = new Game(FishHunt.WIDTH, FishHunt.HEIGHT);
         }
         game.update(deltaTime);
     }
