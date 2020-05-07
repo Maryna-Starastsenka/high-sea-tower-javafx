@@ -6,7 +6,6 @@ public abstract class Fish extends Entity {
     private double maxImageSize = 120;
     private double imageSize;
 
-    private int level = 2;
     private boolean hasEscaped;
 
     public Fish (double x) {
@@ -15,7 +14,7 @@ public abstract class Fish extends Entity {
         this.y = minPosY + Math.random()*(maxPosY - imageSize - minPosY + 1);
         this.width = imageSize;
         this.height = imageSize;
-        vx = 100.0 * Math.pow(level, 1.0/3) + 200;
+        vx = 100.0 * Math.pow(Game.getLevel(), 1.0/3) + 200;
         if (x != 0) {
             //Si vient de la droite:
             this.vx = -vx;

@@ -12,8 +12,12 @@ import java.util.Iterator;
  */
 public class Game {
 
+    private boolean gameOver = false;
+    private double levelTimer = 0;
+    private boolean nextLevel = true;
+    private static boolean debugMode = false;
     private static int width, height;
-    private int level = 1;
+    private static int level = 1;
     private int score = 0;
     private int lives = 3;
     private double lifeFishWidth = 30;
@@ -31,12 +35,16 @@ public class Game {
      */
     private ArrayList<Bubble> bubbles = new ArrayList<>();
 
+    private boolean generateFishes = true;
     private double specialFishTimer = 0;
     private double normalFishTimer = 0;
     private double bubbleTimer = 1.5;
 
 //    private boolean gameStarted = false;
 
+    public static int getLevel() {
+        return level;
+    }
 
 //    /**
 //     * Définit si le jeu est commencé ou non
@@ -101,9 +109,10 @@ public class Game {
         bullets.add(new Bullet(x, y));
     }
 
-    public boolean gameIsOver() {
+    public double gameOverTimer = 0;
+    public void gameIsOver() {
+        gameOver = true;
 
-        return false;
     }
 
     /**
@@ -119,13 +128,31 @@ public class Game {
 //            return;
 //        }
 
-        if (lives <= 0) {
-            gameOver();
+
+        if (!debugMode) {
+
         }
 
-//        if (!debugMode) {
-//
-//        }
+        if (lives <= 0) {
+            gameOver = true;
+        }
+
+        if (gameOver) {
+            gameOverTimer += dt;
+        }
+
+
+        // Affiche le niveau suivant pendant 3 sec
+        levelTimer += dt;
+        if (levelTimer >= 3) {
+            nextLevel = false;
+
+            if (score >= level * 5) {
+                level++;
+                levelTimer = 0;
+                nextLevel = true;
+            }
+        }
 
         // Génère de nouveaux groupes de bulles toutes les 3 secondes
         bubbleTimer += dt;
@@ -135,13 +162,13 @@ public class Game {
         }
 
         normalFishTimer += dt;
-        if (normalFishTimer >= 3) {
+        if (normalFishTimer >= 3 && !nextLevel && !gameOver) {
             generateNormalFishes();
             normalFishTimer = 0;
         }
 
         specialFishTimer += dt;
-        if (specialFishTimer >= 5) {
+        if (specialFishTimer >= 5 && level >= 2 && !nextLevel && !gameOver) {
            generateSpecialFish();
             specialFishTimer = 0;
         }
@@ -241,6 +268,19 @@ public class Game {
 ////                    + Math.round(jellyfish.y) + ")", 0.03 * width, 0.03 * height);
 //        }
 
+        if (nextLevel) {
+            context.setFill(Color.WHITE);
+            context.setTextAlign(TextAlignment.CENTER);
+            context.setFont(Font.font(60));
+            context.fillText("Level " + level, width / 2, height / 2);
+        }
+
+        if (gameOver) {
+            context.setFill(Color.RED);
+            context.setTextAlign(TextAlignment.CENTER);
+            context.setFont(Font.font(60));
+            context.fillText("GAME OVER", width / 2, height / 2);
+        }
         // Affiche le score actuel
         context.setFill(Color.WHITE);
         context.setTextAlign(TextAlignment.CENTER);
@@ -270,5 +310,9 @@ public class Game {
 
     public void gameOver() {
         // todo game over
+    }
+
+    public int getScore() {
+        return score;
     }
 }
