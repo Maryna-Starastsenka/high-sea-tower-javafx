@@ -57,12 +57,6 @@ public class GamePage extends Page {
                 case ESCAPE:
                     Platform.exit();
                     break;
-                case LEFT:
-                    controller.moveLeft();
-                    break;
-                case RIGHT:
-                    controller.moveRight();
-                    break;
                 case T:
                     controller.switchDebug();
                     break;

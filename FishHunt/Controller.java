@@ -79,20 +79,6 @@ public class Controller {
     }
 
     /**
-     * Demande au modèle d'aller à gauche et lui indique que le jeu peut commencer
-     */
-    void moveLeft() {
-        game.setGameStarted(true);
-    }
-
-    /**
-     * Demande au modèle d'aller à droite et lui indique que le jeu peut commencer
-     */
-    void moveRight() {
-        game.setGameStarted(true);
-    }
-
-    /**
      * Demande au modèle de gérer l'activation/désactivation du mode debug
      */
     void switchDebug() {

@@ -1,4 +1,5 @@
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
@@ -13,7 +14,12 @@ public class Game {
 
     private static boolean debugMode = false;
     private static int width, height;
+    private int level = 1;
     private int score = 0;
+    private int lives = 3;
+    private double lifeFishWidth = 30;
+    private double lifeFishSpacing = 10;
+    private double posXLives;
     private int missedFishes = 0;
 
     private Target target;
@@ -52,7 +58,6 @@ public class Game {
     public Game(int width, int height) {
         this.width = width;
         this.height = height;
-//        this.jellyfish = new Jellyfish(width / 2, 0);
         this.target = new Target(this.width/2, this.height/2);
     }
 
@@ -110,15 +115,9 @@ public class Game {
         }
     }
 
-    /**
-     * Vérifie la position de la méduse par rapport au bas de l'écran afin de déterminer si
-     * la partie est perdue ou non
-     *
-     * @return vrai si le haut de la méduse est plus bas que le bas de l'écran, faux sinon
-     */
     public boolean gameIsOver() {
+
         return false;
-//        return jellyfish.y + jellyfish.height < height;
     }
 
     /**
@@ -132,6 +131,10 @@ public class Game {
         // Pas d'update si le jeu n'est pas commencé
         if (!gameStarted) {
             return;
+        }
+
+        if (lives <= 0) {
+            gameIsOver();
         }
 
         if (!debugMode) {
@@ -160,9 +163,10 @@ public class Game {
         // Vérifie les poissions qui sont sortis de l'écran
         for (Fish fish : fishes) {
             if ((fish.vx > 0 && fish.x > width) ||
-                    (fish.vx < 0 && (fish.x + fish.width) < 0)) {
+                    (fish.vx < 0 && (fish.x + fish.width) < 0) ||
+                    (fish.y < 0) || (fish.y > height)) {
                 fish.setHasEscaped(true);
-
+                lives --;
             }
         }
 
@@ -189,14 +193,15 @@ public class Game {
             }
         }
 
-        //Efface les poissons qui sortent de l'écran
-        for (Iterator<Fish> iterator = fishes.iterator(); iterator.hasNext(); ) {
-            Fish fish = iterator.next();
-            if (fish.y > FishHunt.HEIGHT || fish.y+fish.height < 0 || fish.x+fish.width < 0 || fish.x > FishHunt.WIDTH) {
-                missedFishes++;
-                iterator.remove();
-            }
-        }
+        // *** N'efface pas les poissons qui sortent de l'écran ***
+//        //Efface les poissons qui sortent de l'écran
+//        for (Iterator<Fish> iterator = fishes.iterator(); iterator.hasNext(); ) {
+//            Fish fish = iterator.next();
+//            if (fish.y > FishHunt.HEIGHT || fish.y+fish.height < 0 || fish.x+fish.width < 0 || fish.x > FishHunt.WIDTH) {
+//                lives--;
+//                iterator.remove();
+//            }
+//        }
 
 
         // Demande aux bulles de mettre à jour leur modèle
@@ -253,7 +258,13 @@ public class Game {
         context.setFill(Color.WHITE);
         context.setTextAlign(TextAlignment.CENTER);
         context.setFont(Font.font(20));
-        context.fillText(score +"", width / 2, 0.08 * height);
+        context.fillText(score +"", width / 2, 0.09 * height);
+        Image imageLives = new Image("images/fish/00.png");
+        posXLives = width / 2.0 - 1.5 * lifeFishWidth - lifeFishSpacing;
+        for (int i = 0; i < lives ; i++) {
+            context.drawImage(imageLives, posXLives, 0.14 * height, lifeFishWidth, lifeFishWidth);
+            posXLives += lifeFishWidth + lifeFishSpacing ;
+        }
     }
 
     public boolean getDebugMode() {
