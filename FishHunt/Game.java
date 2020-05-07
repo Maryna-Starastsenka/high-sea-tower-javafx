@@ -241,8 +241,11 @@ public class Game {
         // Affiche le score actuel
         context.setFill(Color.WHITE);
         context.setTextAlign(TextAlignment.CENTER);
-        context.setFont(Font.font(20));
+        context.setFont(Font.font(22));
         context.fillText(score +"", width / 2, 0.08 * height);
+
+
+
     }
 
     public boolean getDebugMode() {
