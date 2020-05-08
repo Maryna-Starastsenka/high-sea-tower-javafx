@@ -14,7 +14,7 @@ public abstract class Fish extends Entity {
     private double imageSize;
 
     /**
-     * Montre si le poisson est sortie de la fenêtre
+     * Montre si le poisson est sorti de la fenêtre
      */
     private boolean hasEscaped;
 
@@ -34,7 +34,7 @@ public abstract class Fish extends Entity {
         // Vitesse horizontale dépendamment du niveau de jeu
         vx = 100.0 * Math.pow(Game.getLevel(), 1.0/3) + 200;
         if (x != 0) {
-            // Vitesse horisontale négative si le poissin vient de la droite
+            // Vitesse horizontale négative si le poisson vient de la droite
             this.vx = -vx;
         }
         this.hasEscaped = false;
