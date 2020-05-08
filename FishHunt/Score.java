@@ -17,15 +17,7 @@ public class Score {
     private ArrayList<Pair<String,Integer>> bestScores = new ArrayList<>();
 
     public Score(Controller controller) {
-
-       /* meilleursScores.add(new Pair("Perchaude possédée par Satan", 8));
-        meilleursScores.add(new Pair("Jean Étoile", 10));
-        meilleursScores.add(new Pair("Boris Poisson", 2));
-
-        meilleursScores = sortScores(meilleursScores);
-        writeScoreFile();*/
        readScoreFile();
-       System.out.println(bestScores);
     }
 
 
@@ -52,12 +44,13 @@ public class Score {
         Collections.reverse(scores);
 
         //Efface tous les éléments au delà de la 10e position:
-        scores.subList(10, scores.size()).clear();
+        int fin = Math.min(10,scores.size());
+        scores.subList(fin, scores.size()).clear();
         return scores;
     }
 
 
-    private void readScoreFile() {
+    public ArrayList<Pair<String,Integer>> readScoreFile() {
         try {
             FileInputStream scoreFileInputStream = new FileInputStream("scores.dat");
             ObjectInputStream  scoreObjectInputStream = new ObjectInputStream(scoreFileInputStream);
@@ -68,8 +61,8 @@ public class Score {
         } catch (IOException | ClassNotFoundException ioe) {
             ioe.printStackTrace();
             System.out.println("Erreur de lecture du fichier scores.dat");
-            return;
-        }
+         }
+        return bestScores;
     }
 
 

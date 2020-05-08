@@ -1,5 +1,8 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
+import javafx.util.Pair;
+
+import java.util.ArrayList;
 
 /**
  * Classe Contrôleur qui gère le flux de données du modèle et
@@ -45,6 +48,7 @@ public class Controller {
 
     void initScorePage() {
         scorePage = new ScorePage(this);
+        scorePage.setScoreInputVisible(false);
     }
 
     void initScoreModel() {
@@ -53,6 +57,9 @@ public class Controller {
 
     //Affiche les scores
     void scorePage() {
+        ArrayList<Pair<String,Integer>>  bestScores = scoreModel.readScoreFile();
+        scorePage.clearScores();
+        scorePage.setBestScores(bestScores);
         updateView(scorePage);
     }
 
@@ -94,7 +101,10 @@ public class Controller {
             int score = game.getScore();
             // vérifie si le score de la partie est dans le top 10
             if(scoreModel.compareNewScore(score)) {
-                scorePage.displayScoreInput();
+                scorePage.setNewScore(score);
+                scorePage.setScoreInputVisible(true);
+            } else {
+                scorePage.setScoreInputVisible(false);
             };
             scorePage();
             game = null;
