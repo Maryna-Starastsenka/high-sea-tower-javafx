@@ -276,7 +276,7 @@ public class Game {
         // Demande à la cible de se dessiner
         target.draw(context);
 
-        // Affiche le niveau de jeu
+        // Affiche le niveau du jeu
         if (nextLevel) {
             context.setFill(Color.WHITE);
             context.setTextAlign(TextAlignment.CENTER);
