@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
  */
 public abstract class Entity {
 
-    //Tous les attributs sont censés pouvoir être modifiés de l'extérieur (pas d'accesseurs / mutateurs)
+    // Tous les attributs sont censés pouvoir être modifiés de l'extérieur (pas d'accesseurs / mutateurs)
     protected double width, height;
 
     /**

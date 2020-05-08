@@ -50,7 +50,7 @@ public class Controller {
 
     }
 
-    //deplacer la cible
+    // Deplacer la cible
     void move(double x, double y) {
         game.move(x, y);
     }
@@ -74,7 +74,7 @@ public class Controller {
      */
     void update(double deltaTime) {
         if (game == null) return;
-        if (game.gameOverTimer >= 3) {
+        if (game.getGameOverTimer() >= 3) {
             int score = game.getScore();
             // todo faire une classe score model
             game = null;

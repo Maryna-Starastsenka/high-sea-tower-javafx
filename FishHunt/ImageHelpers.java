@@ -37,7 +37,6 @@ public class ImageHelpers {
                 writer.setColor(x, h - 1 - y, color);
             }
         }
-
         return output;
     }
 
@@ -88,7 +87,6 @@ public class ImageHelpers {
                 }
             }
         }
-
         return output;
     }
 }
