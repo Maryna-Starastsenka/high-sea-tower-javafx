@@ -44,8 +44,8 @@ public class Score {
         Collections.reverse(scores);
 
         //Efface tous les éléments au delà de la 10e position:
-        int fin = Math.min(10,scores.size());
-        scores.subList(fin, scores.size()).clear();
+        if (scores.size() > 10)
+        scores.subList(10, scores.size()).clear();
         return scores;
     }
 
