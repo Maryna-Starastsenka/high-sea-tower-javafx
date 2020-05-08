@@ -193,7 +193,7 @@ public class Game {
             specialFishTimer = 0;
         }
 
-        // Vérifie les poissions qui sont sortis de l'écran
+        // Vérifie les poissons qui sont sortis de l'écran
         for (Fish fish : fishes) {
             if ((fish.vx > 0 && fish.x > width) ||
                     (fish.vx < 0 && (fish.x + fish.width) < 0) ||
@@ -207,7 +207,7 @@ public class Game {
             }
         }
 
-        // Supprime les poissins qui sont sortie de l'écran
+        // Supprime les poissons qui sont sortis de l'écran
         fishes.removeIf(fish -> fish.getHasEscaped());
 
         // Supprime les bulles de la mémoire si elles dépassent le haut de l'écran
@@ -229,16 +229,6 @@ public class Game {
                 iterator1.remove();
             }
         }
-
-        // *** N'efface pas les poissons qui sortent de l'écran ***
-//        //Efface les poissons qui sortent de l'écran
-//        for (Iterator<Fish> iterator = fishes.iterator(); iterator.hasNext(); ) {
-//            Fish fish = iterator.next();
-//            if (fish.y > FishHunt.HEIGHT || fish.y+fish.height < 0 || fish.x+fish.width < 0 || fish.x > FishHunt.WIDTH) {
-//                lives--;
-//                iterator.remove();
-//            }
-//        }
 
         // Demande aux bulles de mettre à jour leur modèle
         for (Bubble bubble : bubbles) {

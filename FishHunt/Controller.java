@@ -1,5 +1,8 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
+import javafx.util.Pair;
+
+import java.util.ArrayList;
 
 /**
  * Classe Contrôleur qui gère le flux de données du modèle et
@@ -13,9 +16,10 @@ public class Controller {
     private HomePage homePage;
     private GamePage gamePage;
     private ScorePage scorePage;
+    private Score scoreModel;
 
     /**
-     * Contructeur du Contrôleur
+     * Constructeur du Contrôleur
      */
     public Controller() {
     }
@@ -27,21 +31,45 @@ public class Controller {
     void homePage() {
         homePage = new HomePage(this);
         updateView(homePage);
+
     }
 
     void gamePage() {
         game = new Game(FishHunt.WIDTH, FishHunt.HEIGHT);
 
-        // ce if est important car sinon le timer d'update sera crée plusieurs fois
+        // ce if est important car sinon le timer d'update sera créé plusieurs fois
         if (gamePage == null) {
             gamePage = new GamePage(this);
         }
         updateView(gamePage);
+
+
     }
 
-    void scorePage() {
+    void initScorePage() {
         scorePage = new ScorePage(this);
+        scorePage.setScoreInputVisible(false);
+    }
+
+    void initScoreModel() {
+        scoreModel = new Score(this);
+    }
+
+    //Affiche les scores
+    void scorePage() {
+        ArrayList<Pair<String,Integer>>  bestScores = scoreModel.readScoreFile();
+        scorePage.clearScores();
+        scorePage.setBestScores(bestScores);
         updateView(scorePage);
+    }
+
+    //Écrit nouveau score dans le fichier
+    void addNewScore(String name, int score) {
+        scoreModel.addNewScore(name, score);
+    }
+
+    void setScoreInputVisible(boolean visible) {
+        scorePage.setScoreInputVisible(visible);
     }
 
     void updateView(Page page) {
@@ -76,7 +104,14 @@ public class Controller {
         if (game == null) return;
         if (game.getGameOverTimer() >= 3) {
             int score = game.getScore();
-            // todo faire une classe score model
+            // vérifie si le score de la partie est dans le top 10
+            if(scoreModel.compareNewScore(score)) {
+                scorePage.setNewScore(score);
+                setScoreInputVisible(true);
+            } else {
+                setScoreInputVisible(false);
+            };
+            scorePage();
             game = null;
             scorePage();
         } else {
