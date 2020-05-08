@@ -11,9 +11,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
-
 import java.util.ArrayList;
 
+/**
+ * Classe Page des Scores de la vue
+ */
 public class ScorePage extends Page {
 
     private int newScore;
@@ -25,20 +27,23 @@ public class ScorePage extends Page {
 
     ArrayList<String> scores = new ArrayList<>();
 
+    /**
+     * Constructeur de la page des scores
+     *
+     * @param controller contrôleur du jeu
+     */
     public ScorePage(Controller controller) {
-
 
         VBox scorePageRoot = new VBox();
         this.scene = new Scene (scorePageRoot, FishHunt.WIDTH, FishHunt.HEIGHT);
         Text title = new Text("Meilleurs scores");
-
 
         scorePageRoot.setAlignment(Pos.CENTER);
         title.setFont(Font.font("Calibri", FontWeight.BOLD, 20));
         scorePageRoot.getChildren().add(title);
         scorePageRoot.getChildren().add(list);
 
-        //Input Field
+        // Champs de saisie
         scoreInputBox.setAlignment(Pos.CENTER);
         Label nameLabel = new Label("Votre nom: ");
 
@@ -50,7 +55,6 @@ public class ScorePage extends Page {
         scoreInputBox.setSpacing(10);
         scorePageRoot.getChildren().add(scoreInputBox);
 
-
         Button buttonMenu = new Button("Menu");
         scorePageRoot.getChildren().add(buttonMenu);
         scorePageRoot.setSpacing(10);
@@ -58,7 +62,6 @@ public class ScorePage extends Page {
 
         buttonSubmit.setOnAction((event) -> submitScore(controller));
         buttonMenu.setOnAction((event) -> controller.homePage());
-
     }
 
     public void setNewScore(int score) {
@@ -67,19 +70,33 @@ public class ScorePage extends Page {
         nameTextField.setText("");
     }
 
+    /**
+     * Met les meilleurs scores de la liste de paires dans la liste affichée sur la page
+     *
+     * @param bestScores Array List de paires avec les 10 meilleurs pointages
+     */
     public void setBestScores(ArrayList<Pair<String,Integer>> bestScores) {
-
         for (int i=0; i < bestScores.size(); i++) {
             scores.add("#"+(i+1)+" - "+bestScores.get(i).getKey()+" - "+bestScores.get(i).getValue());
         }
         list.getItems().setAll(scores);
     }
 
-    //Active le champ pour rentrer son score
+    /**
+     * Active le champ de saisie pour rentrer le score
+     *
+     * @param visible vrai s'il faut afficher le champ de saisie
+     */
     public void setScoreInputVisible(boolean visible) {
         scoreInputBox.setVisible(visible);
     }
 
+    /**
+     * Demande au contrôleur de faire soumettre le nouveau score et
+     * ensuite d'afficher la page d'accueil
+     *
+     * @param controller contrôleur du jeu
+     */
     private void submitScore(Controller controller) {
         this.playerName = nameTextField.getText();
         controller.addNewScore(playerName, this.newScore);
@@ -87,8 +104,10 @@ public class ScorePage extends Page {
         controller.homePage();
     }
 
+    /**
+     *Supprime les scores de la liste de paires
+     */
     public void clearScores() {
         scores.clear();
     }
-
 }

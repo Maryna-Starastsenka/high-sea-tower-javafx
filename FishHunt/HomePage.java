@@ -10,10 +10,19 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+/**
+ * Classe Page d'Accueil de la vue
+ */
 public class HomePage extends Page {
+
     private Button buttonNewGame;
     private Button buttonBestScore;
 
+    /**
+     * Constructeur de la page d'accueil
+     *
+     * @param controller contrôleur du jeu
+     */
     public HomePage(Controller controller) {
 
         VBox homepageRoot = new VBox();
@@ -44,9 +53,10 @@ public class HomePage extends Page {
         homepageRoot.getChildren().add(buttonBestScore);
         homepageRoot.setSpacing(10);
 
+        // Demande au contrôleur d'afficher la page de jeu
         buttonNewGame.setOnAction((event) -> controller.gamePage());
 
-
+        // Demande au contrôleur d'afficher la page des meilleurs scores
         buttonBestScore.setOnAction((event) -> {
             controller.setScoreInputVisible(false);
             controller.scorePage();

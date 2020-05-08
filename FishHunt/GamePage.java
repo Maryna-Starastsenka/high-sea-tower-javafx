@@ -1,18 +1,21 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Pane;
 
+
+/**
+ * Classe Page de Jeu de la vue
+ */
 public class GamePage extends Page {
 
+    /**
+     * Constructeur de la page de jeu
+     *
+     * @param controller contrôleur du jeu
+     */
     public GamePage(Controller controller) {
 
         Pane root = new Pane();
@@ -28,16 +31,22 @@ public class GamePage extends Page {
         startTimer(context, controller);
     }
 
+    /**
+     * Traitement des événements de la souris
+     * Mapping de la vue avec le contrôleur
+     *
+     * @param scene scène du jeu
+     * @param controller contrôleur du jeu
+     */
     private void setupMouseEvents(Scene scene, Controller controller) {
-      scene.setOnMouseMoved((event) -> {
+
+        scene.setOnMouseMoved((event) -> {
           controller.move(event.getX(), FishHunt.HEIGHT - event.getY());
-          //System.out.println("X: "+event.getX()+" Y: "+(FishHunt.HEIGHT - event.getY()));
         });
 
         scene.setOnMouseClicked((event) -> {
             controller.shoot(event.getX(), FishHunt.HEIGHT - event.getY());
         });
-
     }
 
     /**
@@ -68,19 +77,6 @@ public class GamePage extends Page {
                     break;
             }
         });
-
-        // Appuyer sur une touche gauche/droite doit appeler les actions une seule fois
-        // tant que l'usager n'a pas relevé la touche
-        scene.setOnKeyReleased((value) -> {
-            switch (value.getCode()) {
-                case LEFT:
-//                    controller.stopMoving();
-                    break;
-                case RIGHT:
-//                    controller.stopMoving();
-                    break;
-            }
-        });
     }
 
     /**
@@ -108,7 +104,7 @@ public class GamePage extends Page {
                 // Temps écoulé depuis le dernier appel en secondes
                 double deltaTime = (now - lastTime) * 1e-9;
 
-                //Force les updates à se faire avec un max de maxDt secondes
+                // Force les updates à se faire avec un max de maxDt secondes
                 while (deltaTime > maxDt) {
                     controller.update(maxDt);
                     deltaTime -= maxDt;

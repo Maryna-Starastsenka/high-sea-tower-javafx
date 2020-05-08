@@ -2,13 +2,11 @@
  * @author Michel Adant, matricule C1176, code permanent p0681884
  * @author Maryna Starastsenka, matricule 20166402, code permanent p1240201
  *
- * Le programme est un jeu avec GUI où une méduse tente de remonter
- * le plus haut possible dans l’océan en sautant de plateforme en plateforme. 
+ * Le programme est un jeu avec GUI où on chasse des poissons.
+ * Au bout de 3 poissons ratés, la partie est perdue.
  */
 
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -31,7 +29,7 @@ public class FishHunt extends Application {
     }
 
     /**
-     * Définit les composants de la vue et crée le contrôleur
+     * Définit les composantes de la vue et crée le contrôleur
      *
      * @param primaryStage stage (fenêtre) principale du jeu
      * @throws Exception
@@ -42,13 +40,12 @@ public class FishHunt extends Application {
         primaryStage.setResizable(false);
         primaryStage.setTitle("Fish Hunt");
 
-
         Controller controller = new Controller();
         controller.setPrimaryStage(primaryStage);
+
+        // Fait un appel au contrôleur de créer 3 scènes du jeu
         controller.initScoreModel();
         controller.initScorePage();
         controller.homePage();
-
-
     }
 }

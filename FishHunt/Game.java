@@ -12,6 +12,10 @@ import java.util.Iterator;
  */
 public class Game {
 
+
+    /**
+     * Attributs de jeu
+     */
     private boolean gameOver = false;
     private double levelTimer = 0;
     private boolean nextLevel = true;
@@ -23,9 +27,22 @@ public class Game {
     private double lifeFishSpacing = 10;
     private double posXLives;
     private int numberOfKilledFishesInLevel = 0;
+    private boolean generateFishes = true;
+    private double specialFishTimer = 0;
+    private double normalFishTimer = 0;
+    private double bubbleTimer = 1.5;
+    private double gameOverTimer = 0;
 
     private Target target;
+
+    /**
+     * Liste des poissons en mémoire
+     */
     private ArrayList<Fish> fishes = new ArrayList<>();
+
+    /**
+     * Liste des balles en mémoire
+     */
     private ArrayList<Bullet> bullets = new ArrayList<>();
 
     /**
@@ -33,17 +50,8 @@ public class Game {
      */
     private ArrayList<Bubble> bubbles = new ArrayList<>();
 
-    private boolean generateFishes = true;
-    private double specialFishTimer = 0;
-    private double normalFishTimer = 0;
-    private double bubbleTimer = 1.5;
-
-    public static int getLevel() {
-        return level;
-    }
-
     /**
-     * Constructeur de jeu qui instancie la méduse au fond de l'océan et génère les plateformes
+     * Constructeur de jeu qui instancie la cible au milieu de l'écran
      *
      * @param width largeur de la fenêtre
      * @param height hauteur de la fenêtre
@@ -55,10 +63,29 @@ public class Game {
         this.target = new Target(this.width/2, this.height/2);
     }
 
+
+    public double getGameOverTimer() {
+        return gameOverTimer;
+    }
+
+    public static int getLevel() {
+        return level;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    /**
+     * Instancie les poissons normaux
+     */
     public void generateNormalFishes() {
         fishes.add(new NormalFish(fishPosX()));
     }
 
+    /**
+     * Instancie les crabes et les étoiles de mer avec une probabilité de 50%
+     */
     public void generateSpecialFish() {
         double probability = Math.random();
         if (probability < 0.5) {
@@ -68,6 +95,11 @@ public class Game {
         }
     }
 
+    /**
+     * Choisit aléatoirement l'abscisse du poisson entre 0 et la largeur de l'écran
+     *
+     * @return position horizontale initiale du poisson
+     */
     public double fishPosX() {
         double probability = Math.random();
         if (probability < 0.5) {
@@ -90,19 +122,31 @@ public class Game {
         }
     }
 
+    /**
+     * Déplace la cible sur l'écran
+     *
+     * @param x abscisse
+     * @param y ordonnée
+     */
     public void move(double x, double y) {
         target.move(x, y);
     }
+
+    /**
+     * Instancie la balle lorqu'on la lance
+     *
+     * @param x abscisse
+     * @param y ordonnée
+     */
     public void shoot(double x, double y) {
         if (gameOver || nextLevel) return;
         bullets.add(new Bullet(x, y));
     }
 
-    public double gameOverTimer = 0;
-
     /**
-     * Met à jour la position de la fenêtre et des entités
-     * Retire de la mémoire les plateformes et les bulles qui sont sorties de l'écran
+     * Met à jour les entités du jeu
+     * Retire de la mémoire les poissons, les balles et les bulles qui sont sorties de l'écran
+     * ou qui sont entrés en collision
      *
      * @param dt temps écoulé depuis le dernier update (en secondes)
      */
@@ -115,11 +159,11 @@ public class Game {
             gameOverTimer += dt;
         }
 
-        // Affiche le niveau suivant pendant 3 sec
+        // Augmente le niveau de jeu et lance le compteur de temps pour afficher le niveau pendant 3 secondes
+        // si 5 poissons sont capturés
         levelTimer += dt;
         if (levelTimer >= 3) {
             nextLevel = false;
-
             if (numberOfKilledFishesInLevel >= 5 || (score >= level * 5)) {
                 level++;
                 levelTimer = 0;
@@ -135,12 +179,14 @@ public class Game {
             bubbleTimer = 0;
         }
 
+        // Génère des poissons normaux toutes les 3 secondes
         normalFishTimer += dt;
         if (normalFishTimer >= 3 && !nextLevel && !gameOver) {
             generateNormalFishes();
             normalFishTimer = 0;
         }
 
+        // Génère des poissons spéciaux toutes les 5 secondes
         specialFishTimer += dt;
         if (specialFishTimer >= 5 && level >= 2 && !nextLevel && !gameOver) {
            generateSpecialFish();
@@ -154,6 +200,7 @@ public class Game {
                     (fish.y < 0) || (fish.y > height)) {
                 fish.setHasEscaped(true);
 
+                // Diminue le nombre des vies si un poisson sort de l'écran
                 if (!gameOver && !nextLevel) {
                     lives--;
                 }
@@ -166,20 +213,21 @@ public class Game {
         // Supprime les bulles de la mémoire si elles dépassent le haut de l'écran
         bubbles.removeIf(bubble -> bubble.y - bubble.getRadius() > height);
 
-        //Façon safe d'enlever des éléments d'une liste qu'on itère
+        // Parcourt la liste de balles et de poissons
         for (Iterator<Bullet> iterator1 = bullets.iterator(); iterator1.hasNext();) {
             Bullet bullet = iterator1.next();
             if (bullet.getExploded()) {
                 for (Iterator<Fish> iterator2 = fishes.iterator(); iterator2.hasNext(); ) {
                     Fish fish = iterator2.next();
+                    // Augmente le score si la balle atteint le poisson
                     if (bullet.testCollision(fish)) {
-                        //Tue tous les poissons qui entrent en contact avec la balle
                         score++;
                         numberOfKilledFishesInLevel++;
+                        // Supprime le poisson de la mémoire lorsqu'il y a une collision
                         iterator2.remove();
                     }
                 }
-                //Enlève la balle une fois qu'elle a tué les poissons ou pas
+                // Supprime la balle de la mémoire
                 iterator1.remove();
             }
         }
@@ -189,10 +237,12 @@ public class Game {
             bubble.update(dt);
         }
 
-        for (Fish f : fishes) {
-            f.update(dt);
+        // Demande aux poissons de mettre à jour leur modèle
+        for (Fish fish : fishes) {
+            fish.update(dt);
         }
 
+        // Demande aux balles de mettre à jour leur modèle
         for (Bullet bullet : bullets) {
             bullet.update(dt);
         }
@@ -213,16 +263,20 @@ public class Game {
             bubble.draw(context);
         }
 
+        // Itère sur la liste de poissons pour leur demander de se dessiner
         for (Fish fish : fishes) {
             fish.draw(context);
         }
 
+        // Itère sur la liste de balles pour leur demander de se dessiner
         for (Bullet bullet : bullets) {
             bullet.draw(context);
         }
 
+        // Demande à la cible de se dessiner
         target.draw(context);
 
+        // Affiche le niveau de jeu
         if (nextLevel) {
             context.setFill(Color.WHITE);
             context.setTextAlign(TextAlignment.CENTER);
@@ -230,13 +284,15 @@ public class Game {
             context.fillText("Level " + level, width / 2, height / 2);
         }
 
+        // Affiche "game over" si la partie est perdue
         if (gameOver) {
             context.setFill(Color.RED);
             context.setTextAlign(TextAlignment.CENTER);
             context.setFont(Font.font(60));
             context.fillText("GAME OVER", width / 2, height / 2);
         }
-        // Affiche le score actuel
+
+        // Affiche le score actuel et les poissons représentant le nombre de vies restantes
         context.setFill(Color.WHITE);
         context.setTextAlign(TextAlignment.CENTER);
         context.setFont(Font.font(20));
@@ -249,26 +305,34 @@ public class Game {
         }
     }
 
+    /**
+     * Fait monter le niveau de +1 dans le mode debug
+     */
     public void nextLevel() {
         numberOfKilledFishesInLevel = 5;
     }
 
+    /**
+     * Fait monter le score de +1 dans le mode debug
+     */
     public void increaseScore() {
         score++;
         numberOfKilledFishesInLevel++;
     }
 
+    /**
+     * Fait monter le nombre de vie restantes dans le mode debug (maximum de 3 poissons)
+     */
     public void increaseLife() {
         if (lives < 3) {
             lives++;
         }
     }
 
+    /**
+     * Fait perdre la partie dans le mode debug
+     */
     public void gameOver() {
         gameOver = true;
-    }
-
-    public int getScore() {
-        return score;
     }
 }
