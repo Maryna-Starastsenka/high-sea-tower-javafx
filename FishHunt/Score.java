@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-
 /**
  * Classe Score du modèle qui contient la logique des scores du jeu
  */
@@ -15,6 +14,9 @@ public class Score {
      */
     private ArrayList<Pair<String,Integer>> bestScores = new ArrayList<>();
 
+    /**
+     * Constructeur de Score qui initialise le modèle avec un fichier *.dat
+     */
     public Score() {
        readScoreFile();
     }
@@ -28,27 +30,25 @@ public class Score {
      */
     public boolean compareNewScore(int newScore) {
         readScoreFile();
-        if (bestScores.size() < 10 || newScore > bestScores.get(9).getValue()) {
-            return true;
-        }
-        return false;
+        return bestScores.size() < 10 || newScore > bestScores.get(9).getValue();
     }
 
     /**
      * Ajoute le score actuel dans la liste de meilleurs scores et
      * reçoit la liste triée des 10 meilleurs scores
+     * Procède à la sérialisation du modèle dans un fichier *.dat
      *
-     * @param name nom de joueur
+     * @param name nom du joueur
      * @param score score de la partie
      */
     public void addNewScore(String name, int score) {
-        bestScores.add(new Pair(name, score));
+        bestScores.add(new Pair<>(name, score));
         bestScores = sortScores(bestScores);
         writeScoreFile();
     }
 
     /**
-     * Trie la liste de meilleurs scores et garde les 10 meilleurs scores
+     * Trie la liste de meilleurs scores et garde les 10 premiers scores
      *
      * @param scores liste des meilleurs scores
      * @return liste triée des meilleurs scores
@@ -58,17 +58,16 @@ public class Score {
         scores.sort(Comparator.comparing(x -> x.getValue()));
         Collections.reverse(scores);
 
-        // Efface tous les éléments au delà de la 10ème position
+        // Efface tous les éléments au-delà de la 10ème position
         if (scores.size() > 10)
             scores.subList(10, scores.size()).clear();
         return scores;
     }
 
-
     /**
      * Lit le fishier "scores.dat" avec les meilleurs scores avant la partie actuelle
      *
-     * @return liste paire avec les meilleurs scores avant la partie actuelle
+     * @return liste de paires avec les meilleurs scores avant la partie actuelle
      */
     public ArrayList<Pair<String,Integer>> readScoreFile() {
         try {
@@ -85,7 +84,6 @@ public class Score {
         return bestScores;
     }
 
-
     /**
      * Fait l'écriture des 10 meilleurs scores dans le fichier "scores.dat"
      */
@@ -99,7 +97,7 @@ public class Score {
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
-            System.out.println("Erreur d'écriture du fichier");
+            System.out.println("Erreur d'écriture dans le fichier");
         }
     }
 }

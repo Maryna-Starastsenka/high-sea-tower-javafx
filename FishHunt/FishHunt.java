@@ -10,7 +10,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 /**
- * Classe de la Vue qui avertit le contrôleur lorsqu’il y a des événements
+ * Classe de la Vue qui procède à l'initialisation du contrôleur
  */
 public class FishHunt extends Application {
 
@@ -29,7 +29,7 @@ public class FishHunt extends Application {
     }
 
     /**
-     * Définit les composantes de la vue et crée le contrôleur
+     * Définit les paramètres de la fenêtre et instancie le contrôleur
      *
      * @param primaryStage stage (fenêtre) principale du jeu
      * @throws Exception
@@ -40,12 +40,7 @@ public class FishHunt extends Application {
         primaryStage.setResizable(false);
         primaryStage.setTitle("Fish Hunt");
 
-        Controller controller = new Controller();
-        controller.setPrimaryStage(primaryStage);
+        Controller controller = new Controller(primaryStage);
 
-        // Initie vue: score, menu principal et modèle: score
-        controller.initScoreModel();
-        controller.initScorePage();
-        controller.homePage();
     }
 }

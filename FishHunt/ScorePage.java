@@ -24,8 +24,7 @@ public class ScorePage extends Page {
     private Label scoreLabel = new Label();
     private TextField nameTextField = new TextField();
     private ListView<String> list = new ListView<>();
-
-    ArrayList<String> scores = new ArrayList<>();
+    private ArrayList<String> scores = new ArrayList<>();
 
     /**
      * Constructeur de la page des scores
@@ -92,7 +91,7 @@ public class ScorePage extends Page {
     }
 
     /**
-     * Demande au contrôleur de faire soumettre le nouveau score et
+     * Demande au contrôleur de soumettre le nouveau score et
      * ensuite d'afficher la page d'accueil
      *
      * @param controller contrôleur du jeu

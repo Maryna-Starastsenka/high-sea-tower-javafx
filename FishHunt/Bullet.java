@@ -10,6 +10,10 @@ public class Bullet extends Entity {
     private double vx = 300;
     private boolean exploded = false;
 
+    public boolean getExploded() {
+        return this.exploded;
+    }
+
     /**
      * Constructeur de la balle
      *
@@ -30,7 +34,7 @@ public class Bullet extends Entity {
     @Override
     public void update(double dt) {
         if (!this.exploded) {
-            this.radius -= vx*dt;
+            this.radius -= vx * dt;
             if (radius <= 0) {
                 this.exploded = true;
             }
@@ -44,10 +48,8 @@ public class Bullet extends Entity {
      * @return vrai si la balle atteint le poisson
      */
     public boolean testCollision(Fish fish) {
-        if (this.x >= fish.x && this.x <= fish.x+fish.width) {
-            if (this.y >= fish.y && this.y <= fish.y+fish.width) {
-                return true;
-            }
+        if (this.x >= fish.x && this.x <= fish.x + fish.width) {
+            return this.y >= fish.y && this.y <= fish.y + fish.width;
         }
         return false;
     }
@@ -62,9 +64,5 @@ public class Bullet extends Entity {
         context.setFill(color);
         context.fillOval(this.x - this.radius, FishHunt.HEIGHT - (this.y + this.radius),
                 this.radius * 2, this.radius * 2);
-    }
-
-    public boolean getExploded() {
-        return this.exploded;
     }
 }

@@ -11,6 +11,7 @@ public class ImageHelpers {
 
     /**
      * Constructeur d'ImageHelpers
+     * Private car on ne veut pas d'instance de cette classe
      */
     private ImageHelpers() {
     }

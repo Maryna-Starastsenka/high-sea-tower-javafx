@@ -31,6 +31,7 @@ public class Starfish extends Fish {
     @Override
     public void update (double dt) {
         super.update(dt);
+
         // Définit la direction de la vitesse horizontale et la position verticale
         // afin d'assurer l'oscillation de l'étoile
         if (initialPosY - this.y > 50) {
