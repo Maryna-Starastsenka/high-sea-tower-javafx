@@ -12,28 +12,28 @@ import java.util.Iterator;
  */
 public class Game {
 
-
     /**
      * Attributs de jeu
      */
-    private boolean gameOver = false;
-    private double levelTimer = 0;
-    private boolean nextLevel = true;
-    private static int width, height;
-    private static int level;
-    private int score = 0;
-    private int lives = 3;
+    private static int LEVEL;
+
     private double lifeFishWidth = 30;
     private double lifeFishSpacing = 10;
-    private double posXLives;
+
+    private boolean nextLevel = true;
+    private int score = 0;
+    private int lives = 3;
     private int numberOfKilledFishesInLevel = 0;
+    private boolean gameOver = false;
+    private Target target;
+
+    // Commence avec 1.5 seconde d'avance par rapport aux autres entités
+    private double bubbleTimer = 1.5;
+    private double levelTimer = 0;
     private boolean generateFishes = true;
     private double specialFishTimer = 0;
     private double normalFishTimer = 0;
-    private double bubbleTimer = 1.5;
     private double gameOverTimer = 0;
-
-    private Target target;
 
     /**
      * Liste des poissons en mémoire
@@ -50,30 +50,30 @@ public class Game {
      */
     private ArrayList<Bubble> bubbles = new ArrayList<>();
 
-    /**
-     * Constructeur de jeu qui instancie la cible au milieu de l'écran
-     *
-     * @param width largeur de la fenêtre
-     * @param height hauteur de la fenêtre
-     */
-    public Game(int width, int height) {
-        level = 1;
-        this.width = width;
-        this.height = height;
-        this.target = new Target(this.width/2, this.height/2);
-    }
-
-
-    public double getGameOverTimer() {
-        return gameOverTimer;
-    }
-
-    public static int getLevel() {
-        return level;
+    public static int getLEVEL() {
+        return LEVEL;
     }
 
     public int getScore() {
         return score;
+    }
+
+    /**
+     * Constructeur de jeu qui instancie la cible au milieu de l'écran
+     * et reset le niveau à 1
+     */
+    public Game() {
+        LEVEL = 1;
+        this.target = new Target(FishHunt.WIDTH/2, FishHunt.HEIGHT/2);
+    }
+
+    /**
+     * Méthode pour savoir s'il faut passer aux scores après game over
+     *
+     * @return vrai si le jeu est perdu depuis plus de 3 secondes
+     */
+    public boolean hasGameOverTimerEnded() {
+        return gameOverTimer >= 3;
     }
 
     /**
@@ -84,15 +84,11 @@ public class Game {
     }
 
     /**
-     * Instancie les crabs et les étoiles avec la probabilité de 50%
+     * Instancie les crabes et les étoiles avec une probabilité de 50%
      */
     public void generateSpecialFish() {
         double probability = Math.random();
-        if (probability < 0.5) {
-            fishes.add(new Crab(fishPosX()));
-        } else {
-            fishes.add(new Starfish(fishPosX()));
-        }
+        fishes.add(probability < 0.5 ? new Crab(fishPosX()) : new Starfish(fishPosX()));
     }
 
     /**
@@ -102,11 +98,7 @@ public class Game {
      */
     public double fishPosX() {
         double probability = Math.random();
-        if (probability < 0.5) {
-            return 0;
-        } else {
-            return width;
-        }
+        return probability < 0.5 ? 0 : FishHunt.WIDTH;
     }
 
     /**
@@ -114,7 +106,7 @@ public class Game {
      */
     public void generateBubbles() {
         for (int i = 0; i < 3; i++) {
-            double baseX = Math.random() * width;
+            double baseX = Math.random() * FishHunt.WIDTH;
             for (int j = 0; j < 5; j++) {
                 // La zone en x de chaque bulle est dans la plage [-20;+20] px autour de la base du groupe
                 bubbles.add(new Bubble((baseX - 20) + Math.random() * 41, 0));
@@ -146,7 +138,7 @@ public class Game {
     /**
      * Met à jour des entités du jeu
      * Retire de la mémoire les poissons, les balles et les bulles qui sont sorties de l'écran
-     * ou qui ont resolu le test de collision
+     * ou qui ont résolu le test de collision
      *
      * @param dt temps écoulé depuis le dernier update (en secondes)
      */
@@ -160,12 +152,12 @@ public class Game {
         }
 
         // Augmente le niveau de jeu et lance le compteur de temps pour afficher le niveau pendant 3 secondes
-        // si 5 poissons sont caprturés
+        // si 5 poissons sont capturés
         levelTimer += dt;
         if (levelTimer >= 3) {
             nextLevel = false;
-            if (numberOfKilledFishesInLevel >= 5 || (score >= level * 5)) {
-                level++;
+            if (numberOfKilledFishesInLevel >= 5 || (score >= LEVEL * 5)) {
+                LEVEL++;
                 levelTimer = 0;
                 nextLevel = true;
                 numberOfKilledFishesInLevel = 0;
@@ -188,19 +180,19 @@ public class Game {
 
         // Génère des poissons spéciaux toutes les 5 secondes
         specialFishTimer += dt;
-        if (specialFishTimer >= 5 && level >= 2 && !nextLevel && !gameOver) {
+        if (specialFishTimer >= 5 && LEVEL >= 2 && !nextLevel && !gameOver) {
            generateSpecialFish();
             specialFishTimer = 0;
         }
 
         // Vérifie les poissons qui sont sortis de l'écran
         for (Fish fish : fishes) {
-            if ((fish.vx > 0 && fish.x > width) ||
+            if ((fish.vx > 0 && fish.x > FishHunt.WIDTH) ||
                     (fish.vx < 0 && (fish.x + fish.width) < 0) ||
-                    (fish.y < 0) || (fish.y > height)) {
+                    (fish.y < 0) || (fish.y > FishHunt.HEIGHT)) {
                 fish.setHasEscaped(true);
 
-                // Diminue le nombre des vies si le poissont sort de l'écran
+                // Diminue le nombre des vies si le poisson sort de l'écran
                 if (!gameOver && !nextLevel) {
                     lives--;
                 }
@@ -211,7 +203,7 @@ public class Game {
         fishes.removeIf(fish -> fish.getHasEscaped());
 
         // Supprime les bulles de la mémoire si elles dépassent le haut de l'écran
-        bubbles.removeIf(bubble -> bubble.y - bubble.getRadius() > height);
+        bubbles.removeIf(bubble -> bubble.y - bubble.getRadius() > FishHunt.HEIGHT);
 
         // Parcourt la liste de balles et de poissons
         for (Iterator<Bullet> iterator1 = bullets.iterator(); iterator1.hasNext();) {
@@ -223,7 +215,7 @@ public class Game {
                     if (bullet.testCollision(fish)) {
                         score++;
                         numberOfKilledFishesInLevel++;
-                        // Supprime le poisson de la mémoire lorsequ'il y a une collision
+                        // Supprime le poisson de la mémoire lorsqu'il y a une collision
                         iterator2.remove();
                     }
                 }
@@ -256,7 +248,7 @@ public class Game {
     public void draw(GraphicsContext context) {
         // Arrière-plan
         context.setFill(Color.DARKBLUE);
-        context.fillRect(0, 0, width, height);
+        context.fillRect(0, 0, FishHunt.WIDTH, FishHunt.HEIGHT);
 
         // Itère sur la liste de bulles pour leur demander de se dessiner
         for (Bubble bubble : bubbles) {
@@ -281,7 +273,7 @@ public class Game {
             context.setFill(Color.WHITE);
             context.setTextAlign(TextAlignment.CENTER);
             context.setFont(Font.font(60));
-            context.fillText("Level " + level, width / 2, height / 2);
+            context.fillText("Level " + LEVEL, FishHunt.WIDTH / 2, FishHunt.HEIGHT / 2);
         }
 
         // Affiche "game over" si la partie est perdue
@@ -289,18 +281,19 @@ public class Game {
             context.setFill(Color.RED);
             context.setTextAlign(TextAlignment.CENTER);
             context.setFont(Font.font(60));
-            context.fillText("GAME OVER", width / 2, height / 2);
+            context.fillText("GAME OVER", FishHunt.WIDTH / 2, FishHunt.HEIGHT / 2);
         }
 
         // Affiche le score actuel et les poissons représentants le nombre de vies restantes
         context.setFill(Color.WHITE);
         context.setTextAlign(TextAlignment.CENTER);
         context.setFont(Font.font(20));
-        context.fillText(score +"", width / 2, 0.09 * height);
+        context.fillText(score +"", FishHunt.WIDTH / 2, 0.09 * FishHunt.HEIGHT);
         Image imageLives = new Image("images/fish/00.png");
-        posXLives = width / 2.0 - 1.5 * lifeFishWidth - lifeFishSpacing;
+        // Position
+        double posXLives = FishHunt.WIDTH / 2.0 - 1.5 * lifeFishWidth - lifeFishSpacing;
         for (int i = 0; i < lives ; i++) {
-            context.drawImage(imageLives, posXLives, 0.14 * height, lifeFishWidth, lifeFishWidth);
+            context.drawImage(imageLives, posXLives, 0.14 * FishHunt.HEIGHT, lifeFishWidth, lifeFishWidth);
             posXLives += lifeFishWidth + lifeFishSpacing ;
         }
     }
@@ -321,7 +314,7 @@ public class Game {
     }
 
     /**
-     * Fait monter le nombre de vie restantes dans le mode debug (maximum de 3 poissons)
+     * Fait monter le nombre de vies restantes dans le mode debug (maximum de 3 poissons)
      */
     public void increaseLife() {
         if (lives < 3) {

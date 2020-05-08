@@ -15,9 +15,6 @@ import javafx.scene.paint.Color;
  */
 public class HomePage extends Page {
 
-    private Button buttonNewGame;
-    private Button buttonBestScore;
-
     /**
      * Constructeur de la page d'accueil
      *
@@ -39,8 +36,8 @@ public class HomePage extends Page {
 
         homepageRoot.setAlignment(Pos.CENTER);
 
-        buttonNewGame = new Button("Nouvelle partie!");
-        buttonBestScore = new Button("Meilleurs scores");
+        Button buttonNewGame = new Button("Nouvelle partie!");
+        Button buttonBestScore = new Button("Meilleurs scores");
 
         Image logoImg = new Image("images/logo.png");
         ImageView logoView = new ImageView(logoImg);

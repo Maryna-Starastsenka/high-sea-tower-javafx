@@ -6,8 +6,8 @@ import javafx.scene.image.Image;
  */
 public class Target extends Entity {
 
-    private int imageSize = 50;
-    private Image imageTarget;
+    private final int imageSize = 50;
+    private final Image imageTarget;
 
     /**
      * Constructeur de la cible
@@ -18,8 +18,8 @@ public class Target extends Entity {
     public Target(double x, double y) {
         this.width = imageSize;
         this.height = imageSize;
-        this.x = x -this.imageSize/2;
-        this.y = y -this.imageSize/2;
+        this.x = x - this.imageSize/2.0;
+        this.y = y - this.imageSize/2.0;
 
         imageTarget = new Image("images/cible.png");
     }
@@ -31,9 +31,8 @@ public class Target extends Entity {
      * @param y ordonnée
      */
     public void move(double x, double y) {
-        this.x = x-this.imageSize/2;
-        this.y = y+this.imageSize/2;
-
+        this.x = x - this.imageSize/2.0;
+        this.y = y + this.imageSize/2.0;
     }
 
     /**

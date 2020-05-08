@@ -9,21 +9,7 @@ import java.util.Random;
  */
 public class NormalFish extends Fish {
 
-    private double minVerticalSpeed = 100;
-    private double maxVerticalSpeed = 200;
-
     private Image currentNormalFish;
-
-    /**
-     * Choisit aléatoirement la couleur du poisson
-     */
-    Random rand = new Random();
-    private int randomInt = rand.nextInt(8);
-    private int redValue = rand.nextInt(255);
-    private int greenValue = rand.nextInt(255);
-    private int blueValue = rand.nextInt(255);
-    private Color color = Color.rgb(redValue, greenValue, blueValue);
-
 
     /**
      * Constructeur du poisson normal
@@ -32,18 +18,32 @@ public class NormalFish extends Fish {
      */
     public NormalFish(double x) {
         super(x);
+
+        Random rand = new Random();
+
         this.ay = -100;
-        // Vitesse vertical aléatoire dans la plage définie
-        this.vy = minVerticalSpeed + Math.random()*(maxVerticalSpeed - minVerticalSpeed + 1);
+
+        // Vitesse verticale aléatoire dans la plage définie
+        double minVerticalSpeed = 100;
+        double maxVerticalSpeed = 200;
+        this.vy = minVerticalSpeed + Math.random() * (maxVerticalSpeed - minVerticalSpeed + 1);
 
         // Choisit aléatoirement une image sur 8
-        currentNormalFish = new Image("/images/fish/0"+randomInt+".png");
+        int randomInt = rand.nextInt(8);
+        currentNormalFish = new Image("/images/fish/0"+ randomInt +".png");
 
         // Inverse horizontalement l'image si le poisson bouge vers la gauche
         if (x != 0) {
             currentNormalFish = ImageHelpers.flop(currentNormalFish);
         }
+
+        // Choisit aléatoirement la couleur du poisson
+        int redValue = rand.nextInt(255);
+        int greenValue = rand.nextInt(255);
+        int blueValue = rand.nextInt(255);
+
         // Colorie le poisson avec le couleur aléatoire
+        Color color = Color.rgb(redValue, greenValue, blueValue);
         currentNormalFish = ImageHelpers.colorize(currentNormalFish, color);
     }
 

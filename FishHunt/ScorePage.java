@@ -24,8 +24,7 @@ public class ScorePage extends Page {
     private Label scoreLabel = new Label();
     private TextField nameTextField = new TextField();
     private ListView<String> list = new ListView<>();
-
-    ArrayList<String> scores = new ArrayList<>();
+    private ArrayList<String> scores = new ArrayList<>();
 
     /**
      * Constructeur de la page des scores
@@ -71,9 +70,9 @@ public class ScorePage extends Page {
     }
 
     /**
-     * Met les meuillers scores de la liste paire dans la liste affichée sur la page
+     * Met les meilleurs scores de la liste paire dans la liste affichée sur la page
      *
-     * @param bestScores Array List paire avec 10 meilleurs scores
+     * @param bestScores Array List paire avec les 10 meilleurs scores
      */
     public void setBestScores(ArrayList<Pair<String,Integer>> bestScores) {
         for (int i=0; i < bestScores.size(); i++) {
@@ -92,7 +91,7 @@ public class ScorePage extends Page {
     }
 
     /**
-     * Demande au contrôleur de faire soumettre le nouveau score et
+     * Demande au contrôleur de soumettre le nouveau score et
      * ensuite d'afficher la page d'accueil
      *
      * @param controller contrôleur du jeu
@@ -105,7 +104,7 @@ public class ScorePage extends Page {
     }
 
     /**
-     *Supprime les scores de la liste paire
+     *Supprime les scores de la liste de paires
      */
     public void clearScores() {
         scores.clear();

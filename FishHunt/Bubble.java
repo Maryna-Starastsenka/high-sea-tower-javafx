@@ -2,8 +2,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 /**
- * Classe du modèle qui représente un objet bulle
- * qui décore l'arrière-plan
+ * Classe bulle du modèle
+ * Sert à décorer l'arrière-plan du jeu dans l'océan
  */
 public class Bubble extends Entity {
 
@@ -39,7 +39,6 @@ public class Bubble extends Entity {
      * de la fenêtre
      *
      * @param context  contexte sur lequel dessiner
-     * //@param windowY ordonnée de la fenêtre depuis le fond de l'océan
      */
     @Override
     public void draw(GraphicsContext context) {

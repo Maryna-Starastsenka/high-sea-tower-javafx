@@ -4,17 +4,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-
 /**
  * Classe Score du modèle qui contient la logique des scores du jeu
  */
 public class Score {
 
     /**
-     * Liste contenante 10 meilleurs scores et les noms des joueurs
+     * Liste contenant les 10 meilleurs scores et les noms des joueurs
      */
     private ArrayList<Pair<String,Integer>> bestScores = new ArrayList<>();
 
+    /**
+     * Constructeur de Score qui initialise le modèle avec un fichier *.dat
+     */
     public Score() {
        readScoreFile();
     }
@@ -24,51 +26,48 @@ public class Score {
      *
      * @param newScore nouveau score de la partie
      * @return vrai si la taille de la liste des score est inférieure à 10 ou
-     * le nouveau score est supérieure au 10ème score
+     * le nouveau score est supérieur au 10ème score
      */
     public boolean compareNewScore(int newScore) {
         readScoreFile();
-        if (bestScores.size() < 10 || newScore > bestScores.get(9).getValue()) {
-            return true;
-        }
-        return false;
+        return bestScores.size() < 10 || newScore > bestScores.get(9).getValue();
     }
 
     /**
      * Ajoute le score actuel dans la liste de meilleurs scores et
-     * reçoit la liste triée avec 10 meilleurs scores
+     * reçoit la liste triée avec les 10 meilleurs scores
+     * Procède à la sérialisation du modèle dans un fichier *.dat
      *
-     * @param name nom de joueur
+     * @param name nom du joueur
      * @param score score de la partie
      */
     public void addNewScore(String name, int score) {
-        bestScores.add(new Pair(name, score));
+        bestScores.add(new Pair<>(name, score));
         bestScores = sortScores(bestScores);
         writeScoreFile();
     }
 
     /**
-     * Trie la liste de meilleurs scores et garde 10 prémiers scores
+     * Trie la liste de meilleurs scores et garde les 10 premiers scores
      *
-     * @param scores liste de meilleurs scores
-     * @return liste triée de meilleurs scores
+     * @param scores liste des meilleurs scores
+     * @return liste triée des meilleurs scores
      */
     private ArrayList<Pair<String,Integer>> sortScores(ArrayList<Pair<String,Integer>> scores) {
-        // Trie la liste de meilleurs scores dans l'ordre décroissant
+        // Trie la liste des meilleurs scores dans l'ordre décroissant
         scores.sort(Comparator.comparing(x -> x.getValue()));
         Collections.reverse(scores);
 
-        // Efface tous les éléments au delà de la 10ème position
+        // Efface tous les éléments au-delà de la 10ème position
         if (scores.size() > 10)
         scores.subList(10, scores.size()).clear();
         return scores;
     }
 
-
     /**
      * Lit le fishier "scores.dat" avec les meilleurs scores avant la partie actuelle
      *
-     * @return liste paire avec les meilleurs scores avant la partie actuelle
+     * @return liste de paires avec les meilleurs scores avant la partie actuelle
      */
     public ArrayList<Pair<String,Integer>> readScoreFile() {
         try {
@@ -85,9 +84,8 @@ public class Score {
         return bestScores;
     }
 
-
     /**
-     * Fait l'écriture de 10 meilleurs scores dans le fichier "scores.dat"
+     * Fait l'écriture des 10 meilleurs scores dans le fichier "scores.dat"
      */
     private void writeScoreFile() {
         try {
@@ -99,7 +97,7 @@ public class Score {
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
-            System.out.println("Erreur d'écriture du fichier");
+            System.out.println("Erreur d'écriture dans le fichier");
         }
     }
 }

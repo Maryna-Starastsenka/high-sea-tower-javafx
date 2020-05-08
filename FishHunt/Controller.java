@@ -8,18 +8,32 @@ import java.util.ArrayList;
  * met à jour la vue lorsque les données changent
  */
 public class Controller {
-
+    /**
+     * Modèles
+     */
     private Game game;
-    Stage primaryStage;
-    private HomePage homePage;
-    private GamePage gamePage;
-    private ScorePage scorePage;
     private Score scoreModel;
 
     /**
-     * Constructeur du Contrôleur
+     * Vues
      */
-    public Controller() {
+    private Stage primaryStage;
+    private HomePage homePage;
+    private GamePage gamePage;
+    private ScorePage scorePage;
+
+    /**
+     * Constructeur qui instancie les modèles de base
+     * et affiche la page d'accueil
+     *
+     * @param primaryStage stage (fenêtre) principale du jeu
+     */
+    public Controller(Stage primaryStage) {
+        setPrimaryStage(primaryStage);
+        // Fait un appel au contrôleur de créer 3 scènes du jeu
+        initScoreModel();
+        initScorePage();
+        homePage();
     }
 
     public void setPrimaryStage(Stage primaryStage) {
@@ -27,18 +41,21 @@ public class Controller {
     }
 
     /**
-     * Constructeur de la page d'accueil
+     * Instanciation et affichage de la page d'accueil
      */
     void homePage() {
-        homePage = new HomePage(this);
+        if (homePage == null) {
+            homePage = new HomePage(this);
+        }
         updateView(homePage);
     }
 
     /**
-     * Constructeur de la page du jeu
+     * Instanciation et affichage de la page du jeu
+     * Instanciation du modèle associé
      */
     void gamePage() {
-        game = new Game(FishHunt.WIDTH, FishHunt.HEIGHT);
+        game = new Game();
 
         // Fait le binding du timeur d'uptade avec le contrôleur
         if (gamePage == null) {
@@ -48,7 +65,9 @@ public class Controller {
     }
 
     /**
-     * Constructeur de la page de meilleurs scores
+     * Instanciation de la page de meilleurs scores
+     * Pas d'affichage par défaut du champs d'input permettant
+     * l'ajout d'un score
      */
     void initScorePage() {
         scorePage = new ScorePage(this);
@@ -56,14 +75,14 @@ public class Controller {
     }
 
     /**
-     * Constructeur du modèle de score
+     * Instanciation du modèle de score
      */
     void initScoreModel() {
         scoreModel = new Score();
     }
 
     /**
-     * Affiche 10 meilleurs scores sur la page des scores
+     * Affichage des 10 meilleurs scores sur la page des scores
      */
     void scorePage() {
         ArrayList<Pair<String,Integer>> bestScores = scoreModel.readScoreFile();
@@ -89,7 +108,7 @@ public class Controller {
     /**
      * Fait la mise à jour de la vue d'une fenêtre
      *
-     * @param page page affichée sur l'écran
+     * @param page page affichée à l'écran
      */
     void updateView(Page page) {
         primaryStage.setScene(page.getScene());
@@ -127,13 +146,15 @@ public class Controller {
     }
 
     /**
-     * Fait la mise à jour de la fenêtre
+     * Fait la mise à jour de la fenêtre de jeu
+     * Gère l'interaction entre la page de jeu et de score
      *
      * @param deltaTime temps écoulé depuis le dernier appel en seconde
      */
     void update(double deltaTime) {
         if (game == null) return;
-        if (game.getGameOverTimer() >= 3) {
+
+        if (game.hasGameOverTimerEnded()) {
             int score = game.getScore();
             // Vérifie si le score de la partie est dans le top 10
             if(scoreModel.compareNewScore(score)) {
@@ -141,7 +162,7 @@ public class Controller {
                 setScoreInputVisible(true);
             } else {
                 setScoreInputVisible(false);
-            };
+            }
             scorePage();
             game = null;
             scorePage();
@@ -165,8 +186,8 @@ public class Controller {
     }
 
     /**
-     * Demande au modèle de faire monter le nombre de vie restantes
-     * dans le mode debug (maximum de 3 poissons)
+     * Demande au modèle de faire monter le nombre de vies restantes
+     * dans le mode debug de +1 (maximum de 3 poissons)
      */
     public void increaseLife() {
         game.increaseLife();

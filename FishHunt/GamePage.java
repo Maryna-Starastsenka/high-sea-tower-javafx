@@ -5,7 +5,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 
-
 /**
  * Classe Page de Jeu de la vue
  */
@@ -39,7 +38,6 @@ public class GamePage extends Page {
      * @param controller contrôleur du jeu
      */
     private void setupMouseEvents(Scene scene, Controller controller) {
-
         scene.setOnMouseMoved((event) -> {
           controller.move(event.getX(), FishHunt.HEIGHT - event.getY());
         });
