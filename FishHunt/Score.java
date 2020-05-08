@@ -11,20 +11,13 @@ import java.util.Comparator;
 public class Score {
 
 
-
-    private int newScore;
-
     private ArrayList<Pair<String,Integer>> bestScores = new ArrayList<>();
 
-    public Score(Controller controller) {
+    public Score() {
        readScoreFile();
     }
 
-
-
-
     public boolean compareNewScore(int newScore) {
-        this.newScore = newScore;
         readScoreFile();
         if (bestScores.size() < 10 || newScore > bestScores.get(9).getValue()) {
             return true;

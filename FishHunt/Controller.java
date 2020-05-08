@@ -1,7 +1,6 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-
 import java.util.ArrayList;
 
 /**
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 public class Controller {
 
     private Game game;
-
     Stage primaryStage;
     private HomePage homePage;
     private GamePage gamePage;
@@ -28,42 +26,58 @@ public class Controller {
         this.primaryStage = primaryStage;
     }
 
+    /**
+     * Constructeur de la page d'accueil
+     */
     void homePage() {
         homePage = new HomePage(this);
         updateView(homePage);
-
     }
 
+    /**
+     * Constructeur de la page du jeu
+     */
     void gamePage() {
         game = new Game(FishHunt.WIDTH, FishHunt.HEIGHT);
 
-        // ce if est important car sinon le timer d'update sera créé plusieurs fois
+        // Fait le binding du timeur d'uptade avec le contrôleur
         if (gamePage == null) {
             gamePage = new GamePage(this);
         }
         updateView(gamePage);
-
-
     }
 
+    /**
+     * Constructeur de la page de meilleurs scores
+     */
     void initScorePage() {
         scorePage = new ScorePage(this);
         scorePage.setScoreInputVisible(false);
     }
 
+    /**
+     * Constructeur du modèle de score
+     */
     void initScoreModel() {
-        scoreModel = new Score(this);
+        scoreModel = new Score();
     }
 
-    //Affiche les scores
+    /**
+     * Affiche 10 meilleurs scores sur la page des scores
+     */
     void scorePage() {
-        ArrayList<Pair<String,Integer>>  bestScores = scoreModel.readScoreFile();
+        ArrayList<Pair<String,Integer>> bestScores = scoreModel.readScoreFile();
         scorePage.clearScores();
         scorePage.setBestScores(bestScores);
         updateView(scorePage);
     }
 
-    //Écrit nouveau score dans le fichier
+    /**
+     * Ajoute un nouveau score dans le modèle du score
+     *
+     * @param name nom de joueur
+     * @param score score obtenu
+     */
     void addNewScore(String name, int score) {
         scoreModel.addNewScore(name, score);
     }
@@ -72,20 +86,36 @@ public class Controller {
         scorePage.setScoreInputVisible(visible);
     }
 
+    /**
+     * Fait la mise à jour de la vue d'une fenêtre
+     *
+     * @param page page affichée sur l'écran
+     */
     void updateView(Page page) {
         primaryStage.setScene(page.getScene());
         primaryStage.show();
-
     }
 
-    // Deplacer la cible
+    /**
+     * Demande au modèle de déplacer la cible
+     *
+     * @param x abscisse
+     * @param y ordonnée
+     */
     void move(double x, double y) {
         game.move(x, y);
     }
 
+    /**
+     * Demande au modèle de lancer la balle
+     *
+     * @param x abscisse
+     * @param y ordonnée
+     */
     void shoot(double x, double y) {
         game.shoot(x, y);
     }
+
     /**
      * Dessine tous les éléments graphiques du jeu
      *
@@ -98,13 +128,14 @@ public class Controller {
 
     /**
      * Fait la mise à jour de la fenêtre
+     *
      * @param deltaTime temps écoulé depuis le dernier appel en seconde
      */
     void update(double deltaTime) {
         if (game == null) return;
         if (game.getGameOverTimer() >= 3) {
             int score = game.getScore();
-            // vérifie si le score de la partie est dans le top 10
+            // Vérifie si le score de la partie est dans le top 10
             if(scoreModel.compareNewScore(score)) {
                 scorePage.setNewScore(score);
                 setScoreInputVisible(true);
@@ -119,18 +150,31 @@ public class Controller {
         }
     }
 
+    /**
+     * Demande au modèle de faire monter le niveau de +1
+     */
     public void nextLevel() {
         game.nextLevel();
     }
 
+    /**
+     * Demande au modèle de faire monter le score de +1
+     */
     public void increaseScore() {
         game.increaseScore();
     }
 
+    /**
+     * Demande au modèle de faire monter le nombre de vie restantes
+     * dans le mode debug (maximum de 3 poissons)
+     */
     public void increaseLife() {
         game.increaseLife();
     }
 
+    /**
+     * Demande au modèle de faire perdre la partie dans le mode debug
+     */
     public void gameOver() {
         game.gameOver();
     }

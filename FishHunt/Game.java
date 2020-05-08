@@ -219,13 +219,15 @@ public class Game {
             if (bullet.getExploded()) {
                 for (Iterator<Fish> iterator2 = fishes.iterator(); iterator2.hasNext(); ) {
                     Fish fish = iterator2.next();
+                    // Augmente le score si la balle atteint le poisson
                     if (bullet.testCollision(fish)) {
                         score++;
                         numberOfKilledFishesInLevel++;
+                        // Supprime le poisson de la mémoire lorsequ'il y a une collision
                         iterator2.remove();
                     }
                 }
-                // Supprime le poission et la balle de la mémoire lorsequ'il y a une collision
+                // Supprime la balle de la mémoire
                 iterator1.remove();
             }
         }
@@ -303,12 +305,15 @@ public class Game {
         }
     }
 
+    /**
+     * Fait monter le niveau de +1 dans le mode debug
+     */
     public void nextLevel() {
         numberOfKilledFishesInLevel = 5;
     }
 
     /**
-     * Augmente le score dans le mode debug
+     * Fait monter le score de +1 dans le mode debug
      */
     public void increaseScore() {
         score++;
@@ -316,7 +321,7 @@ public class Game {
     }
 
     /**
-     * Augmente le nombre de vies dans mode debug (maximum de 3 poissons)
+     * Fait monter le nombre de vie restantes dans le mode debug (maximum de 3 poissons)
      */
     public void increaseLife() {
         if (lives < 3) {
@@ -325,7 +330,7 @@ public class Game {
     }
 
     /**
-     * Partie est perdue dans le mode debug
+     * Fait perdre la partie dans le mode debug
      */
     public void gameOver() {
         gameOver = true;
