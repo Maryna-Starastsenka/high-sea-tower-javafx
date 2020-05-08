@@ -13,9 +13,10 @@ public class Controller {
     private HomePage homePage;
     private GamePage gamePage;
     private ScorePage scorePage;
+    private Score scoreModel;
 
     /**
-     * Contructeur du Contrôleur
+     * Constructeur du Contrôleur
      */
     public Controller() {
     }
@@ -27,21 +28,36 @@ public class Controller {
     void homePage() {
         homePage = new HomePage(this);
         updateView(homePage);
+
     }
 
     void gamePage() {
         game = new Game(FishHunt.WIDTH, FishHunt.HEIGHT);
 
-        // ce if est important car sinon le timer d'update sera crée plusieurs fois
+        // ce if est important car sinon le timer d'update sera créé plusieurs fois
         if (gamePage == null) {
             gamePage = new GamePage(this);
         }
         updateView(gamePage);
+
+
     }
 
-    void scorePage() {
+    void initScorePage() {
         scorePage = new ScorePage(this);
+    }
+
+    void initScoreModel() {
+        scoreModel = new Score(this);
+    }
+
+    //Affiche les scores
+    void scorePage() {
         updateView(scorePage);
+    }
+
+    void addNewScore(String name, int score) {
+        scoreModel.addNewScore(name, score);
     }
 
     void updateView(Page page) {
@@ -76,7 +92,11 @@ public class Controller {
         if (game == null) return;
         if (game.gameOverTimer >= 3) {
             int score = game.getScore();
-            // todo faire une classe score model
+            // vérifie si le score de la partie est dans le top 10
+            if(scoreModel.compareNewScore(score)) {
+                scorePage.displayScoreInput();
+            };
+            scorePage();
             game = null;
             scorePage();
         } else {

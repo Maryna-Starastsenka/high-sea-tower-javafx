@@ -45,6 +45,10 @@ public class FishHunt extends Application {
 
         Controller controller = new Controller();
         controller.setPrimaryStage(primaryStage);
+        controller.initScoreModel();
+        controller.initScorePage();
         controller.homePage();
+
+
     }
 }

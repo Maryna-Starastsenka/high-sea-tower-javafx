@@ -15,8 +15,7 @@ public class ScorePage extends Page {
 
     public ScorePage(Controller controller) {
 
-        scores.add("Test 1");
-        scores.add("Test 2");
+
         VBox scorePageRoot = new VBox();
         this.scene = new Scene (scorePageRoot, FishHunt.WIDTH, FishHunt.HEIGHT);
         Text title = new Text("Meilleurs scores");
@@ -33,5 +32,15 @@ public class ScorePage extends Page {
         scorePageRoot.setPadding(new Insets(10));
 
         buttonMenu.setOnAction((event) -> controller.homePage());
+
+        scores.add("Test 1");
+        scores.add("Test 2");
     }
+
+    //Active le champ pour rentrer son score
+    public void displayScoreInput() {
+
+    }
+
+
 }
