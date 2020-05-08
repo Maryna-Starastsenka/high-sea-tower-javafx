@@ -63,8 +63,13 @@ public class Controller {
         updateView(scorePage);
     }
 
+    //Écrit nouveau score dans le fichier
     void addNewScore(String name, int score) {
         scoreModel.addNewScore(name, score);
+    }
+
+    void setScoreInputVisible(boolean visible) {
+        scorePage.setScoreInputVisible(visible);
     }
 
     void updateView(Page page) {
@@ -102,9 +107,9 @@ public class Controller {
             // vérifie si le score de la partie est dans le top 10
             if(scoreModel.compareNewScore(score)) {
                 scorePage.setNewScore(score);
-                scorePage.setScoreInputVisible(true);
+                setScoreInputVisible(true);
             } else {
-                scorePage.setScoreInputVisible(false);
+                setScoreInputVisible(false);
             };
             scorePage();
             game = null;

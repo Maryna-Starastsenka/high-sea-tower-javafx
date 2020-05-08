@@ -46,6 +46,10 @@ public class HomePage extends Page {
 
         buttonNewGame.setOnAction((event) -> controller.gamePage());
 
-        buttonBestScore.setOnAction((event) -> controller.scorePage());
+
+        buttonBestScore.setOnAction((event) -> {
+            controller.setScoreInputVisible(false);
+            controller.scorePage();
+        });
     }
 }
