@@ -22,7 +22,7 @@ public class Controller {
     public Controller() {
     }
 
-    public void setPrimaryStage(Stage primaryStage) {
+    void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
@@ -153,14 +153,14 @@ public class Controller {
     /**
      * Demande au modèle de faire monter le niveau de +1
      */
-    public void nextLevel() {
+    void nextLevel() {
         game.nextLevel();
     }
 
     /**
      * Demande au modèle de faire monter le score de +1
      */
-    public void increaseScore() {
+    void increaseScore() {
         game.increaseScore();
     }
 
@@ -168,14 +168,14 @@ public class Controller {
      * Demande au modèle de faire monter le nombre de vies restantes
      * dans le mode debug (maximum de 3 poissons)
      */
-    public void increaseLife() {
+    void increaseLife() {
         game.increaseLife();
     }
 
     /**
      * Demande au modèle de faire perdre la partie dans le mode debug
      */
-    public void gameOver() {
+    void gameOver() {
         game.gameOver();
     }
 }

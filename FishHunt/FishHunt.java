@@ -43,7 +43,7 @@ public class FishHunt extends Application {
         Controller controller = new Controller();
         controller.setPrimaryStage(primaryStage);
 
-        // Fait un appel au contrôleur de créer 3 scènes du jeu
+        // Initie vue: score, menu principal et modèle: score
         controller.initScoreModel();
         controller.initScorePage();
         controller.homePage();
