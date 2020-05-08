@@ -1,22 +1,31 @@
 import javafx.util.Pair;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 
-//Logique du score
-
+/**
+ * Classe Score du modèle qui contient la logique des scores du jeu
+ */
 public class Score {
 
-
+    /**
+     * Liste contenante 10 meilleurs scores et les noms des joueurs
+     */
     private ArrayList<Pair<String,Integer>> bestScores = new ArrayList<>();
 
     public Score() {
        readScoreFile();
     }
 
+    /**
+     * Vérifie si le nouveau score doit être affiché dans la liste des scores
+     *
+     * @param newScore nouveau score de la partie
+     * @return vrai si la taille de la liste des score est inférieure à 10 ou
+     * le nouveau score est supérieure au 10ème score
+     */
     public boolean compareNewScore(int newScore) {
         readScoreFile();
         if (bestScores.size() < 10 || newScore > bestScores.get(9).getValue()) {
@@ -25,28 +34,46 @@ public class Score {
         return false;
     }
 
+    /**
+     * Ajoute le score actuel dans la liste de meilleurs scores et
+     * reçoit la liste triée avec 10 meilleurs scores
+     *
+     * @param name nom de joueur
+     * @param score score de la partie
+     */
     public void addNewScore(String name, int score) {
         bestScores.add(new Pair(name, score));
         bestScores = sortScores(bestScores);
         writeScoreFile();
     }
 
+    /**
+     * Trie la liste de meilleurs scores et garde 10 prémiers scores
+     *
+     * @param scores liste de meilleurs scores
+     * @return liste triée de meilleurs scores
+     */
     private ArrayList<Pair<String,Integer>> sortScores(ArrayList<Pair<String,Integer>> scores) {
-        //Ordre décroissant
+        // Trie la liste de meilleurs scores dans l'ordre décroissant
         scores.sort(Comparator.comparing(x -> x.getValue()));
         Collections.reverse(scores);
 
-        //Efface tous les éléments au delà de la 10e position:
+        // Efface tous les éléments au delà de la 10ème position
         if (scores.size() > 10)
         scores.subList(10, scores.size()).clear();
         return scores;
     }
 
 
+    /**
+     * Lit le fishier "scores.dat" avec les meilleurs scores avant la partie actuelle
+     *
+     * @return liste paire avec les meilleurs scores avant la partie actuelle
+     */
     public ArrayList<Pair<String,Integer>> readScoreFile() {
         try {
             FileInputStream scoreFileInputStream = new FileInputStream("scores.dat");
-            ObjectInputStream  scoreObjectInputStream = new ObjectInputStream(scoreFileInputStream);
+            ObjectInputStream scoreObjectInputStream = new ObjectInputStream(scoreFileInputStream);
             bestScores = (ArrayList<Pair<String,Integer>>) scoreObjectInputStream.readObject();
             scoreObjectInputStream.close();
             scoreFileInputStream.close();
@@ -59,6 +86,9 @@ public class Score {
     }
 
 
+    /**
+     * Fait l'écriture de 10 meilleurs scores dans le fichier "scores.dat"
+     */
     private void writeScoreFile() {
         try {
             FileOutputStream scoreFileOutputStream = new FileOutputStream("scores.dat");
@@ -72,6 +102,4 @@ public class Score {
             System.out.println("Erreur d'écriture du fichier");
         }
     }
-
-
 }

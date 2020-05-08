@@ -37,5 +37,4 @@ public abstract class Entity {
      * @param context contexte sur lequel dessiner
      */
     public abstract void draw(GraphicsContext context);
-
 }

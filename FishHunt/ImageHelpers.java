@@ -5,46 +5,21 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
 /**
- * Classe fournissant des méthodes statiques pour manipuler des Images avec
- * JavaFX.
+ * Classe fournissant des méthodes statiques pour manipuler des Images avec JavaFX
  */
 public class ImageHelpers {
 
     /**
-     * Le constructeur est défini comme étant privé : cette classe fournit des
-     * méthodes statiques et l'"instancier" n'aurait pas de sens.
+     * Constructeur d'ImageHelpers
      */
     private ImageHelpers() {
     }
 
     /**
-     * Inversion verticale d'une image.
+     * Inversion horizontale d'une image
      *
-     * @param img L'image à inverser
-     * @return Une nouvelle image contenant une inversion verticale des pixels
-     * de l'image originale
-     */
-    public static Image flip(Image img) {
-        int h = (int) img.getHeight();
-        WritableImage output = new WritableImage((int) img.getWidth(), h);
-
-        PixelReader reader = img.getPixelReader();
-        PixelWriter writer = output.getPixelWriter();
-
-        for (int y = 0; y < img.getHeight(); y++) {
-            for (int x = 0; x < img.getWidth(); x++) {
-                Color color = reader.getColor(x, y);
-                writer.setColor(x, h - 1 - y, color);
-            }
-        }
-        return output;
-    }
-
-    /**
-     * Inversion verticale d'une image.
-     *
-     * @param img L'image à inverser
-     * @return Une nouvelle image contenant une inversion horizontale des pixels
+     * @param img Image à inverser
+     * @return Nouvelle image contenant une inversion horizontale des pixels
      * de l'image originale
      */
     public static Image flop(Image img) {
@@ -60,17 +35,16 @@ public class ImageHelpers {
                 writer.setColor(w - 1 - x, y, color);
             }
         }
-
         return output;
     }
 
     /**
      * Recolorie une image avec une couleur donnée. Tous les pixels
      * non-transparents de l'image img se font attribuer la couleur color passée
-     * en paramètre.
+     * en paramètre
      *
-     * @param img L'image originale
-     * @param color La nouvelle couleur à utiliser
+     * @param img Image originale
+     * @param color Nouvelle couleur à utiliser
      * @return Une nouvelle image contenant une version re-coloriée de l'image
      * originale
      */
