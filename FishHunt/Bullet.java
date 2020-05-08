@@ -42,7 +42,7 @@ public class Bullet extends Entity {
     }
 
     /**
-     * Fait le test de collision pour vérifier si le poisson est capturé
+     * Fait un test de collision pour vérifier si le poisson est capturé
      *
      * @param fish poisson qu'on veut capturer
      * @return vrai si la balle atteint le poisson

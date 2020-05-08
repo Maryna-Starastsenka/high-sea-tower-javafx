@@ -84,7 +84,7 @@ public class Game {
     }
 
     /**
-     * Instancie les crabes et les étoiles avec une probabilité de 50%
+     * Instancie les crabes et les étoiles de mer avec une probabilité de 50%
      */
     public void generateSpecialFish() {
         double probability = Math.random();
@@ -92,9 +92,9 @@ public class Game {
     }
 
     /**
-     * Choisit aléqtoirement l'abscisse du poisson entre 0 et largeur de l'écran
+     * Choisit aléatoirement l'abscisse du poisson entre 0 et la largeur de l'écran
      *
-     * @return position horizontale initilale du poisson
+     * @return position horizontale initiale du poisson
      */
     public double fishPosX() {
         double probability = Math.random();
@@ -136,9 +136,9 @@ public class Game {
     }
 
     /**
-     * Met à jour des entités du jeu
+     * Met à jour les entités du jeu
      * Retire de la mémoire les poissons, les balles et les bulles qui sont sorties de l'écran
-     * ou qui ont résolu le test de collision
+     * ou qui sont entrés en collision
      *
      * @param dt temps écoulé depuis le dernier update (en secondes)
      */
@@ -192,7 +192,7 @@ public class Game {
                     (fish.y < 0) || (fish.y > FishHunt.HEIGHT)) {
                 fish.setHasEscaped(true);
 
-                // Diminue le nombre des vies si le poisson sort de l'écran
+                // Diminue le nombre des vies si un poisson sort de l'écran
                 if (!gameOver && !nextLevel) {
                     lives--;
                 }
@@ -284,7 +284,7 @@ public class Game {
             context.fillText("GAME OVER", FishHunt.WIDTH / 2, FishHunt.HEIGHT / 2);
         }
 
-        // Affiche le score actuel et les poissons représentants le nombre de vies restantes
+        // Affiche le score actuel et les poissons représentant le nombre de vies restantes
         context.setFill(Color.WHITE);
         context.setTextAlign(TextAlignment.CENTER);
         context.setFont(Font.font(20));

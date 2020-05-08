@@ -70,9 +70,9 @@ public class ScorePage extends Page {
     }
 
     /**
-     * Met les meilleurs scores de la liste paire dans la liste affichée sur la page
+     * Met les meilleurs scores de la liste de paires dans la liste affichée sur la page
      *
-     * @param bestScores Array List paire avec les 10 meilleurs scores
+     * @param bestScores Array List de paires avec les 10 meilleurs pointages
      */
     public void setBestScores(ArrayList<Pair<String,Integer>> bestScores) {
         for (int i=0; i < bestScores.size(); i++) {

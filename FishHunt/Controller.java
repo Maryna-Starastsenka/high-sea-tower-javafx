@@ -149,7 +149,7 @@ public class Controller {
      * Fait la mise à jour de la fenêtre de jeu
      * Gère l'interaction entre la page de jeu et de score
      *
-     * @param deltaTime temps écoulé depuis le dernier appel en seconde
+     * @param deltaTime temps écoulé depuis le dernier appel en secondes
      */
     void update(double deltaTime) {
         if (game == null) return;

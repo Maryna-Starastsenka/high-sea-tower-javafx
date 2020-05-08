@@ -24,8 +24,8 @@ public class Score {
     /**
      * Vérifie si le nouveau score doit être affiché dans la liste des scores
      *
-     * @param newScore nouveau score de la partie
-     * @return vrai si la taille de la liste des score est inférieure à 10 ou
+     * @param newScore score de la partie qui vient d'être jouée
+     * @return vrai si la taille de la liste des scores est inférieure à 10 ou
      * le nouveau score est supérieur au 10ème score
      */
     public boolean compareNewScore(int newScore) {
@@ -35,7 +35,7 @@ public class Score {
 
     /**
      * Ajoute le score actuel dans la liste de meilleurs scores et
-     * reçoit la liste triée avec les 10 meilleurs scores
+     * reçoit la liste triée des 10 meilleurs scores
      * Procède à la sérialisation du modèle dans un fichier *.dat
      *
      * @param name nom du joueur
@@ -54,13 +54,13 @@ public class Score {
      * @return liste triée des meilleurs scores
      */
     private ArrayList<Pair<String,Integer>> sortScores(ArrayList<Pair<String,Integer>> scores) {
-        // Trie la liste des meilleurs scores dans l'ordre décroissant
+        // Trie la liste de meilleurs scores en ordre décroissant
         scores.sort(Comparator.comparing(x -> x.getValue()));
         Collections.reverse(scores);
 
         // Efface tous les éléments au-delà de la 10ème position
         if (scores.size() > 10)
-        scores.subList(10, scores.size()).clear();
+            scores.subList(10, scores.size()).clear();
         return scores;
     }
 

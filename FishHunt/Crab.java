@@ -3,7 +3,7 @@ import javafx.scene.image.Image;
 
 /**
  * Classe Crabe hérite de Poisson
- * Les crabes apparaissent tous les 5 secondes à partir du niveau 2
+ * Les crabes apparaissent toutes les 5 secondes à partir du niveau 2
  */
 public class Crab extends Fish {
 

@@ -3,7 +3,7 @@ import javafx.scene.image.Image;
 
 /**
  * Classe Etoile hérite de Poisson
- * Les étoiles apparaissent tous les 5 secondes à partir du niveau 2
+ * Les étoiles apparaissent toutes les 5 secondes à partir du niveau 2
  */
 public class Starfish extends Fish {
 
@@ -33,7 +33,7 @@ public class Starfish extends Fish {
         super.update(dt);
 
         // Définit la direction de la vitesse horizontale et la position verticale
-        // afin d'assurer l'ascillation de l'étoile
+        // afin d'assurer l'oscillation de l'étoile
         if (initialPosY - this.y > 50) {
             this.vy *= -1;
             this.y = initialPosY - 50;

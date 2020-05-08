@@ -53,7 +53,7 @@ public class HomePage extends Page {
         // Demande au contrôleur d'afficher la page de jeu
         buttonNewGame.setOnAction((event) -> controller.gamePage());
 
-        // Demande au contrôleur d'afficher la page de meilleurs scores
+        // Demande au contrôleur d'afficher la page des meilleurs scores
         buttonBestScore.setOnAction((event) -> {
             controller.setScoreInputVisible(false);
             controller.scorePage();

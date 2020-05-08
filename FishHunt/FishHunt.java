@@ -29,7 +29,7 @@ public class FishHunt extends Application {
     }
 
     /**
-     * Définit les paramètres de la fenêrtre et instancie le contrôleur
+     * Définit les paramètres de la fenêtre et instancie le contrôleur
      *
      * @param primaryStage stage (fenêtre) principale du jeu
      * @throws Exception
