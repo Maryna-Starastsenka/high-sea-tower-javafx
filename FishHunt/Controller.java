@@ -30,13 +30,13 @@ public class Controller {
      */
     public Controller(Stage primaryStage) {
         setPrimaryStage(primaryStage);
-        // Fait un appel au contrôleur de créer 3 scènes du jeu
+        //Crée le modèle du score, la vue du score et du menu principal
         initScoreModel();
         initScorePage();
         homePage();
     }
 
-    public void setPrimaryStage(Stage primaryStage) {
+    void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
@@ -57,7 +57,7 @@ public class Controller {
     void gamePage() {
         game = new Game();
 
-        // Fait le binding du timeur d'uptade avec le contrôleur
+        // Fait le binding du timeur d'update avec le contrôleur
         if (gamePage == null) {
             gamePage = new GamePage(this);
         }
@@ -65,8 +65,8 @@ public class Controller {
     }
 
     /**
-     * Instanciation de la page de meilleurs scores
-     * Pas d'affichage par défaut du champs d'input permettant
+     * Instanciation de la page des meilleurs scores
+     * Pas d'affichage par défaut du champ d'input permettant
      * l'ajout d'un score
      */
     void initScorePage() {
@@ -174,14 +174,14 @@ public class Controller {
     /**
      * Demande au modèle de faire monter le niveau de +1
      */
-    public void nextLevel() {
+    void nextLevel() {
         game.nextLevel();
     }
 
     /**
      * Demande au modèle de faire monter le score de +1
      */
-    public void increaseScore() {
+    void increaseScore() {
         game.increaseScore();
     }
 
@@ -189,14 +189,14 @@ public class Controller {
      * Demande au modèle de faire monter le nombre de vies restantes
      * dans le mode debug de +1 (maximum de 3 poissons)
      */
-    public void increaseLife() {
+    void increaseLife() {
         game.increaseLife();
     }
 
     /**
      * Demande au modèle de faire perdre la partie dans le mode debug
      */
-    public void gameOver() {
+    void gameOver() {
         game.gameOver();
     }
 }

@@ -15,7 +15,7 @@ public class Score {
     private ArrayList<Pair<String,Integer>> bestScores = new ArrayList<>();
 
     /**
-     * Constructeur de Score qui initialise le modèle avec un fichier *.dat
+     * Constructeur de Score qui initialise le modèle avec un fichier .dat
      */
     public Score() {
        readScoreFile();
@@ -36,7 +36,7 @@ public class Score {
     /**
      * Ajoute le score actuel dans la liste de meilleurs scores et
      * reçoit la liste triée des 10 meilleurs scores
-     * Procède à la sérialisation du modèle dans un fichier *.dat
+     * Procède à la sérialisation du modèle dans un fichier .dat
      *
      * @param name nom du joueur
      * @param score score de la partie
@@ -65,7 +65,7 @@ public class Score {
     }
 
     /**
-     * Lit le fishier "scores.dat" avec les meilleurs scores avant la partie actuelle
+     * Lit le fichier "scores.dat" avec les meilleurs scores avant la partie actuelle
      *
      * @return liste de paires avec les meilleurs scores avant la partie actuelle
      */

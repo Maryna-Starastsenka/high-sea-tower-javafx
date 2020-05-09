@@ -12,7 +12,9 @@ public abstract class Fish extends Entity {
     private final double maxImageSize = 120;
 
     /**
+
      * Indique si le poisson est sorti de la fenêtre
+
      */
     private boolean hasEscaped;
 
@@ -43,7 +45,7 @@ public abstract class Fish extends Entity {
         vx = 100.0 * Math.pow(Game.getLEVEL(), 1.0/3) + 200;
 
         if (x != 0) {
-            // Vitesse horisontale négative si le poissin vient de la droite
+            // Vitesse horizontale négative si le poisson vient de la droite
             this.vx = -vx;
         }
         this.hasEscaped = false;

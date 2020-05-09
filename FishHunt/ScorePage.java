@@ -42,7 +42,7 @@ public class ScorePage extends Page {
         scorePageRoot.getChildren().add(title);
         scorePageRoot.getChildren().add(list);
 
-        // Champs de saisie
+        // Champ de saisie
         scoreInputBox.setAlignment(Pos.CENTER);
         Label nameLabel = new Label("Votre nom: ");
 

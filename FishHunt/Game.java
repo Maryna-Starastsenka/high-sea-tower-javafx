@@ -13,7 +13,7 @@ import java.util.Iterator;
 public class Game {
 
     /**
-     * Attributs de jeu
+     * Attributs du jeu
      */
     private static int LEVEL;
 
@@ -59,7 +59,7 @@ public class Game {
 
     /**
      * Constructeur de jeu qui instancie la cible au milieu de l'écran
-     * et reset le niveau à 1
+     * et réinitialise le niveau à 1
      */
     public Game() {
         LEVEL = 1;
@@ -267,7 +267,7 @@ public class Game {
         // Demande à la cible de se dessiner
         target.draw(context);
 
-        // Affiche le niveau de jeu
+        // Affiche le niveau du jeu
         if (nextLevel) {
             context.setFill(Color.WHITE);
             context.setTextAlign(TextAlignment.CENTER);
