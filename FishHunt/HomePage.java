@@ -42,8 +42,8 @@ public class HomePage extends Page {
         Image logoImg = new Image("images/logo.png");
         ImageView logoView = new ImageView(logoImg);
 
-        logoView.setFitWidth(FishHunt.WIDTH/2);
-        logoView.setFitHeight(FishHunt.HEIGHT/2);
+        logoView.setFitWidth(FishHunt.WIDTH/2.0);
+        logoView.setFitHeight(FishHunt.HEIGHT/2.0);
 
         homepageRoot.getChildren().add(logoView);
         homepageRoot.getChildren().add(buttonNewGame);

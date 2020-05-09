@@ -7,8 +7,8 @@ import javafx.scene.image.Image;
  */
 public class Starfish extends Fish {
 
-    private Image ImageStarfish;
-    private double initialPosY;
+    private final Image ImageStarfish;
+    private final double initialPosY;
 
     /**
      * Constructeur de l'étoile

@@ -19,12 +19,11 @@ import java.util.ArrayList;
 public class ScorePage extends Page {
 
     private int newScore;
-    private String playerName;
-    private HBox scoreInputBox = new HBox();
-    private Label scoreLabel = new Label();
-    private TextField nameTextField = new TextField();
-    private ListView<String> list = new ListView<>();
-    private ArrayList<String> scores = new ArrayList<>();
+    private final HBox scoreInputBox = new HBox();
+    private final Label scoreLabel = new Label();
+    private final TextField nameTextField = new TextField();
+    private final ListView<String> list = new ListView<>();
+    private final ArrayList<String> scores = new ArrayList<>();
 
     /**
      * Constructeur de la page des scores
@@ -76,7 +75,7 @@ public class ScorePage extends Page {
      */
     public void setBestScores(ArrayList<Pair<String,Integer>> bestScores) {
         for (int i=0; i < bestScores.size(); i++) {
-            scores.add("#"+(i+1)+" - "+bestScores.get(i).getKey()+" - "+bestScores.get(i).getValue());
+            scores.add("#" + (i+1) + " - " + bestScores.get(i).getKey() + " - " + bestScores.get(i).getValue());
         }
         list.getItems().setAll(scores);
     }
@@ -97,7 +96,7 @@ public class ScorePage extends Page {
      * @param controller contrôleur du jeu
      */
     private void submitScore(Controller controller) {
-        this.playerName = nameTextField.getText();
+        String playerName = nameTextField.getText();
         controller.addNewScore(playerName, this.newScore);
         setScoreInputVisible(false);
         controller.homePage();

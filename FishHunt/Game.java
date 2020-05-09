@@ -37,17 +37,17 @@ public class Game {
     /**
      * Liste des poissons en mémoire
      */
-    private ArrayList<Fish> fishes = new ArrayList<>();
+    private final ArrayList<Fish> fishes = new ArrayList<>();
 
     /**
      * Liste des balles en mémoire
      */
-    private ArrayList<Bullet> bullets = new ArrayList<>();
+    private final ArrayList<Bullet> bullets = new ArrayList<>();
 
     /**
      * Liste des bulles en mémoire
      */
-    private ArrayList<Bubble> bubbles = new ArrayList<>();
+    private final ArrayList<Bubble> bubbles = new ArrayList<>();
 
     public static int getLEVEL() {
         return LEVEL;
@@ -63,7 +63,7 @@ public class Game {
      */
     public Game() {
         LEVEL = 1;
-        this.target = new Target(FishHunt.WIDTH/2, FishHunt.HEIGHT/2);
+        this.target = new Target(FishHunt.WIDTH/2.0, FishHunt.HEIGHT/2.0);
     }
 
     /**
@@ -272,7 +272,7 @@ public class Game {
             context.setFill(Color.WHITE);
             context.setTextAlign(TextAlignment.CENTER);
             context.setFont(Font.font(60));
-            context.fillText("Level " + LEVEL, FishHunt.WIDTH / 2, FishHunt.HEIGHT / 2);
+            context.fillText("Level " + LEVEL, FishHunt.WIDTH/2.0, FishHunt.HEIGHT/2.0);
         }
 
         // Affiche "game over" si la partie est perdue
@@ -280,14 +280,14 @@ public class Game {
             context.setFill(Color.RED);
             context.setTextAlign(TextAlignment.CENTER);
             context.setFont(Font.font(60));
-            context.fillText("GAME OVER", FishHunt.WIDTH / 2, FishHunt.HEIGHT / 2);
+            context.fillText("GAME OVER", FishHunt.WIDTH/2.0, FishHunt.HEIGHT/2.0);
         }
 
         // Affiche le score actuel et les poissons représentant le nombre de vies restantes
         context.setFill(Color.WHITE);
         context.setTextAlign(TextAlignment.CENTER);
         context.setFont(Font.font(20));
-        context.fillText(score +"", FishHunt.WIDTH / 2, 0.09 * FishHunt.HEIGHT);
+        context.fillText(score +"", FishHunt.WIDTH/2.0, 0.09 * FishHunt.HEIGHT);
         Image imageLives = new Image("images/fish/00.png");
 
         // Position

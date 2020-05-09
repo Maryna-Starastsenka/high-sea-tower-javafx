@@ -13,7 +13,7 @@ public class Crab extends Fish {
      * avec la même variable
      */
     private double crabTimer = 0.5;
-    private Image imageCrab;
+    private final Image imageCrab;
 
     /**
      * Constructeur du crabe
