@@ -30,7 +30,7 @@ public class Controller {
      */
     public Controller(Stage primaryStage) {
         setPrimaryStage(primaryStage);
-        // Fait un appel au contrôleur de créer 3 scènes du jeu
+        //Crée le modèle du score, la vue du score et du menu principal
         initScoreModel();
         initScorePage();
         homePage();
@@ -57,7 +57,7 @@ public class Controller {
     void gamePage() {
         game = new Game();
 
-        // Fait le binding du timeur d'uptade avec le contrôleur
+        // Fait le binding du timeur d'update avec le contrôleur
         if (gamePage == null) {
             gamePage = new GamePage(this);
         }
@@ -65,8 +65,8 @@ public class Controller {
     }
 
     /**
-     * Instanciation de la page de meilleurs scores
-     * Pas d'affichage par défaut du champs d'input permettant
+     * Instanciation de la page des meilleurs scores
+     * Pas d'affichage par défaut du champ d'input permettant
      * l'ajout d'un score
      */
     void initScorePage() {
