@@ -17,20 +17,19 @@ public class Game {
      */
     private static int LEVEL;
 
-    private double lifeFishWidth = 30;
-    private double lifeFishSpacing = 10;
+    private final double lifeFishWidth = 30;
+    private final double lifeFishSpacing = 10;
 
     private boolean nextLevel = true;
     private int score = 0;
     private int lives = 3;
     private int numberOfKilledFishesInLevel = 0;
     private boolean gameOver = false;
-    private Target target;
+    private final Target target;
 
     // Commence avec 1.5 seconde d'avance par rapport aux autres entités
     private double bubbleTimer = 1.5;
     private double levelTimer = 0;
-    private boolean generateFishes = true;
     private double specialFishTimer = 0;
     private double normalFishTimer = 0;
     private double gameOverTimer = 0;

@@ -23,6 +23,7 @@ public class Crab extends Fish {
      */
     public Crab(double x) {
         super(x);
+
         this.ay = 0;
         this.vy = 0;
         this.vx *= 1.3;

@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 public class Bullet extends Entity {
 
     private double radius = 50;
-    private double vx = 300;
+    private final double vx = 300;
     private boolean exploded = false;
 
     public boolean getExploded() {

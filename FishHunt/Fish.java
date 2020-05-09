@@ -6,10 +6,10 @@ public abstract class Fish extends Entity {
     /**
      * Attributs de position horizontale et de taille d'image du poisson affiché
      */
-    private double minPosY = 1.0/5 * FishHunt.HEIGHT;
-    private double maxPosY = 4.0/5 * FishHunt.HEIGHT;
-    private double minImageSize = 80;
-    private double maxImageSize = 120;
+    private final double minPosY = 1.0/5 * FishHunt.HEIGHT;
+    private final double maxPosY = 4.0/5 * FishHunt.HEIGHT;
+    private final double minImageSize = 80;
+    private final double maxImageSize = 120;
 
     /**
      * Indique si le poisson est sorti de la fenêtre

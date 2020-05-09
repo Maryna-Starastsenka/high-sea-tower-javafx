@@ -7,15 +7,15 @@ import javafx.scene.paint.Color;
  */
 public class Bubble extends Entity {
 
-    private double radius;
+    private final double radius;
 
     /**
      * Plages de rayon et vitesse verticale des bulles
      */
-    private double minRadius = 10;
-    private double maxRadius = 40;
-    private double minVY = 350;
-    private double maxVY = 450;
+    private final double minRadius = 10;
+    private final double maxRadius = 40;
+    private final double minVY = 350;
+    private final double maxVY = 450;
 
     /**
      * Constructeur de la bulle qui prend en paramètres les coordonnées
@@ -30,7 +30,7 @@ public class Bubble extends Entity {
         // Vitesse aléatoire dans la plage définie
         this.vy = minVY + Math.random()*(maxVY - minVY + 1);
         // Rayon aléatoire dans la plage définie
-        this.radius = minRadius + Math.random()*(maxRadius - minRadius + 1);
+        this.radius = minRadius + Math.random() * (maxRadius - minRadius + 1);
         this.color = Color.rgb(0, 0, 255, 0.4);
     }
 
