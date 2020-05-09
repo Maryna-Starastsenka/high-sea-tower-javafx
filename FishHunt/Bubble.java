@@ -27,8 +27,10 @@ public class Bubble extends Entity {
     public Bubble(double x, double y) {
         this.x = x;
         this.y = y;
+
         // Vitesse aléatoire dans la plage définie
-        this.vy = minVY + Math.random()*(maxVY - minVY + 1);
+        this.vy = minVY + Math.random() * (maxVY - minVY + 1);
+
         // Rayon aléatoire dans la plage définie
         this.radius = minRadius + Math.random() * (maxRadius - minRadius + 1);
         this.color = Color.rgb(0, 0, 255, 0.4);

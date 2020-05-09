@@ -30,9 +30,11 @@ public class Controller {
      */
     public Controller(Stage primaryStage) {
         setPrimaryStage(primaryStage);
+
         //Crée le modèle du score, la vue du score et du menu principal
         initScoreModel();
         initScorePage();
+
         homePage();
     }
 
@@ -61,6 +63,7 @@ public class Controller {
         if (gamePage == null) {
             gamePage = new GamePage(this);
         }
+
         updateView(gamePage);
     }
 

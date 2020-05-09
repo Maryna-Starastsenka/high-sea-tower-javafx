@@ -289,6 +289,7 @@ public class Game {
         context.setFont(Font.font(20));
         context.fillText(score +"", FishHunt.WIDTH / 2, 0.09 * FishHunt.HEIGHT);
         Image imageLives = new Image("images/fish/00.png");
+
         // Position
         double posXLives = FishHunt.WIDTH / 2.0 - 1.5 * lifeFishWidth - lifeFishSpacing;
         for (int i = 0; i < lives ; i++) {

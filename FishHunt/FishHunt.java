@@ -41,6 +41,5 @@ public class FishHunt extends Application {
         primaryStage.setTitle("Fish Hunt");
 
         Controller controller = new Controller(primaryStage);
-
     }
 }

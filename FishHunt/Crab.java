@@ -27,6 +27,7 @@ public class Crab extends Fish {
         this.ay = 0;
         this.vy = 0;
         this.vx *= 1.3;
+
         imageCrab = new Image("/images/crabe.png");
     }
 
