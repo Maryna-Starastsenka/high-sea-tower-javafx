@@ -7,3 +7,5 @@ High Sea Tower is a JavaFX Desktop game in which a medusa must jump from platfor
 
 This project was part of the IFT1025 course I took at Université de Montréal in 2020.
 
+## License
+[MIT](https://choosealicense.com/licenses/mit/) 
